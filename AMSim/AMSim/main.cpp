@@ -12,8 +12,7 @@ struct Matter {
 	float x; // x pos
 	float y; // y pos
 	float r; // radius, setting to const for now
-	float vx; // velocity toward x
-	float vy; // velocity toward y
+	float v;
 	float m; // mass of matter
 	float ort[2];
 	float color[3];
@@ -22,10 +21,12 @@ struct Matter {
 void timer(int = 0);
 void display();
 void mouse(int, int, int, int);
-void addMatter(float, float, float = 0, float = 0);
+void addMatter(float, float, float = 1);
 void removeMatters();
 void keyboard(unsigned char, int, int);
 void movement(Matter&);
+void movement_dep(Matter&);
+float clipToScreen(float);
 
 float windowWidth = 500;
 float windowHeight = 500;
@@ -36,16 +37,13 @@ const int RADIUS = 10;
 const int MASS = 100;
 
 int t = 0; // current time
-float dt = 0.0001f; // time step
-
-float sigma = 10;  // standard deviation
-float mu = 200;  // mean
-float tau = 0.05f;  // time constant
-
-float sigma_bis = sigma * sqrt(2. / tau);
-float sqrtdt = sqrt(dt);
-
+float dt = 1; // time step
 int n = 1; // total amt of matter
+
+float transDif = 0.0055f;
+float rotDif = 0.0166f;
+float transDifCoef = sqrt(2 * transDif);
+float rotDifCoef = sqrt(2 * rotDif);
 
 std::vector<Matter> prevMatters;
 std::vector<Matter> matters;
@@ -59,7 +57,7 @@ int main(int argc, char **argv)
 	// spawn test
 	mtest.x = 0;
 	mtest.y = 0;
-	mtest.vx = mtest.vy = 0;
+	mtest.v = 1;
 	mtest.m = MASS;
 	mtest.r = RADIUS;
 	mtest.ort[0] = 1;
@@ -104,23 +102,54 @@ void timer(int)
 		movement(p);
 	}
 
+	t += dt;
+
 	glutTimerFunc(1, timer, 0);
 }
 
 void movement(Matter &p) {
+	float eta = (float)(distribution(generator));
+	float xi_1 = (float)(distribution(generator));
+	float xi_2 = (float)(distribution(generator));
+
+	Vector2f r(p.x, p.y);
+	Vector2f v(p.ort[0], p.ort[1]);
+	Vector2f tranNoise(xi_1, xi_2);
+
+	float theta = rotDifCoef * eta;
+
+	Matrix2f R;
+	R << cos(theta), -sin(theta),
+		 sin(theta),  cos(theta);
+
+	Vector2f u = R*v;
+
+	r = r + p.v * u + transDifCoef * tranNoise;
+
+	p.x = clipToScreen(r(0));
+	p.y = clipToScreen(r(1));
+	p.ort[0] = u(0);
+	p.ort[1] = u(1);
+}
+
+void movement_dep(Matter &p) {
 	float theta = (float)(distribution(generator));
-	theta = theta * 360;
+	// theta = theta * 360;
 	Vector2f r(p.x, p.y);
 	Matrix2f R;
 	R << cos(theta), -sin(theta),
-		 sin(theta), cos(theta);
+		 sin(theta),  cos(theta);
 	Vector2f u(p.ort[0], p.ort[1]);
 	Vector2f v = R*u;
-	r = r + 0.5 * v * 1;
+	r = r + 0.5 * v * dt;
 	p.x = r(0);
 	p.y = r(1);
 	p.ort[0] = v(0);
 	p.ort[1] = v(1);
+}
+
+float clipToScreen(float i) {
+	return std::min( windowWidth/2 , std::max(i, -(windowWidth/2)));
 }
 
 void display()
@@ -169,13 +198,12 @@ void mouse(int button, int state, int x, int y)
 		PRESSED_LEFT = state == GLUT_DOWN;
 }
 
-void addMatter(float m, float r, float vx, float vy)
+void addMatter(float m, float r, float v)
 {
 	Matter p;
 	p.x = Mx;
 	p.y = My;
-	p.vx = vx;
-	p.vy = vy;
+	p.v = v;
 	p.m = m;
 	p.r = r;
 	p.ort[0] = 1;
