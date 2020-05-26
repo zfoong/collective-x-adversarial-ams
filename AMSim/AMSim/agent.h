@@ -6,6 +6,7 @@
 class Agent {
 public:
 	Agent();
+	float QTable[16][16];
 	void UpdateQTable();
 	float ReturnAction();
 	void SaveQTable();

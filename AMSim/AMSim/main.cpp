@@ -30,6 +30,7 @@ struct Matter {
 
 void timer(int = 0);
 void display();
+void drawMatter(Matter, float = 0, float = 0);
 void mouse(int, int, int, int);
 void addMatter(float, float);
 void addMatterByMouse(float, float);
@@ -39,14 +40,16 @@ void movement(Matter&);
 void movement_dep(Matter&);
 float clipToScreen(float);
 float interactionForce(float);
-float distance(float, float, float, float);
+float distance(float, float);
 Vector2f randomOrt();
 
-float windowWidth = 1000;
-float windowHeight = 1000;
+float windowWidth = 500;
+float windowHeight = 500;
 
 int Mx, My, WIN;
-const float SCALE_FACTOR = 10;
+const float SCALE_FACTOR = 20;
+float scaledWindowWidth = windowWidth / SCALE_FACTOR;
+float scaledWindowHeight = windowHeight / SCALE_FACTOR;
 bool PRESSED_LEFT = false;
 
 float t = 0; // current time
@@ -71,11 +74,9 @@ int main(int argc, char **argv)
 {
 	for (int i = 0; i < sqrt(n); i++) {
 		for (int j = 0; j < sqrt(n); j++) {
-			addMatter(i * 4  - (windowWidth / 2 / SCALE_FACTOR / 2 ), j * 4 - (windowHeight / 2 / SCALE_FACTOR/ 2 ));
+			addMatter(i * 2  - (windowWidth / 2 / SCALE_FACTOR / 2 ), j * 2 - (windowHeight / 2 / SCALE_FACTOR/ 2 ));
 		}
 	}
-
-	std::cout << matters.size() << std::endl;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
@@ -114,15 +115,15 @@ void timer(int)
 
 	t += dt;
 
-	if (t >= 10) {
-		// calculate total dis
-		float totalDis = 0;
-		for (int i = 0; i < matters.size(); i++)
-			totalDis += matters[i].totalDis;
-		float totalDisNorm = totalDis / (n*t);
-		std::cout << totalDisNorm << std::endl;
-		std::cin.get();
-	}
+	//if (t >= 10) {
+	//	// calculate total dis
+	//	float totalDis = 0;
+	//	for (int i = 0; i < matters.size(); i++)
+	//		totalDis += matters[i].totalDis;
+	//	float totalDisNorm = totalDis / (n*t);
+	//	std::cout << totalDisNorm << std::endl;
+	//	// std::cin.get();
+	//}
 
 	prevMatters = matters;
 	glutTimerFunc(1, timer, 0);
@@ -145,25 +146,55 @@ void movement(Matter &p) {
 	for (int i = 0; i < prevMatters.size(); i++)
 	{
 		Matter &m = prevMatters[i];
-		float dis = distance(p.x, p.y, m.x, m.y);
+
+		float dx = p.x - m.x;
+		float dy = p.y - m.y;
+
+		#pragma region PBC Logic
+		if (dx > scaledWindowWidth / 2)
+			dx -= scaledWindowWidth;
+		else if (dx <= -scaledWindowWidth / 2)
+			dx += scaledWindowWidth;
+
+		if (dy > scaledWindowHeight / 2)
+			dy -= scaledWindowHeight;
+		else if (dy <= -scaledWindowHeight / 2)
+			dy += scaledWindowHeight;
+		#pragma endregion
+
+		float dis = distance(dx, dy);
 		
 		if (dis == 0)
 			continue;
 
-		float dx = p.x - m.x;
-		float dy = p.y - m.y;
-		F(0) += interactionForce(dis) * dx;
-		F(1) += interactionForce(dis) * dy;
+		float Fr = interactionForce(dis);
+
+		float forceAngle = atan2(dy, dx);
+
+		F(0) += Fr * cos(forceAngle);
+		F(1) += Fr * sin(forceAngle);
 	}
 	
 	r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
 
-	p.totalDis += distance(r(0), r(1), rPrev(0), rPrev(1));
+	#pragma region PBC Logic
+	if (r(0) < -scaledWindowWidth / 2)
+		r(0) += scaledWindowWidth;
+	else if (r(0) >= scaledWindowWidth / 2)
+		r(0) -= scaledWindowWidth;
 
-	p.x = clipToScreen(r(0));
-	p.y = clipToScreen(r(1));
+	if (r(1) < -scaledWindowHeight / 2)
+		r(1) += scaledWindowHeight;
+	else if (r(1) >= scaledWindowHeight / 2)
+		r(1) -= scaledWindowHeight;
+	#pragma endregion
+
+	p.x = r(0);
+	p.y = r(1);
 	p.ort[0] = u(0);
 	p.ort[1] = u(1);
+
+	//p.totalDis += distance(p.x, p.y, rPrev(0), rPrev(1));
 }
 
 float interactionForce(float r) {
@@ -177,28 +208,10 @@ float clipToScreen(float i) {
 	return std::min( (windowWidth/2) / SCALE_FACTOR , std::max(i, -(windowWidth/2) / SCALE_FACTOR));
 }
 
-float distance(float x1, float y1, float x2, float y2)
+float distance(float dx, float dy)
 {
-	return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+	return sqrt(pow(dx, 2) + pow(dy, 2));
 }
-
-/*
-void movement_dep(Matter &p) {
-float theta = (float)(distribution(generator));
-// theta = theta * 360;
-Vector2f r(p.x, p.y);
-Matrix2f R;
-R << cos(theta), -sin(theta),
-sin(theta),  cos(theta);
-Vector2f u(p.ort[0], p.ort[1]);
-Vector2f v = R*u;
-r = r + 0.5 * v * dt;
-p.x = r(0);
-p.y = r(1);
-p.ort[0] = v(0);
-p.ort[1] = v(1);
-}
-*/
 
 void display()
 {
@@ -208,32 +221,52 @@ void display()
 	for (int i = 0; i < matters.size(); i++)
 	{
 		Matter &p = matters[i];
+		drawMatter(p);
 
-		glPushMatrix();
-		glScalef(SCALE_FACTOR, SCALE_FACTOR, 1.0);
-		glTranslatef(p.x, p.y, 0.0f);
+		#pragma region PBC Logic
+		if (p.x - p.r / 2 < -scaledWindowWidth / 2) {
+			drawMatter(p, +scaledWindowWidth, 0);
+		}
+		else if (p.x + p.r / 2 >= scaledWindowWidth / 2) {
+			drawMatter(p, -scaledWindowWidth, 0);
+		}
 
-		glColor3f(p.ort[0], p.ort[1], 1);
-		glBegin(GL_POLYGON);
-		for (float a = 0; a < 2 * M_PI; a += 0.2)
-			glVertex2f(p.r*cos(a), p.r*sin(a));
-		glEnd();
-
-		float degree = -(atan2(p.ort[0], p.ort[1]) * 180 / M_PI);
-		glRotatef(degree, 0.0f, 0.0f, 1.0f);
-
-		glColor3f(0, 0, 0);
-		glBegin(GL_TRIANGLES);
-		glVertex2f(0, 0.7);
-		glVertex2f(-0.5, -0.5);
-		glVertex2f(0.5, -0.5);
-		glEnd();
-
-		glPopMatrix();
+		if (p.y - p.r / 2 < -scaledWindowHeight / 2) {
+			drawMatter(p, 0, scaledWindowHeight);
+		}
+		else if (p.y + p.r / 2 >= scaledWindowHeight / 2) {
+			drawMatter(p, 0, -scaledWindowHeight);
+		}	
+		#pragma endregion
 	}
 
 	glFlush();
 	glutSwapBuffers();
+}
+
+void drawMatter(Matter p, float transformX, float transformY) {
+	glPushMatrix();
+	glScalef(SCALE_FACTOR, SCALE_FACTOR, 1.0);
+	glTranslatef(p.x + transformX, p.y + transformY, 0.0f);
+
+	glColor3f(p.ort[0], p.ort[1], 1);
+
+	glBegin(GL_POLYGON);
+	for (float a = 0; a < 2 * M_PI; a += 0.2)
+		glVertex2f(p.r / 2 * cos(a), p.r / 2 * sin(a));
+	glEnd();
+
+	float degree = -(atan2(p.ort[0], p.ort[1]) * 180 / M_PI);
+	glRotatef(degree, 0.0f, 0.0f, 1.0f);
+
+	glColor3f(0, 0, 0);
+	glBegin(GL_TRIANGLES);
+	glVertex2f(0, 0.45);
+	glVertex2f(-0.25, -0.25);
+	glVertex2f(0.25, -0.25);
+	glEnd();
+
+	glPopMatrix();
 }
 
 void mouse(int button, int state, int x, int y)

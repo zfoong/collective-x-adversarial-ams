@@ -7,6 +7,10 @@ Agent::Agent()
 	
 }
 
+void UpdateQTable() {
+
+}
+
 float ReturnAction() {
 	return 0;
 }
