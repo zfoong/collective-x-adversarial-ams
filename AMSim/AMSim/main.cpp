@@ -1,83 +1,37 @@
+#define _USE_MATH_DEFINES
+
 #include <iostream>
-#include "display.h"
+#include "environment.h"
+#include "agent.h"
 #include <GL/glut.h>
 #include <vector>
 #include <cmath>
 #include <random>
 #include <Eigen/Dense>
 
-using namespace Eigen;
-
-const float RADIUS = 1;
-const float MASS = 100;
-const float V = 1;
-
-enum MatterType {
-	collective,
-	adversarial
-};
-
-struct Matter {
-	float x; // x pos
-	float y; // y pos
-	float r = RADIUS; // radius, setting to const for now
-	float v = V;
-	float m = MASS; // mass of matter
-	float ort[2];
-	float totalDis = 0;
-	MatterType type = collective;
-};
-
 void timer(int = 0);
 void display();
-void drawMatter(Matter, float = 0, float = 0);
 void mouse(int, int, int, int);
-void addMatter(float, float);
-void addMatterByMouse(float, float);
-void removeMatters();
 void keyboard(unsigned char, int, int);
-void movement(Matter&);
-void movement_dep(Matter&);
-float clipToScreen(float);
-float interactionForce(float);
-float distance(float, float);
-Vector2f randomOrt();
+void drawMatter(Matter, float = 0, float = 0);
 
-float windowWidth = 500;
-float windowHeight = 500;
+extern float windowWidth;
+extern float windowHeight;
+extern const float SCALE_FACTOR;
+extern float scaledWindowWidth;
+extern float scaledWindowHeight;
+extern float t;
+extern int n;
 
 int Mx, My, WIN;
-const float SCALE_FACTOR = 20;
-float scaledWindowWidth = windowWidth / SCALE_FACTOR;
-float scaledWindowHeight = windowHeight / SCALE_FACTOR;
 bool PRESSED_LEFT = false;
 
-float t = 0; // current time
-float dt = 0.01f; // time step
-int n = 64; // total amt of matter, set to 4,9,16,25,36,49,64,81,100
-
-float pl = 60;
-float rotDif = V/pl;
-float transDif = pow(RADIUS, 2) * rotDif / 3;
-float rotDifCoef = sqrt(2 * rotDif);
-float transDifCoef = sqrt(2 * transDif);
-float alpha = transDif / rotDif * pow(RADIUS, 2);
-float mu = alpha * RADIUS / pl;
-
-std::vector<Matter> prevMatters;
-std::vector<Matter> matters;
-
-std::default_random_engine generator;
-std::normal_distribution<double> distribution(0, 1);
+Environment env = Environment();
+Agent agent = Agent();
+std::vector<float> currentState = env.ReturnState();
 
 int main(int argc, char **argv)
 {
-	for (int i = 0; i < sqrt(n); i++) {
-		for (int j = 0; j < sqrt(n); j++) {
-			addMatter(i * 2  - (windowWidth / 2 / SCALE_FACTOR / 2 ), j * 2 - (windowHeight / 2 / SCALE_FACTOR/ 2 ));
-		}
-	}
-
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(windowWidth, windowHeight);
@@ -92,8 +46,8 @@ int main(int argc, char **argv)
 	glutDisplayFunc(display);
 	glutMouseFunc(mouse);
 	glutKeyboardFunc(keyboard);
-	timer();
 
+	timer();
 	glutMainLoop();
 	return 0;
 }
@@ -101,116 +55,27 @@ int main(int argc, char **argv)
 void timer(int)
 {
 	display();
-	if (PRESSED_LEFT)
+
+	// testing site
+	/*std::cout << "old!" << std::endl;
+	for (int i = 0; i < 16; ++i)
 	{
-		addMatterByMouse(MASS, RADIUS);
-		PRESSED_LEFT = false;
-	}
+		for (int j = 0; j < 16; ++j)
+		{
+			std::cout << agent.QTable[i][j] << ' ';
+		}
+		std::cout << std::endl;
+	}*/
 
-	for (int i = 0; i < matters.size(); i++)
-	{
-		Matter &p = matters[i];
-		movement(p);
-	}
 
-	t += dt;
+	std::vector<int> actionID(n);
+	std::vector<float> reward(n);
+	std::vector<float> action = agent.ReturnAction(currentState, actionID);
+	std::vector<float> newState = env.Step(action, reward);
+	agent.UpdateQTable(currentState, actionID, reward, newState);
+	currentState = newState;
 
-	//if (t >= 10) {
-	//	// calculate total dis
-	//	float totalDis = 0;
-	//	for (int i = 0; i < matters.size(); i++)
-	//		totalDis += matters[i].totalDis;
-	//	float totalDisNorm = totalDis / (n*t);
-	//	std::cout << totalDisNorm << std::endl;
-	//	// std::cin.get();
-	//}
-
-	prevMatters = matters;
 	glutTimerFunc(1, timer, 0);
-}
-
-void movement(Matter &p) {
-	float eta = (float)(distribution(generator));
-	float xi_1 = (float)(distribution(generator));
-	float xi_2 = (float)(distribution(generator));
-
-	Vector2f r(p.x, p.y);
-	Vector2f rPrev(p.x, p.y);
-	Vector2f tranNoise(xi_1, xi_2);
-
-	float rad = atan2(p.ort[1], p.ort[0]); // convert ort vector to radians
-	float theta = rad + sqrt(dt) * (rotDifCoef * eta); 
-	Vector2f u(cos(theta), sin(theta)); //convert theta to ort vector u
-	Vector2f F(0, 0);
-
-	for (int i = 0; i < prevMatters.size(); i++)
-	{
-		Matter &m = prevMatters[i];
-
-		float dx = p.x - m.x;
-		float dy = p.y - m.y;
-
-		#pragma region PBC Logic
-		if (dx > scaledWindowWidth / 2)
-			dx -= scaledWindowWidth;
-		else if (dx <= -scaledWindowWidth / 2)
-			dx += scaledWindowWidth;
-
-		if (dy > scaledWindowHeight / 2)
-			dy -= scaledWindowHeight;
-		else if (dy <= -scaledWindowHeight / 2)
-			dy += scaledWindowHeight;
-		#pragma endregion
-
-		float dis = distance(dx, dy);
-		
-		if (dis == 0)
-			continue;
-
-		float Fr = interactionForce(dis);
-
-		float forceAngle = atan2(dy, dx);
-
-		F(0) += Fr * cos(forceAngle);
-		F(1) += Fr * sin(forceAngle);
-	}
-	
-	r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
-
-	#pragma region PBC Logic
-	if (r(0) < -scaledWindowWidth / 2)
-		r(0) += scaledWindowWidth;
-	else if (r(0) >= scaledWindowWidth / 2)
-		r(0) -= scaledWindowWidth;
-
-	if (r(1) < -scaledWindowHeight / 2)
-		r(1) += scaledWindowHeight;
-	else if (r(1) >= scaledWindowHeight / 2)
-		r(1) -= scaledWindowHeight;
-	#pragma endregion
-
-	p.x = r(0);
-	p.y = r(1);
-	p.ort[0] = u(0);
-	p.ort[1] = u(1);
-
-	//p.totalDis += distance(p.x, p.y, rPrev(0), rPrev(1));
-}
-
-float interactionForce(float r) {
-	if (r < 1.122462f)
-		return 48 * pow(1/r, 13) - 24 * pow((1/r), 7);
-	else
-		return 0;
-}
-
-float clipToScreen(float i) {
-	return std::min( (windowWidth/2) / SCALE_FACTOR , std::max(i, -(windowWidth/2) / SCALE_FACTOR));
-}
-
-float distance(float dx, float dy)
-{
-	return sqrt(pow(dx, 2) + pow(dy, 2));
 }
 
 void display()
@@ -218,9 +83,9 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	//draw matters
-	for (int i = 0; i < matters.size(); i++)
+	for (int i = 0; i < env.matters.size(); i++)
 	{
-		Matter &p = matters[i];
+		Matter &p = env.matters[i];
 		drawMatter(p);
 
 		#pragma region PBC Logic
@@ -280,59 +145,49 @@ void mouse(int button, int state, int x, int y)
 		PRESSED_LEFT = state == GLUT_DOWN;
 }
 
-Vector2f randomOrt() {
-	int randTotal = (rand() > RAND_MAX / 2) ? -1 : 1;
-	float x = 2 * (float)rand() / (float)RAND_MAX - 1;
-	
-	float y = randTotal - x;
-	Vector2f ort(x, y);
-	return ort;
-}
-
-void addMatterByMouse(float m, float r)
-{
-	Matter p;
-	p.x = Mx;
-	p.y = My;
-	p.v = V;
-	p.m = m;
-	p.r = r;
-	Vector2f ort = randomOrt();
-	p.ort[0] = ort(0);
-	p.ort[1] = ort(1);
-	matters.push_back(p);
-	prevMatters.push_back(p);
-}
-
-void addMatter(float x, float y)
-{
-	Matter p;
-	p.x = x;
-	p.y = y;
-	p.v = V;
-	p.m = MASS;
-	p.r = RADIUS;
-	Vector2f ort = randomOrt();
-	p.ort[0] = ort(0);
-	p.ort[1] = ort(1);
-	matters.push_back(p);
-	prevMatters.push_back(p);
-}
-
-void removeMatters()
-{
-	matters.clear();
-	prevMatters.clear();
-}
+//void addMatterByMouse(float m, float r)
+//{
+//	Matter p;
+//	p.x = Mx;
+//	p.y = My;
+//	p.v = V;
+//	p.m = m;
+//	p.r = r;
+//	Vector2f ort = randomOrt();
+//	p.ort[0] = ort(0);
+//	p.ort[1] = ort(1);
+//	matters.push_back(p);
+//	prevMatters.push_back(p);
+//}
+//
+//void addMatter(float x, float y)
+//{
+//	Matter p;
+//	p.x = x;
+//	p.y = y;
+//	p.v = V;
+//	p.m = MASS;
+//	p.r = RADIUS;
+//	Vector2f ort = randomOrt();
+//	p.ort[0] = ort(0);
+//	p.ort[1] = ort(1);
+//	matters.push_back(p);
+//	prevMatters.push_back(p);
+//}
+//
+//void removeMatters()
+//{
+//	matters.clear();
+//	prevMatters.clear();
+//}
 
 void keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
 	case 27:
-		removeMatters();
+		// removeMatters();
 		glutDestroyWindow(WIN);
 		exit(0);
-		break;
 	}
 }
