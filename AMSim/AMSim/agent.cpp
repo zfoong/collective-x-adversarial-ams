@@ -6,27 +6,36 @@
 #include <cmath>
 #include <random>
 #include <algorithm> 
+#include <fstream>
+#include <sstream>
 
 const float RADIANS = M_PI * 2;
 float learningRate = 0.1;
-float discountFactor = 0.2;
-float epsilon = 1.0;
+float discountFactor = 0;
+float minEpsilon = 0;
+float maxEpsilon = 1;
+float epsilon = 1;
 float epsilonDecay = 0.1;
+float radiansPiece = RADIANS / 16;
 
 int argmax(float*, int);
 float arrmax(float*, int);
 int StateToIndex(float);
 int ActionToIndex(float);
+float IndexToAction(int);
 
-Agent::Agent()
+Agent::Agent(float lr, float ep, float epDecay, float epMin, float df)
 {
-
+	learningRate = lr;
+	epsilon = ep;
+	epsilonDecay = epDecay;
+	minEpsilon = epMin;
+	discountFactor = df;
 }
 
 void Agent::UpdateQTable(float state, int actionID, float reward, float newState) {
 	int stateID = StateToIndex(state);
 	int newStateID = StateToIndex(newState);
-
 	QTable[stateID][actionID] += learningRate * (reward + discountFactor * arrmax(QTable[newStateID], sizeof(QTable[newStateID])) - QTable[stateID][actionID]);
 }
 
@@ -39,13 +48,13 @@ void Agent::UpdateQTable(std::vector<float> stateList, std::vector<int> actionID
 float Agent::ReturnAction(float state, int &actionID) {
 	int stateID = StateToIndex(state);
 	int count = sizeof(QTable[stateID]) / sizeof(*QTable[stateID]);
-	if (epsilon > ((double)rand() / (RAND_MAX))) {
+	if (epsilon >= ((double)rand() / (RAND_MAX))) {
 		actionID = rand() % count;
 	}
 	else {
 		actionID = argmax(QTable[stateID], count);
 	}
-	return QTable[stateID][actionID];
+	return IndexToAction(actionID);
 }
 
 std::vector<float> Agent::ReturnAction(std::vector<float> stateList, std::vector<int> &actionIDList) {
@@ -54,6 +63,14 @@ std::vector<float> Agent::ReturnAction(std::vector<float> stateList, std::vector
 		actionList.push_back(ReturnAction(stateList[i], actionIDList[i]));
 	}
 	return actionList;
+}
+
+void Agent::UpdateEpsilonDecay(float t, float totalTime) {
+	epsilon = minEpsilon + (maxEpsilon - minEpsilon) * exp(-epsilonDecay * t / totalTime);
+}
+
+float Agent::PrintEpsilon() {
+	return epsilon;
 }
 
 int argmax(float *arr, int size) {
@@ -67,25 +84,49 @@ float arrmax(float *arr, int size) {
 	return max;
 }
 
-int StateToIndex(float radians) {
-	float radiansPiece =  RADIANS / 16;
+int StateToIndex(float state) {
 	// TODO: floor vs round
-	int index = floor(radians / radiansPiece);
-	return index;
+	state += M_PI;
+	return floor(state / radiansPiece);
 }
 
-int ActionToIndex(float radians) {
-	float radiansPiece = RADIANS / 16;
-	int index = floor(radians / radiansPiece);
-	return index;
+int ActionToIndex(float state) {
+	state += M_PI;
+	return floor(state / radiansPiece);
+}
+
+float IndexToAction(int index) {
+	return (radiansPiece * index) - M_PI;
 }
 
 void Agent::SaveQTable() {
-
+	std::ofstream outFile("test.csv");
+	for (auto& row : QTable) {	
+		for (auto col : row)
+			outFile << col << ',';
+		outFile << '\n';
+	}
 }
 
 void Agent::LoadQTable() {
-
+	std::ifstream file("test.csv");
+	for (int row = 0; row < 16; ++row)
+	{
+		std::string line;
+		std::getline(file, line);
+		if (!file.good())
+			break;
+		std::stringstream iss(line);
+		for (int col = 0; col < 16; ++col)
+		{
+			std::string val;
+			std::getline(iss, val, ',');
+			if (!iss.good())
+				break;
+			std::stringstream convertor(val);
+			convertor >> QTable[row][col];
+		}
+	}
 }
 
 Agent::~Agent()

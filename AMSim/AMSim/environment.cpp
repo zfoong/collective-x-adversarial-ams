@@ -17,7 +17,7 @@ float scaledWindowHeight = windowHeight / SCALE_FACTOR;
 
 float t = 0; // current time
 float dt = 0.01f; // time step
-int n = 64; // total amt of matter, set to 4,9,16,25,36,49,64,81,100
+int n = 32; // total amt of matter, set to 4,9,16,25,36,49,64,81,100
 
 float pl = 60;
 float rotDif = V / pl;
@@ -26,22 +26,28 @@ float rotDifCoef = sqrt(2 * rotDif);
 float transDifCoef = sqrt(2 * transDif);
 float alpha = transDif / rotDif * pow(RADIUS, 2);
 float mu = alpha * RADIUS / pl;
+float range = 2;
 
 std::default_random_engine generator;
 std::normal_distribution<double> distribution(0, 1);
 
 float InteractionForce(float);
 float Distance(float, float);
+float RadiansDifference(float, float);
 void DrawMatter(Matter, float = 0, float = 0);
 Vector2f RandomOrt();
+Vector2f RandomPos();
 
-Environment::Environment()
+Environment::Environment(float num)
 {
-	for (int i = 0; i < sqrt(n); i++) {
-		for (int j = 0; j < sqrt(n); j++) {
-			AddMatter(i * 2 - (windowWidth / 2 / SCALE_FACTOR / 2), j * 2 - (windowHeight / 2 / SCALE_FACTOR / 2));
-		}
+	n = num;
+	for (int i = 0; i < n-1; i++) {
+		Vector2f pos = RandomPos();
+		Vector2f ort = RandomOrt();
+		AddMatter(teacher, pos(0), pos(1), ort(0), ort(1));
 	}
+	AddMatter(learner, 0, 0, -0.5, 0.5);
+	//AddMatter(learner, 3, 0, 0, -1);
 }
 
 std::vector<float> Environment::ReturnState()
@@ -49,33 +55,35 @@ std::vector<float> Environment::ReturnState()
 	std::vector<float> state;
 	for (int i = 0; i < matters.size(); i++)
 	{
-		int n = 0;
+		int inRangeCount = 0;
 		float totalRad = 0;
 		Matter &p = matters[i];
-		float range = 7;
 		float ortx = 0;
 		float orty = 0;
 		for (int j = 0; j < prevMatters.size(); j++)
 		{
 			Matter &m = prevMatters[j];
-
 			float dx = p.x - m.x;
 			float dy = p.y - m.y;
 
 			float dis = Distance(dx, dy);
 
+			if (dis == 0)
+				continue;
+
 			if (dis < range) {
 				ortx += m.ort[0];
 				orty += m.ort[1];
-				n++;
+				inRangeCount++;
 			}
 		}
-		float avgRad = 0;
-		if (n != 0) {
-			avgRad = atan2(orty, ortx);
-			avgRad += M_PI;
+		float radDiff = 0;
+		if (inRangeCount != 0) {
+			// TODO: find difference logic fix
+			// float radDiff = atan2(orty, ortx) - atan2(p.ort[1], p.ort[0]);
+			radDiff = RadiansDifference(atan2(orty, ortx), atan2(p.ort[1], p.ort[0]));
 		}
-		state.push_back(avgRad);
+		state.push_back(radDiff);
 	}
 	return state;
 }
@@ -95,23 +103,26 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 	// calc reward by neighbour lost
 	for (int i = 0; i < matters.size(); i++)
 	{
-		int n = 0;
+		int inRangeCount = 0;
 		Matter &p = matters[i];
 		for (int j = 0; j < prevMatters.size(); j++)
 		{
-			float range = 7;
 			Matter &m = prevMatters[j];
-
 			float dx = p.x - m.x;
 			float dy = p.y - m.y;
 			float dis = Distance(dx, dy);
 
+			if (dis == 0)
+				continue;
+
 			if (dis < range)
-				n++;
+				inRangeCount++;
 		}
-		// TODO: init reward issue
-		rewardList[i] = n - p.neighbourCount;
-		p.neighbourCount = n;
+		if (inRangeCount < p.neighbourCount)
+			rewardList[i] = inRangeCount - p.neighbourCount;
+		else
+			rewardList[i] = 0;
+		p.neighbourCount = inRangeCount;
 	}
 	return ReturnState();
 }
@@ -121,13 +132,14 @@ void Environment::Movement(Matter &p, float action) {
 	float xi_1 = (float)(distribution(generator));
 	float xi_2 = (float)(distribution(generator));
 
+	float ortNoise = (float)(distribution(generator));
+	float avgOrt = 0;
+	float ortx = 0;
+	float orty = 0;
+
 	Vector2f r(p.x, p.y);
 	Vector2f rPrev(p.x, p.y);
 	Vector2f tranNoise(xi_1, xi_2);
-
-	float rad = atan2(p.ort[1], p.ort[0]); // convert ort vector to radians
-	float theta = rad + sqrt(dt) * (rotDifCoef * eta);
-	Vector2f u(cos(theta), sin(theta)); //convert theta to ort vector u
 	Vector2f F(0, 0);
 
 	for (int i = 0; i < prevMatters.size(); i++)
@@ -154,13 +166,29 @@ void Environment::Movement(Matter &p, float action) {
 		if (dis == 0)
 			continue;
 
+		if (dis < range && m.type != learner) {
+			ortx += m.ort[0];
+			orty += m.ort[1];
+		}
+
 		float Fr = InteractionForce(dis);
-
 		float forceAngle = atan2(dy, dx);
-
 		F(0) += Fr * cos(forceAngle);
 		F(1) += Fr * sin(forceAngle);
 	}
+
+
+	float rad = atan2(p.ort[1], p.ort[0]); // convert ort vector to radians
+	float theta = rad + action * dt + sqrt(dt) * (rotDifCoef * eta);
+
+	if (p.type == teacher) {
+		float radDiff = RadiansDifference(atan2(orty, ortx), rad);
+		if (ortx == 0 && orty == 0)
+			radDiff = 0;
+		theta = rad + radDiff * dt + ortNoise * dt;
+	}
+
+	Vector2f u(cos(theta), sin(theta)); // convert theta to ort vector u
 
 	r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
 
@@ -189,13 +217,14 @@ float InteractionForce(float r) {
 		return 0;
 }
 
-float Environment::ClipToScreen(float i) {
-	return std::min((windowWidth / 2) / SCALE_FACTOR, std::max(i, -(windowWidth / 2) / SCALE_FACTOR));
-}
-
 float Distance(float dx, float dy)
 {
 	return sqrt(pow(dx, 2) + pow(dy, 2));
+}
+
+float RadiansDifference(float radA, float radB) {
+	float normRad = fmodf(radA - radB, M_PI);
+	return std::min((float)M_PI - normRad, normRad);
 }
 
 void Environment::Display()
@@ -254,6 +283,16 @@ void DrawMatter(Matter p, float transformX, float transformY) {
 	glPopMatrix();
 }
 
+Vector2f RandomPos() {
+	int randSignX = (rand() > RAND_MAX / 2) ? -1 : 1;
+	float x = randSignX * (rand() / (RAND_MAX / (floor(windowWidth / SCALE_FACTOR) / 2)));
+	int randSignY = (rand() > RAND_MAX / 2) ? -1 : 1;
+	float y = randSignY * (rand() / (RAND_MAX / (floor(windowHeight / SCALE_FACTOR) / 2)));
+
+	Vector2f pos(x, y);
+	return pos;
+}
+
 Vector2f RandomOrt() {
 	int randTotal = (rand() > RAND_MAX / 2) ? -1 : 1;
 	float x = 2 * (float)rand() / (float)RAND_MAX - 1;
@@ -263,7 +302,24 @@ Vector2f RandomOrt() {
 	return ort;
 }
 
-void Environment::AddMatter(float x, float y)
+void Environment::AddMatter(MatterType mt)
+{
+	Matter p;
+	Vector2f pos = RandomPos();
+	p.x = pos(0);
+	p.y = pos(1);
+	p.v = V;
+	p.m = MASS;
+	p.r = RADIUS;
+	Vector2f ort = RandomOrt();
+	p.ort[0] = ort(0);
+	p.ort[1] = ort(1);
+	p.type = mt;
+	matters.push_back(p);
+	prevMatters.push_back(p);
+}
+
+void Environment::AddMatter(MatterType mt, float x, float y, float ortx, float orty)
 {
 	Matter p;
 	p.x = x;
@@ -271,9 +327,9 @@ void Environment::AddMatter(float x, float y)
 	p.v = V;
 	p.m = MASS;
 	p.r = RADIUS;
-	Vector2f ort = RandomOrt();
-	p.ort[0] = ort(0);
-	p.ort[1] = ort(1);
+	p.ort[0] = ortx;
+	p.ort[1] = orty;
+	p.type = mt;
 	matters.push_back(p);
 	prevMatters.push_back(p);
 }

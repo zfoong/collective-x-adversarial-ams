@@ -1,13 +1,14 @@
 #define _USE_MATH_DEFINES
 
-#include <iostream>
 #include "environment.h"
 #include "agent.h"
+#include <iostream>
 #include <GL/glut.h>
 #include <vector>
 #include <cmath>
 #include <random>
 #include <Eigen/Dense>
+#include <fstream>
 
 void timer(int = 0);
 void display();
@@ -21,14 +22,19 @@ extern const float SCALE_FACTOR;
 extern float scaledWindowWidth;
 extern float scaledWindowHeight;
 extern float t;
+extern float dt;
 extern int n;
 
 int Mx, My, WIN;
 bool PRESSED_LEFT = false;
 
-Environment env = Environment();
+Environment env = Environment(32);
 Agent agent = Agent();
 std::vector<float> currentState = env.ReturnState();
+std::vector<int> actionID(n);
+std::vector<float> reward(n);
+std::vector<float> newState(n);
+std::vector<float> action(n);
 
 int main(int argc, char **argv)
 {
@@ -56,23 +62,10 @@ void timer(int)
 {
 	display();
 
-	// testing site
-	/*std::cout << "old!" << std::endl;
-	for (int i = 0; i < 16; ++i)
-	{
-		for (int j = 0; j < 16; ++j)
-		{
-			std::cout << agent.QTable[i][j] << ' ';
-		}
-		std::cout << std::endl;
-	}*/
-
-
-	std::vector<int> actionID(n);
-	std::vector<float> reward(n);
-	std::vector<float> action = agent.ReturnAction(currentState, actionID);
-	std::vector<float> newState = env.Step(action, reward);
+	action = agent.ReturnAction(currentState, actionID);
+	newState = env.Step(action, reward);
 	agent.UpdateQTable(currentState, actionID, reward, newState);
+	agent.UpdateEpsilonDecay(t, 50);
 	currentState = newState;
 
 	glutTimerFunc(1, timer, 0);
@@ -185,9 +178,45 @@ void keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
-	case 27:
-		// removeMatters();
-		glutDestroyWindow(WIN);
-		exit(0);
+		case 27: {
+			// "esc"
+			// removeMatters();
+			glutDestroyWindow(WIN);
+			exit(0);
+		}
+		case 49: {
+			// "1"
+			std::cout << "Print Q Table : " << t << std::endl;
+			for (int i = 0; i < 16; ++i)
+			{
+				for (int j = 0; j < 16; ++j)
+				{
+					std::cout << agent.QTable[i][j] << '\t';
+				}
+				std::cout << "----------------------------" << std::endl;
+			}
+			agent.SaveQTable();
+			std::cin.get();
+			break;
+		}
+		case 50: {
+			// "2"
+			std::cout << "Print agent status:" << std::endl;
+			std::cout << "----------------------------" << std::endl;
+			std::cout << agent.PrintEpsilon() << std::endl;
+			std::cout << "----------------------------" << std::endl;
+			break;
+		}
+		case 51: {
+			// "3"
+			std::cout << "Print time : " << t << std::endl;
+			break;
+		}
+		case 52: {
+			// "4"
+			std::cout << "Loading Q Table from CSV..." << std::endl;
+			agent.LoadQTable();
+			break;
+		}
 	}
 }

@@ -6,12 +6,14 @@
 
 class Agent {
 public:
-	Agent();
+	Agent(float = 0.1, float = 1, float = 0.1 , float = 0 , float = 0);
 	float QTable[16][16] = {{0}};
 	void UpdateQTable(float, int, float, float);
 	void UpdateQTable(std::vector<float>, std::vector<int>, std::vector<float>, std::vector<float>);
 	float ReturnAction(float, int&);
 	std::vector<float> ReturnAction(std::vector<float>, std::vector<int>&);
+	void Agent::UpdateEpsilonDecay(float, float);
+	float Agent::PrintEpsilon();
 	void SaveQTable();
 	void LoadQTable();
 	virtual ~Agent();

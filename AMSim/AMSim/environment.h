@@ -6,7 +6,9 @@
 
 enum MatterType {
 	collective,
-	adversarial
+	adversarial,
+	learner,
+	teacher
 };
 
 const float RADIUS = 1;
@@ -21,12 +23,12 @@ struct Matter {
 	float m = MASS; // mass of matter
 	float ort[2];
 	int neighbourCount = 0;
-	MatterType type = collective;
+	MatterType type = teacher;
 };
 
 class Environment {
 public:
-	Environment();
+	Environment(float = 64);
 	std::vector<Matter> prevMatters;
 	std::vector<Matter> matters;
 	std::vector<float> ReturnState();
@@ -38,9 +40,9 @@ protected:
 private:
 	//Environment(const Environment& other) {}
 	Environment& operator=(const Environment& other) {}
-	void AddMatter(float, float);
+	void AddMatter(MatterType);
+	void AddMatter(MatterType, float, float, float, float);
 	void RemoveMatters();
-	float ClipToScreen(float);
 };
 
 #endif // ENVIRONMENT_H
