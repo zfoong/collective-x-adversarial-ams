@@ -11,6 +11,7 @@ public:
 	void UpdateQTable(float, int, float, float);
 	void UpdateQTable(std::vector<float>, std::vector<int>, std::vector<float>, std::vector<float>);
 	float ReturnAction(float, int&);
+	void setEpsilon(float);
 	std::vector<float> ReturnAction(std::vector<float>, std::vector<int>&);
 	void Agent::UpdateEpsilonDecay(float, float);
 	float Agent::PrintEpsilon();
@@ -20,7 +21,7 @@ public:
 protected:
 private:
 	//Agent(const Agent& other) {}
-	Agent& operator=(const Agent& other) {}
+	//Agent& operator=(const Agent& other) {}
 };
 
 #endif // AGENT_H

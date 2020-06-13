@@ -39,7 +39,7 @@ public:
 protected:
 private:
 	//Environment(const Environment& other) {}
-	Environment& operator=(const Environment& other) {}
+	// Environment& operator=(const Environment& other) {}
 	void AddMatter(MatterType);
 	void AddMatter(MatterType, float, float, float, float);
 	void RemoveMatters();

@@ -10,7 +10,8 @@
 #include <Eigen/Dense>
 #include <fstream>
 
-void timer(int = 0);
+void trainTimer(int = 0);
+void resultTimer(int = 0);
 void display();
 void mouse(int, int, int, int);
 void keyboard(unsigned char, int, int);
@@ -25,10 +26,15 @@ extern float t;
 extern float dt;
 extern int n;
 
+int currentEpisode = 1;
+int totalEpisode = 10;
+bool isLearning = false;
+bool displayEnabled = true;
+float T = 1000;
 int Mx, My, WIN;
 bool PRESSED_LEFT = false;
 
-Environment env = Environment(32);
+Environment env = Environment(1);
 Agent agent = Agent();
 std::vector<float> currentState = env.ReturnState();
 std::vector<int> actionID(n);
@@ -38,37 +44,70 @@ std::vector<float> action(n);
 
 int main(int argc, char **argv)
 {
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	glutInitWindowSize(windowWidth, windowHeight);
-	glutInitWindowPosition(50, 50);
-	WIN = glutCreateWindow("AMSim");
+	if (displayEnabled) {
+		glutInit(&argc, argv);
+		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+		glutInitWindowSize(windowWidth, windowHeight);
+		glutInitWindowPosition(50, 50);
+		WIN = glutCreateWindow("AMSim");
 
-	glClearColor(0, 0, 0, 1);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-(windowWidth / 2), (windowWidth / 2), -(windowHeight / 2), (windowHeight / 2), 0.0f, 1.0f);
+		glClearColor(0, 0, 0, 1);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(-(windowWidth / 2), (windowWidth / 2), -(windowHeight / 2), (windowHeight / 2), 0.0f, 1.0f);
 
-	glutDisplayFunc(display);
-	glutMouseFunc(mouse);
-	glutKeyboardFunc(keyboard);
+		glutDisplayFunc(display);
+		glutMouseFunc(mouse);
+		glutKeyboardFunc(keyboard);
 
-	timer();
-	glutMainLoop();
+		if (isLearning) {
+			trainTimer();
+			glutMainLoop();
+		} else {
+			agent.LoadQTable();
+			agent.setEpsilon(0);
+			resultTimer();
+			glutMainLoop();
+		}
+
+	} else {
+		while (currentEpisode <= totalEpisode) {
+			env = Environment(1);
+			currentState = env.ReturnState();
+			std::cout << "episode started: " << currentEpisode << std::endl;
+			while (t < T)
+			{
+				action = agent.ReturnAction(currentState, actionID);
+				newState = env.Step(action, reward);
+				agent.UpdateQTable(currentState, actionID, reward, newState);
+				currentState = newState;
+			}
+			agent.UpdateEpsilonDecay(t, T);
+			std::cout << "episode ended: " << currentEpisode << std::endl;
+			currentEpisode++;
+			t = 0;
+			agent.SaveQTable();
+		}
+	}
 	return 0;
 }
 
-void timer(int)
+void trainTimer(int)
 {
 	display();
-
 	action = agent.ReturnAction(currentState, actionID);
 	newState = env.Step(action, reward);
 	agent.UpdateQTable(currentState, actionID, reward, newState);
-	agent.UpdateEpsilonDecay(t, 50);
 	currentState = newState;
+	glutTimerFunc(1, trainTimer, 0);
+}
 
-	glutTimerFunc(1, timer, 0);
+void resultTimer(int) {
+	display();
+	action = agent.ReturnAction(currentState, actionID);
+	newState = env.Step(action, reward);
+	currentState = newState;
+	glutTimerFunc(1, resultTimer, 0);
 }
 
 void display()
@@ -106,8 +145,10 @@ void drawMatter(Matter p, float transformX, float transformY) {
 	glPushMatrix();
 	glScalef(SCALE_FACTOR, SCALE_FACTOR, 1.0);
 	glTranslatef(p.x + transformX, p.y + transformY, 0.0f);
-
-	glColor3f(p.ort[0], p.ort[1], 1);
+	if (p.type == learner)
+		glColor3f(255, 255, 0);
+	else
+		glColor3f(p.ort[0], p.ort[1], 1);
 
 	glBegin(GL_POLYGON);
 	for (float a = 0; a < 2 * M_PI; a += 0.2)
@@ -193,9 +234,9 @@ void keyboard(unsigned char key, int x, int y)
 				{
 					std::cout << agent.QTable[i][j] << '\t';
 				}
-				std::cout << "----------------------------" << std::endl;
+				std::cout << std::endl << "----------------------------" << std::endl;
 			}
-			agent.SaveQTable();
+			//agent.SaveQTable();
 			std::cin.get();
 			break;
 		}

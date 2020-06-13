@@ -10,12 +10,12 @@
 #include <sstream>
 
 const float RADIANS = M_PI * 2;
-float learningRate = 0.1;
-float discountFactor = 0;
+float learningRate = 0.005;
+float discountFactor = 0.2;
 float minEpsilon = 0;
 float maxEpsilon = 1;
 float epsilon = 1;
-float epsilonDecay = 0.1;
+float epsilonDecay = 0.05;
 float radiansPiece = RADIANS / 16;
 
 int argmax(float*, int);
@@ -36,7 +36,8 @@ Agent::Agent(float lr, float ep, float epDecay, float epMin, float df)
 void Agent::UpdateQTable(float state, int actionID, float reward, float newState) {
 	int stateID = StateToIndex(state);
 	int newStateID = StateToIndex(newState);
-	QTable[stateID][actionID] += learningRate * (reward + discountFactor * arrmax(QTable[newStateID], sizeof(QTable[newStateID])) - QTable[stateID][actionID]);
+	QTable[stateID][actionID] += learningRate * (reward - QTable[stateID][actionID]);
+	// QTable[stateID][actionID] += learningRate * (reward + discountFactor * arrmax(QTable[newStateID], sizeof(QTable[newStateID])) - QTable[stateID][actionID]);
 }
 
 void Agent::UpdateQTable(std::vector<float> stateList, std::vector<int> actionIDList, std::vector<float> rewardList, std::vector<float> newStateList) {
@@ -67,6 +68,10 @@ std::vector<float> Agent::ReturnAction(std::vector<float> stateList, std::vector
 
 void Agent::UpdateEpsilonDecay(float t, float totalTime) {
 	epsilon = minEpsilon + (maxEpsilon - minEpsilon) * exp(-epsilonDecay * t / totalTime);
+}
+
+void Agent::setEpsilon(float ep) {
+	epsilon = ep;
 }
 
 float Agent::PrintEpsilon() {
@@ -110,19 +115,15 @@ void Agent::SaveQTable() {
 
 void Agent::LoadQTable() {
 	std::ifstream file("test.csv");
-	for (int row = 0; row < 16; ++row)
+	for (int row = 0; row < 16; row++)
 	{
 		std::string line;
 		std::getline(file, line);
-		if (!file.good())
-			break;
 		std::stringstream iss(line);
-		for (int col = 0; col < 16; ++col)
+		for (int col = 0; col < 16; col++)
 		{
 			std::string val;
 			std::getline(iss, val, ',');
-			if (!iss.good())
-				break;
 			std::stringstream convertor(val);
 			convertor >> QTable[row][col];
 		}
