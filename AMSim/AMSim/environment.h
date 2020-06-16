@@ -28,7 +28,7 @@ struct Matter {
 
 class Environment {
 public:
-	Environment(float = 64);
+	Environment(float = 1, float = 32);
 	std::vector<Matter> prevMatters;
 	std::vector<Matter> matters;
 	std::vector<float> ReturnState();

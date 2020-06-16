@@ -9,11 +9,11 @@
 #include <random>
 #include <Eigen/Dense>
 #include <fstream>
+#include <ctime>
 
 void trainTimer(int = 0);
 void resultTimer(int = 0);
 void display();
-void mouse(int, int, int, int);
 void keyboard(unsigned char, int, int);
 void drawMatter(Matter, float = 0, float = 0);
 
@@ -27,14 +27,14 @@ extern float dt;
 extern int n;
 
 int currentEpisode = 1;
-int totalEpisode = 10;
-bool isLearning = false;
+int totalEpisode = 100;
+bool isLearning = true;
 bool displayEnabled = true;
 float T = 1000;
-int Mx, My, WIN;
-bool PRESSED_LEFT = false;
+int WIN;
+int startTime = time(NULL);
 
-Environment env = Environment(1);
+Environment env = Environment(1, 33);
 Agent agent = Agent();
 std::vector<float> currentState = env.ReturnState();
 std::vector<int> actionID(n);
@@ -57,7 +57,6 @@ int main(int argc, char **argv)
 		glOrtho(-(windowWidth / 2), (windowWidth / 2), -(windowHeight / 2), (windowHeight / 2), 0.0f, 1.0f);
 
 		glutDisplayFunc(display);
-		glutMouseFunc(mouse);
 		glutKeyboardFunc(keyboard);
 
 		if (isLearning) {
@@ -72,7 +71,8 @@ int main(int argc, char **argv)
 
 	} else {
 		while (currentEpisode <= totalEpisode) {
-			env = Environment(1);
+			int currentTime = time(NULL);
+			env = Environment(1, 35);
 			currentState = env.ReturnState();
 			std::cout << "episode started: " << currentEpisode << std::endl;
 			while (t < T)
@@ -82,13 +82,17 @@ int main(int argc, char **argv)
 				agent.UpdateQTable(currentState, actionID, reward, newState);
 				currentState = newState;
 			}
-			agent.UpdateEpsilonDecay(t, T);
+			agent.UpdateEpsilonDecay(currentEpisode, totalEpisode);
 			std::cout << "episode ended: " << currentEpisode << std::endl;
+			std::cout << "epsilon is : " << agent.returnEpsilon() << std::endl;
+			std::cout << "seconds used : " << time(NULL) - currentTime << std::endl;
+			std::cout << "------------------------" << std::endl;
 			currentEpisode++;
 			t = 0;
 			agent.SaveQTable();
 		}
 	}
+	std::cin.get();
 	return 0;
 }
 
@@ -98,6 +102,7 @@ void trainTimer(int)
 	action = agent.ReturnAction(currentState, actionID);
 	newState = env.Step(action, reward);
 	agent.UpdateQTable(currentState, actionID, reward, newState);
+	agent.UpdateEpsilonDecay(t, T*10);
 	currentState = newState;
 	glutTimerFunc(1, trainTimer, 0);
 }
@@ -121,19 +126,15 @@ void display()
 		drawMatter(p);
 
 		#pragma region PBC Logic
-		if (p.x - p.r / 2 < -scaledWindowWidth / 2) {
+		if (p.x - p.r / 2 < -scaledWindowWidth / 2)
 			drawMatter(p, +scaledWindowWidth, 0);
-		}
-		else if (p.x + p.r / 2 >= scaledWindowWidth / 2) {
+		else if (p.x + p.r / 2 >= scaledWindowWidth / 2)
 			drawMatter(p, -scaledWindowWidth, 0);
-		}
 
-		if (p.y - p.r / 2 < -scaledWindowHeight / 2) {
+		if (p.y - p.r / 2 < -scaledWindowHeight / 2)
 			drawMatter(p, 0, scaledWindowHeight);
-		}
-		else if (p.y + p.r / 2 >= scaledWindowHeight / 2) {
-			drawMatter(p, 0, -scaledWindowHeight);
-		}	
+		else if (p.y + p.r / 2 >= scaledWindowHeight / 2)
+			drawMatter(p, 0, -scaledWindowHeight);	
 		#pragma endregion
 	}
 
@@ -168,60 +169,12 @@ void drawMatter(Matter p, float transformX, float transformY) {
 	glPopMatrix();
 }
 
-void mouse(int button, int state, int x, int y)
-{
-	//set the coordinates of cursor
-	Mx = (x - windowWidth/2) / SCALE_FACTOR;
-	My = -(y - windowHeight/2) / SCALE_FACTOR;
-
-	//check which button is pressed
-	if (button == GLUT_LEFT_BUTTON)
-		PRESSED_LEFT = state == GLUT_DOWN;
-}
-
-//void addMatterByMouse(float m, float r)
-//{
-//	Matter p;
-//	p.x = Mx;
-//	p.y = My;
-//	p.v = V;
-//	p.m = m;
-//	p.r = r;
-//	Vector2f ort = randomOrt();
-//	p.ort[0] = ort(0);
-//	p.ort[1] = ort(1);
-//	matters.push_back(p);
-//	prevMatters.push_back(p);
-//}
-//
-//void addMatter(float x, float y)
-//{
-//	Matter p;
-//	p.x = x;
-//	p.y = y;
-//	p.v = V;
-//	p.m = MASS;
-//	p.r = RADIUS;
-//	Vector2f ort = randomOrt();
-//	p.ort[0] = ort(0);
-//	p.ort[1] = ort(1);
-//	matters.push_back(p);
-//	prevMatters.push_back(p);
-//}
-//
-//void removeMatters()
-//{
-//	matters.clear();
-//	prevMatters.clear();
-//}
-
 void keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
 		case 27: {
 			// "esc"
-			// removeMatters();
 			glutDestroyWindow(WIN);
 			exit(0);
 		}
@@ -236,7 +189,7 @@ void keyboard(unsigned char key, int x, int y)
 				}
 				std::cout << std::endl << "----------------------------" << std::endl;
 			}
-			//agent.SaveQTable();
+			agent.SaveQTable();
 			std::cin.get();
 			break;
 		}
@@ -244,13 +197,15 @@ void keyboard(unsigned char key, int x, int y)
 			// "2"
 			std::cout << "Print agent status:" << std::endl;
 			std::cout << "----------------------------" << std::endl;
-			std::cout << agent.PrintEpsilon() << std::endl;
+			std::cout << "current epsilon: " << agent.returnEpsilon() << std::endl;
+			std::cout << "seconds passed: " << std::to_string(time(NULL) - startTime) << std::endl;
 			std::cout << "----------------------------" << std::endl;
 			break;
 		}
 		case 51: {
 			// "3"
 			std::cout << "Print time : " << t << std::endl;
+			std::cin.get();
 			break;
 		}
 		case 52: {

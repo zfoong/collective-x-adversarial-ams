@@ -6,6 +6,7 @@
 #include <cmath>
 #include <random>
 #include <Eigen/Dense>
+#include <ctime>
 
 using namespace Eigen;
 
@@ -17,7 +18,8 @@ float scaledWindowHeight = windowHeight / SCALE_FACTOR;
 
 float t = 0; // current time
 float dt = 0.01f; // time step
-int n = 1; // total amt of matter, set to 4,9,16,25,36,49,64,81,100
+int n = 1; // total amt of learner matter
+int teacherCount = 32; // total amt of teacher matter
 
 float pl = 60;
 float rotDif = V / pl;
@@ -33,38 +35,54 @@ std::normal_distribution<double> distribution(0, 1);
 
 float InteractionForce(float);
 float Distance(float, float);
+float DistancePBC(Matter, Matter, float&, float&);
 float RadiansDifference(float, float);
 void DrawMatter(Matter, float = 0, float = 0);
 Vector2f RandomOrt();
 Vector2f RandomPos();
 
-Environment::Environment(float num)
+Environment::Environment(float Lnum, float Tnum)
 {
-	n = num;
-	int teacherCount = 32;
-	for (int i = 0; i < sqrt(teacherCount); i++) {
-		for (int j = 0; j < sqrt(teacherCount); j++) {
+	srand(time(NULL));
+	n = Lnum;
+	teacherCount = Tnum;
+	int totalCount = n + teacherCount;
+	for (int i = 0; i < sqrt(totalCount); i++) {
+		for (int j = 0; j < sqrt(totalCount); j++) {
+			if (Tnum + Lnum == 0)
+				break;
 			Vector2f ort = RandomOrt();
-			AddMatter(teacher, i * 3 - (windowWidth / 2 / SCALE_FACTOR / 2), j * 3 - (windowHeight / 2 / SCALE_FACTOR / 2), ort(0), ort(1));
+			float x = i * 2 - (windowWidth / 2 / SCALE_FACTOR / 2);
+			float y = j * 2 - (windowHeight / 2 / SCALE_FACTOR / 2);
+			if (Tnum > 0) {
+				AddMatter(teacher, x, y, ort(0), ort(1));
+				Tnum--;
+			} else {
+				AddMatter(learner, x, y, ort(0), ort(1));
+				Lnum--;
+			}
 		}
 	}
+
 	/*AddMatter(teacher, -1, 0, 0, 1);
 	AddMatter(teacher, 0, 1, 0, 1);
 	AddMatter(teacher, 1, 0, 0, 1);
 	AddMatter(learner, 0, 0, 1, 0);*/
-	for (int i = 0; i < n; i++) {
-		AddMatter(learner, -5, -5, 0.5, 0.5);
+
+	// transient phase
+	while (t < 10) {
+		std::vector<float> tempAction(n);
+		std::vector<float> tempReward(n);
+		Step(tempAction, tempReward);
 	}
-	//AddMatter(learner, 3, 0, 0, -1);
+	t = 0;
 }
 
 std::vector<float> Environment::ReturnState()
 {
 	std::vector<float> state;
-	for (int i = 0; i < matters.size(); i++)
-	{
+	for (int i = teacherCount; i < matters.size(); i++) {
 		Matter &p = matters[i];
-		if (p.type == teacher) continue;
 
 		int inRangeCount = 0;
 		float totalRad = 0;
@@ -73,22 +91,9 @@ std::vector<float> Environment::ReturnState()
 		for (int j = 0; j < prevMatters.size(); j++)
 		{
 			Matter &m = prevMatters[j];
-			float dx = p.x - m.x;
-			float dy = p.y - m.y;
-
-			#pragma region PBC Logic
-			if (dx > scaledWindowWidth / 2)
-				dx -= scaledWindowWidth;
-			else if (dx <= -scaledWindowWidth / 2)
-				dx += scaledWindowWidth;
-
-			if (dy > scaledWindowHeight / 2)
-				dy -= scaledWindowHeight;
-			else if (dy <= -scaledWindowHeight / 2)
-				dy += scaledWindowHeight;
-			#pragma endregion
-
-			float dis = Distance(dx, dy);
+			float dx = 0;
+			float dy = 0;
+			float dis = DistancePBC(p, m, dx, dy);
 
 			if (dis == 0)
 				continue;
@@ -100,11 +105,9 @@ std::vector<float> Environment::ReturnState()
 			}
 		}
 		float radDiff = 0;
-		if (inRangeCount != 0) {
-			// TODO: find difference logic fix
-			// float radDiff = atan2(orty, ortx) - atan2(p.ort[1], p.ort[0]);
+		if (inRangeCount != 0)
 			radDiff = RadiansDifference(atan2(orty, ortx), atan2(p.ort[1], p.ort[0]));
-		}
+
 		state.push_back(radDiff);
 	}
 	return state;
@@ -112,11 +115,10 @@ std::vector<float> Environment::ReturnState()
 
 std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<float> &rewardList) 
 {
-	for (int i = 0; i < matters.size(); i++)
-	{
+	for (int i = 0; i < matters.size(); i++) {
 		Matter &p = matters[i];
 		float a = 0;
-		if(p.type == learner) a = actionList[0];
+		if(p.type == learner) a = actionList[i-teacherCount];
 		Movement(p, a);
 	}
 
@@ -124,32 +126,14 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 	prevMatters = matters;
 
 	// calc reward by neighbour lost
-	for (int i = 0; i < matters.size(); i++)
-	{
+	for (int i = teacherCount; i < matters.size(); i++) {
 		Matter &p = matters[i];
-		if (p.type == teacher) continue;
-
 		int inRangeCount = 0;
-
-		for (int j = 0; j < prevMatters.size(); j++)
-		{
+		for (int j = 0; j < prevMatters.size(); j++) {
 			Matter &m = prevMatters[j];
-			float dx = p.x - m.x;
-			float dy = p.y - m.y;
-
-			#pragma region PBC Logic
-			if (dx > scaledWindowWidth / 2)
-				dx -= scaledWindowWidth;
-			else if (dx <= -scaledWindowWidth / 2)
-				dx += scaledWindowWidth;
-
-			if (dy > scaledWindowHeight / 2)
-				dy -= scaledWindowHeight;
-			else if (dy <= -scaledWindowHeight / 2)
-				dy += scaledWindowHeight;
-			#pragma endregion
-
-			float dis = Distance(dx, dy);
+			float dx = 0;
+			float dy = 0;
+			float dis = DistancePBC(p, m, dx, dy);
 
 			if (dis == 0)
 				continue;
@@ -157,12 +141,14 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 			if (dis < range)
 				inRangeCount++;
 		}
+
 		if (inRangeCount < p.neighbourCount)
-			rewardList[0] = inRangeCount - p.neighbourCount;
+			rewardList[i-teacherCount] = inRangeCount - p.neighbourCount;
 		else
-			rewardList[0] = 0;
+			rewardList[i-teacherCount] = 0;
 		p.neighbourCount = inRangeCount;
 	}
+
 	return ReturnState();
 }
 
@@ -180,26 +166,12 @@ void Environment::Movement(Matter &p, float action) {
 	Vector2f tranNoise(xi_1, xi_2);
 	Vector2f F(0, 0);
 
-	for (int i = 0; i < prevMatters.size(); i++)
-	{
+	for (int i = 0; i < prevMatters.size(); i++) {
 		Matter &m = prevMatters[i];
 
-		float dx = p.x - m.x;
-		float dy = p.y - m.y;
-
-		#pragma region PBC Logic
-		if (dx > scaledWindowWidth / 2)
-			dx -= scaledWindowWidth;
-		else if (dx <= -scaledWindowWidth / 2)
-			dx += scaledWindowWidth;
-
-		if (dy > scaledWindowHeight / 2)
-			dy -= scaledWindowHeight;
-		else if (dy <= -scaledWindowHeight / 2)
-			dy += scaledWindowHeight;
-		#pragma endregion
-
-		float dis = Distance(dx, dy);
+		float dx = 0;
+		float dy = 0;
+		float dis = DistancePBC(p, m, dx, dy);
 
 		if (dis == 0)
 			continue;
@@ -215,13 +187,15 @@ void Environment::Movement(Matter &p, float action) {
 		F(1) += Fr * sin(forceAngle);
 	}
 	float rad = atan2(p.ort[1], p.ort[0]); // convert ort vector to radians
-	float theta = rad + -action * dt + sqrt(dt) * (rotDifCoef * eta);
-
+	float theta = 0;
 	if (p.type == teacher) {
 		float radDiff = RadiansDifference(atan2(orty, ortx), rad);
 		if (ortx == 0 && orty == 0)
 			radDiff = 0;
 		theta = rad + radDiff * dt + sqrt(dt) * (rotDifCoef * eta);
+	}
+	else {
+		theta = rad + action * dt + sqrt(dt) * (rotDifCoef * eta);
 	}
 
 	Vector2f u(cos(theta), sin(theta)); // convert theta to ort vector u
@@ -258,12 +232,32 @@ float Distance(float dx, float dy)
 	return sqrt(pow(dx, 2) + pow(dy, 2));
 }
 
+float DistancePBC(Matter m1, Matter m2, float &dx, float &dy) {
+	dx = m1.x - m2.x;
+	dy = m1.y - m2.y;
+
+	#pragma region PBC Logic
+	if (dx > scaledWindowWidth / 2)
+		dx -= scaledWindowWidth;
+	else if (dx <= -scaledWindowWidth / 2)
+		dx += scaledWindowWidth;
+
+	if (dy > scaledWindowHeight / 2)
+		dy -= scaledWindowHeight;
+	else if (dy <= -scaledWindowHeight / 2)
+		dy += scaledWindowHeight;
+	#pragma endregion
+
+	return Distance(dx, dy);
+}
+
 float RadiansDifference(float radA, float radB) {
 	radA += M_PI;
 	radB += M_PI;
 	float d = fmodf(abs(radA - radB), (float)M_PI*2);
 	float r = d > M_PI ? M_PI*2 - d : d;
-	if ((radA - radB >= 0 && radA - radB <= M_PI) || (radA - radB <= -M_PI && radA - radB >= -M_PI*2)) return r;
+	if ((radA - radB >= 0 && radA - radB <= M_PI) || (radA - radB <= -M_PI && radA - radB >= -M_PI*2)) 
+		return r;
 	return -r;
 }
 
@@ -272,8 +266,7 @@ void Environment::Display()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	//draw matters
-	for (int i = 0; i < matters.size(); i++)
-	{
+	for (int i = 0; i < matters.size(); i++) {
 		Matter &p = matters[i];
 		DrawMatter(p);
 

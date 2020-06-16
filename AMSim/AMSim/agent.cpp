@@ -10,13 +10,14 @@
 #include <sstream>
 
 const float RADIANS = M_PI * 2;
-float learningRate = 0.005;
+float learningRate = 0.1;
 float discountFactor = 0.2;
 float minEpsilon = 0;
 float maxEpsilon = 1;
 float epsilon = 1;
-float epsilonDecay = 0.05;
-float radiansPiece = RADIANS / 16;
+float epsilonDecay = 0.1;
+float pieces = 16;
+float radiansPiece = RADIANS / pieces;
 
 int argmax(float*, int);
 float arrmax(float*, int);
@@ -49,13 +50,11 @@ void Agent::UpdateQTable(std::vector<float> stateList, std::vector<int> actionID
 float Agent::ReturnAction(float state, int &actionID) {
 	int stateID = StateToIndex(state);
 	int count = sizeof(QTable[stateID]) / sizeof(*QTable[stateID]);
-	if (epsilon >= ((double)rand() / (RAND_MAX))) {
+	if (epsilon >= ((double)rand() / (RAND_MAX))) 
 		actionID = rand() % count;
-	}
-	else {
+	else
 		actionID = argmax(QTable[stateID], count);
-	}
-	return IndexToAction(actionID);
+	return -(IndexToAction(actionID)); // append negative sign to flip orientation
 }
 
 std::vector<float> Agent::ReturnAction(std::vector<float> stateList, std::vector<int> &actionIDList) {
@@ -74,7 +73,7 @@ void Agent::setEpsilon(float ep) {
 	epsilon = ep;
 }
 
-float Agent::PrintEpsilon() {
+float Agent::returnEpsilon() {
 	return epsilon;
 }
 
@@ -114,13 +113,14 @@ void Agent::SaveQTable() {
 }
 
 void Agent::LoadQTable() {
+	std::cout << "loading Q table from test.csv" << std::endl;
 	std::ifstream file("test.csv");
-	for (int row = 0; row < 16; row++)
+	for (int row = 0; row < pieces; row++)
 	{
 		std::string line;
 		std::getline(file, line);
 		std::stringstream iss(line);
-		for (int col = 0; col < 16; col++)
+		for (int col = 0; col < pieces; col++)
 		{
 			std::string val;
 			std::getline(iss, val, ',');
