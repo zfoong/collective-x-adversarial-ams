@@ -16,8 +16,7 @@ float minEpsilon = 0;
 float maxEpsilon = 1;
 float epsilon = 1;
 float epsilonDecay = 0.1;
-float pieces = 16;
-float radiansPiece = RADIANS / pieces;
+float radiansPiece = RADIANS / (float)pieces;
 
 int argmax(float*, int);
 float arrmax(float*, int);
@@ -39,11 +38,12 @@ void Agent::UpdateQTable(float state, int actionID, float reward, float newState
 	int newStateID = StateToIndex(newState);
 	QTable[stateID][actionID] += learningRate * (reward - QTable[stateID][actionID]);
 	// QTable[stateID][actionID] += learningRate * (reward + discountFactor * arrmax(QTable[newStateID], sizeof(QTable[newStateID])) - QTable[stateID][actionID]);
+	// QTable[stateID][actionID] += learningRate * (reward + discountFactor * QTable[newStateID][newActionID] - QTable[stateID][actionID]);
 }
 
 void Agent::UpdateQTable(std::vector<float> stateList, std::vector<int> actionIDList, std::vector<float> rewardList, std::vector<float> newStateList) {
 	for (int i = 0; i < stateList.size(); i++) {
-		UpdateQTable(stateList[i], actionIDList[i], rewardList[i], newStateList[i]);
+		//UpdateQTable(stateList[i], actionIDList[i], rewardList[i], newStateList[i]);
 	}
 }
 

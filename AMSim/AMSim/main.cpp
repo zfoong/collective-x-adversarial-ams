@@ -27,10 +27,10 @@ extern float dt;
 extern int n;
 
 int currentEpisode = 1;
-int totalEpisode = 100;
+int totalEpisode = 500;
 bool isLearning = true;
-bool displayEnabled = true;
-float T = 1000;
+bool displayEnabled = false;
+float T = 100;
 int WIN;
 int startTime = time(NULL);
 
@@ -41,6 +41,11 @@ std::vector<int> actionID(n);
 std::vector<float> reward(n);
 std::vector<float> newState(n);
 std::vector<float> action(n);
+
+std::vector<float> cstateList;
+std::vector<float> nstateList;
+std::vector<int> actionidList;
+float totalReward = 0;
 
 int main(int argc, char **argv)
 {
@@ -75,12 +80,34 @@ int main(int argc, char **argv)
 			env = Environment(1, 35);
 			currentState = env.ReturnState();
 			std::cout << "episode started: " << currentEpisode << std::endl;
+
 			while (t < T)
 			{
 				action = agent.ReturnAction(currentState, actionID);
 				newState = env.Step(action, reward);
-				agent.UpdateQTable(currentState, actionID, reward, newState);
+
+				cstateList.push_back(currentState[0]);
+				nstateList.push_back(newState[0]);
+				actionidList.push_back(actionID[0]);
+				totalReward += reward[0];
+
+				if (cstateList.size() > 100) {
+					for (int i = 0; i < cstateList.size(); i++) {
+						agent.UpdateQTable(cstateList[i], actionidList[i], totalReward/cstateList.size(), nstateList[i]);
+					}
+					cstateList.clear();
+					nstateList.clear();
+					actionidList.clear();
+					totalReward = 0;
+				}
+
+				// agent.UpdateQTable(currentState, actionID, reward, newState);
 				currentState = newState;
+
+				if (agent.returnEpsilon() < 0.1) {
+					std::cout << "Epsilon < 1 " << std::endl;
+					std::cin.get();
+				}
 			}
 			agent.UpdateEpsilonDecay(currentEpisode, totalEpisode);
 			std::cout << "episode ended: " << currentEpisode << std::endl;
@@ -102,7 +129,24 @@ void trainTimer(int)
 	action = agent.ReturnAction(currentState, actionID);
 	newState = env.Step(action, reward);
 	agent.UpdateQTable(currentState, actionID, reward, newState);
-	agent.UpdateEpsilonDecay(t, T*10);
+
+	/*cstateList.push_back(currentState[0]);
+	nstateList.push_back(newState[0]);
+	actionidList.push_back(actionID[0]);
+	totalReward += reward[0];
+
+	if (cstateList.size() > 300) {
+		float avgReward = totalReward / cstateList.size();
+		for (int i = 0; i < cstateList.size(); i++) {
+			agent.UpdateQTable(cstateList[i], actionidList[i], avgReward, nstateList[i]);
+		}
+		cstateList.clear();
+		nstateList.clear();
+		actionidList.clear();
+		totalReward = 0;
+	}*/
+
+	agent.UpdateEpsilonDecay(t, T*1000);
 	currentState = newState;
 	glutTimerFunc(1, trainTimer, 0);
 }
@@ -181,9 +225,9 @@ void keyboard(unsigned char key, int x, int y)
 		case 49: {
 			// "1"
 			std::cout << "Print Q Table : " << t << std::endl;
-			for (int i = 0; i < 16; ++i)
+			for (int i = 0; i < 21; ++i)
 			{
-				for (int j = 0; j < 16; ++j)
+				for (int j = 0; j < 21; ++j)
 				{
 					std::cout << agent.QTable[i][j] << '\t';
 				}

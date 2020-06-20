@@ -10,8 +10,8 @@
 
 using namespace Eigen;
 
-float windowWidth = 500;
-float windowHeight = 500;
+float windowWidth = 250;
+float windowHeight = 250;
 extern const float SCALE_FACTOR = 20;
 float scaledWindowWidth = windowWidth / SCALE_FACTOR;
 float scaledWindowHeight = windowHeight / SCALE_FACTOR;
@@ -28,7 +28,7 @@ float rotDifCoef = sqrt(2 * rotDif);
 float transDifCoef = sqrt(2 * transDif);
 float alpha = transDif / rotDif * pow(RADIUS, 2);
 float mu = alpha * RADIUS / pl;
-float range = 5;
+float range = 3;
 
 std::default_random_engine generator;
 std::normal_distribution<double> distribution(0, 1);
@@ -64,10 +64,10 @@ Environment::Environment(float Lnum, float Tnum)
 		}
 	}
 
-	/*AddMatter(teacher, -1, 0, 0, 1);
-	AddMatter(teacher, 0, 1, 0, 1);
-	AddMatter(teacher, 1, 0, 0, 1);
-	AddMatter(learner, 0, 0, 1, 0);*/
+	/*AddMatter(teacher, -2, 5, 0, 1);
+	AddMatter(teacher, 0, 5, 0, 1);
+	AddMatter(teacher, 2, 5, 0, 1);
+	AddMatter(learner, 0, -5, 1, 0);*/
 
 	// transient phase
 	while (t < 10) {
@@ -143,7 +143,7 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 		}
 
 		if (inRangeCount < p.neighbourCount)
-			rewardList[i-teacherCount] = inRangeCount - p.neighbourCount;
+			rewardList[i-teacherCount] = (inRangeCount - p.neighbourCount)*1000;
 		else
 			rewardList[i-teacherCount] = 0;
 		p.neighbourCount = inRangeCount;
@@ -160,6 +160,7 @@ void Environment::Movement(Matter &p, float action) {
 	float avgOrt = 0;
 	float ortx = 0;
 	float orty = 0;
+	float c = 1000;
 
 	Vector2f r(p.x, p.y);
 	Vector2f rPrev(p.x, p.y);
@@ -192,15 +193,18 @@ void Environment::Movement(Matter &p, float action) {
 		float radDiff = RadiansDifference(atan2(orty, ortx), rad);
 		if (ortx == 0 && orty == 0)
 			radDiff = 0;
-		theta = rad + radDiff * dt + sqrt(dt) * (rotDifCoef * eta);
+		// theta = rad + radDiff * dt + sqrt(dt) * (rotDifCoef * eta);
+		theta = rad + radDiff * dt;
 	}
 	else {
-		theta = rad + action * dt + sqrt(dt) * (rotDifCoef * eta);
+		// theta = rad + action * dt * c + sqrt(dt) * (rotDifCoef * eta);
+		theta = rad + action * dt * c;
 	}
 
 	Vector2f u(cos(theta), sin(theta)); // convert theta to ort vector u
 
-	r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
+	// r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
+	r = r + dt * (mu * F) + dt * (p.v * u);
 
 	#pragma region PBC Logic
 	if (r(0) < -scaledWindowWidth / 2)

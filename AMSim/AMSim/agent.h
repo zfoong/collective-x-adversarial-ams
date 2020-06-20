@@ -4,10 +4,12 @@
 #include <string>
 #include <vector>
 
+const int pieces = 21;
+
 class Agent {
 public:
-	Agent(float = 0.005, float = 1, float = 10, float = 0 , float = 0);
-	float QTable[16][16] = {{0}};
+	Agent(float = 0.01, float = 1, float = 10, float = 0 , float = 0.9);
+	float QTable[pieces][pieces] = {{0}};
 	void UpdateQTable(float, int, float, float);
 	void UpdateQTable(std::vector<float>, std::vector<int>, std::vector<float>, std::vector<float>);
 	float ReturnAction(float, int&);
