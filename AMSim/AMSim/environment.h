@@ -16,8 +16,8 @@ const float MASS = 100;
 const float V = 1;
 
 struct Matter {
-	float x; // x pos
-	float y; // y pos
+	float pos[2];
+	int posMultiplier[2] = {0}; // Global position multiplier
 	float r = RADIUS; // radius, setting to const for now
 	float v = V;
 	float m = MASS; // mass of matter
@@ -28,11 +28,11 @@ struct Matter {
 
 class Environment {
 public:
-	Environment(float = 1, float = 32);
+	Environment(float = 1, float = 32, bool=true);
 	std::vector<Matter> prevMatters;
 	std::vector<Matter> matters;
 	std::vector<float> ReturnState();
-	std::vector<float> Step(std::vector<float>, std::vector<float>&);
+	std::vector<float> Step(std::vector<float>, std::vector<float>&, std::vector<float>&);
 	void Movement(Matter&, float);
 	void Display();
 	virtual ~Environment();

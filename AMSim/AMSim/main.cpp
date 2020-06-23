@@ -16,6 +16,7 @@ void resultTimer(int = 0);
 void display();
 void keyboard(unsigned char, int, int);
 void drawMatter(Matter, float = 0, float = 0);
+float returnActiveWork();
 
 extern float windowWidth;
 extern float windowHeight;
@@ -27,25 +28,23 @@ extern float dt;
 extern int n;
 
 int currentEpisode = 1;
-int totalEpisode = 500;
+int totalEpisode = 1000;
+float T = 100; // Total Timestep
 bool isLearning = true;
 bool displayEnabled = false;
-float T = 100;
+
 int WIN;
 int startTime = time(NULL);
 
-Environment env = Environment(1, 33);
-Agent agent = Agent();
+Environment env = Environment(1, 32);
+Agent agent = Agent(0.01, 1, 10,  0, 0.9);
+
 std::vector<float> currentState = env.ReturnState();
 std::vector<int> actionID(n);
 std::vector<float> reward(n);
 std::vector<float> newState(n);
 std::vector<float> action(n);
-
-std::vector<float> cstateList;
-std::vector<float> nstateList;
-std::vector<int> actionidList;
-float totalReward = 0;
+std::vector<float> activeWork(n);
 
 int main(int argc, char **argv)
 {
@@ -66,42 +65,24 @@ int main(int argc, char **argv)
 
 		if (isLearning) {
 			trainTimer();
-			glutMainLoop();
 		} else {
-			agent.LoadQTable();
+			agent.LoadQTable("test.csv");
 			agent.setEpsilon(0);
 			resultTimer();
-			glutMainLoop();
 		}
-
+		glutMainLoop();
 	} else {
 		while (currentEpisode <= totalEpisode) {
 			int currentTime = time(NULL);
-			env = Environment(1, 35);
+			env = Environment(1, 32);
 			currentState = env.ReturnState();
 			std::cout << "episode started: " << currentEpisode << std::endl;
 
 			while (t < T)
 			{
 				action = agent.ReturnAction(currentState, actionID);
-				newState = env.Step(action, reward);
-
-				cstateList.push_back(currentState[0]);
-				nstateList.push_back(newState[0]);
-				actionidList.push_back(actionID[0]);
-				totalReward += reward[0];
-
-				if (cstateList.size() > 100) {
-					for (int i = 0; i < cstateList.size(); i++) {
-						agent.UpdateQTable(cstateList[i], actionidList[i], totalReward/cstateList.size(), nstateList[i]);
-					}
-					cstateList.clear();
-					nstateList.clear();
-					actionidList.clear();
-					totalReward = 0;
-				}
-
-				// agent.UpdateQTable(currentState, actionID, reward, newState);
+				newState = env.Step(action, reward, activeWork);
+				agent.UpdateQTable(currentState, actionID, reward, newState);
 				currentState = newState;
 
 				if (agent.returnEpsilon() < 0.1) {
@@ -109,14 +90,20 @@ int main(int argc, char **argv)
 					std::cin.get();
 				}
 			}
+
+			float normActiveWork = returnActiveWork();
+			std::fill(activeWork.begin(), activeWork.end(), 0);
+
 			agent.UpdateEpsilonDecay(currentEpisode, totalEpisode);
 			std::cout << "episode ended: " << currentEpisode << std::endl;
 			std::cout << "epsilon is : " << agent.returnEpsilon() << std::endl;
+			std::cout << "active work is : " << normActiveWork << std::endl;
 			std::cout << "seconds used : " << time(NULL) - currentTime << std::endl;
 			std::cout << "------------------------" << std::endl;
 			currentEpisode++;
 			t = 0;
-			agent.SaveQTable();
+			agent.SaveQTable("test.csv");
+			agent.SaveSVTable();
 		}
 	}
 	std::cin.get();
@@ -126,37 +113,31 @@ int main(int argc, char **argv)
 void trainTimer(int)
 {
 	display();
+
 	action = agent.ReturnAction(currentState, actionID);
-	newState = env.Step(action, reward);
+	newState = env.Step(action, reward, activeWork);
 	agent.UpdateQTable(currentState, actionID, reward, newState);
-
-	/*cstateList.push_back(currentState[0]);
-	nstateList.push_back(newState[0]);
-	actionidList.push_back(actionID[0]);
-	totalReward += reward[0];
-
-	if (cstateList.size() > 300) {
-		float avgReward = totalReward / cstateList.size();
-		for (int i = 0; i < cstateList.size(); i++) {
-			agent.UpdateQTable(cstateList[i], actionidList[i], avgReward, nstateList[i]);
-		}
-		cstateList.clear();
-		nstateList.clear();
-		actionidList.clear();
-		totalReward = 0;
-	}*/
-
-	agent.UpdateEpsilonDecay(t, T*1000);
+	agent.UpdateEpsilonDecay(t, T*100);
 	currentState = newState;
+
 	glutTimerFunc(1, trainTimer, 0);
 }
 
 void resultTimer(int) {
 	display();
+
 	action = agent.ReturnAction(currentState, actionID);
-	newState = env.Step(action, reward);
+	newState = env.Step(action, reward, activeWork);
 	currentState = newState;
+
 	glutTimerFunc(1, resultTimer, 0);
+}
+
+float returnActiveWork() {
+	float totalActiveWork = 0;
+	for each (float work in activeWork)
+		totalActiveWork += work;
+	return (1 / (n*t)) * totalActiveWork;
 }
 
 void display()
@@ -170,14 +151,14 @@ void display()
 		drawMatter(p);
 
 		#pragma region PBC Logic
-		if (p.x - p.r / 2 < -scaledWindowWidth / 2)
+		if (p.pos[0] - p.r / 2 < -scaledWindowWidth / 2)
 			drawMatter(p, +scaledWindowWidth, 0);
-		else if (p.x + p.r / 2 >= scaledWindowWidth / 2)
+		else if (p.pos[0] + p.r / 2 >= scaledWindowWidth / 2)
 			drawMatter(p, -scaledWindowWidth, 0);
 
-		if (p.y - p.r / 2 < -scaledWindowHeight / 2)
+		if (p.pos[1] - p.r / 2 < -scaledWindowHeight / 2)
 			drawMatter(p, 0, scaledWindowHeight);
-		else if (p.y + p.r / 2 >= scaledWindowHeight / 2)
+		else if (p.pos[1] + p.r / 2 >= scaledWindowHeight / 2)
 			drawMatter(p, 0, -scaledWindowHeight);	
 		#pragma endregion
 	}
@@ -189,7 +170,7 @@ void display()
 void drawMatter(Matter p, float transformX, float transformY) {
 	glPushMatrix();
 	glScalef(SCALE_FACTOR, SCALE_FACTOR, 1.0);
-	glTranslatef(p.x + transformX, p.y + transformY, 0.0f);
+	glTranslatef(p.pos[0] + transformX, p.pos[1] + transformY, 0.0f);
 	if (p.type == learner)
 		glColor3f(255, 255, 0);
 	else
@@ -233,7 +214,8 @@ void keyboard(unsigned char key, int x, int y)
 				}
 				std::cout << std::endl << "----------------------------" << std::endl;
 			}
-			agent.SaveQTable();
+			agent.SaveQTable("test.csv");
+			agent.SaveSVTable();
 			std::cin.get();
 			break;
 		}
@@ -242,6 +224,7 @@ void keyboard(unsigned char key, int x, int y)
 			std::cout << "Print agent status:" << std::endl;
 			std::cout << "----------------------------" << std::endl;
 			std::cout << "current epsilon: " << agent.returnEpsilon() << std::endl;
+			std::cout << "current active work : " << returnActiveWork() << std::endl;
 			std::cout << "seconds passed: " << std::to_string(time(NULL) - startTime) << std::endl;
 			std::cout << "----------------------------" << std::endl;
 			break;
@@ -255,7 +238,7 @@ void keyboard(unsigned char key, int x, int y)
 		case 52: {
 			// "4"
 			std::cout << "Loading Q Table from CSV..." << std::endl;
-			agent.LoadQTable();
+			agent.LoadQTable("test.csv");
 			break;
 		}
 	}

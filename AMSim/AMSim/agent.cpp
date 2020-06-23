@@ -37,13 +37,14 @@ void Agent::UpdateQTable(float state, int actionID, float reward, float newState
 	int stateID = StateToIndex(state);
 	int newStateID = StateToIndex(newState);
 	QTable[stateID][actionID] += learningRate * (reward - QTable[stateID][actionID]);
+	SVTable[stateID] += learningRate * (reward - SVTable[stateID]);
 	// QTable[stateID][actionID] += learningRate * (reward + discountFactor * arrmax(QTable[newStateID], sizeof(QTable[newStateID])) - QTable[stateID][actionID]);
 	// QTable[stateID][actionID] += learningRate * (reward + discountFactor * QTable[newStateID][newActionID] - QTable[stateID][actionID]);
 }
 
 void Agent::UpdateQTable(std::vector<float> stateList, std::vector<int> actionIDList, std::vector<float> rewardList, std::vector<float> newStateList) {
 	for (int i = 0; i < stateList.size(); i++) {
-		//UpdateQTable(stateList[i], actionIDList[i], rewardList[i], newStateList[i]);
+		UpdateQTable(stateList[i], actionIDList[i], rewardList[i], newStateList[i]);
 	}
 }
 
@@ -89,7 +90,6 @@ float arrmax(float *arr, int size) {
 }
 
 int StateToIndex(float state) {
-	// TODO: floor vs round
 	state += M_PI;
 	return floor(state / radiansPiece);
 }
@@ -103,8 +103,8 @@ float IndexToAction(int index) {
 	return (radiansPiece * index) - M_PI;
 }
 
-void Agent::SaveQTable() {
-	std::ofstream outFile("test.csv");
+void Agent::SaveQTable(const char* path) {
+	std::ofstream outFile(path);
 	for (auto& row : QTable) {	
 		for (auto col : row)
 			outFile << col << ',';
@@ -112,9 +112,16 @@ void Agent::SaveQTable() {
 	}
 }
 
-void Agent::LoadQTable() {
-	std::cout << "loading Q table from test.csv" << std::endl;
-	std::ifstream file("test.csv");
+void Agent::SaveSVTable() {
+	std::ofstream outFile("svtest.csv");
+	for (auto& row : SVTable) {
+			outFile << row << '\n';
+	}
+}
+
+void Agent::LoadQTable(const char* path) {
+	std::cout << "loading Q table from " << path << std::endl;
+	std::ifstream file(path);
 	for (int row = 0; row < pieces; row++)
 	{
 		std::string line;

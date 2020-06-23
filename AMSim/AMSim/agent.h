@@ -10,6 +10,8 @@ class Agent {
 public:
 	Agent(float = 0.01, float = 1, float = 10, float = 0 , float = 0.9);
 	float QTable[pieces][pieces] = {{0}};
+	float SVTable[pieces] = { 0 };
+	float TPMatrix[pieces][pieces][pieces] = {{{0}}};
 	void UpdateQTable(float, int, float, float);
 	void UpdateQTable(std::vector<float>, std::vector<int>, std::vector<float>, std::vector<float>);
 	float ReturnAction(float, int&);
@@ -17,8 +19,9 @@ public:
 	float Agent::returnEpsilon();
 	std::vector<float> ReturnAction(std::vector<float>, std::vector<int>&);
 	void Agent::UpdateEpsilonDecay(float, float);
-	void SaveQTable();
-	void LoadQTable();
+	void SaveQTable(const char*);
+	void SaveSVTable();
+	void LoadQTable(const char*);
 	virtual ~Agent();
 protected:
 private:

@@ -10,9 +10,9 @@
 
 using namespace Eigen;
 
-float windowWidth = 250;
-float windowHeight = 250;
-extern const float SCALE_FACTOR = 20;
+float windowWidth = 500;
+float windowHeight = 500;
+extern const float SCALE_FACTOR = 40;
 float scaledWindowWidth = windowWidth / SCALE_FACTOR;
 float scaledWindowHeight = windowHeight / SCALE_FACTOR;
 
@@ -29,6 +29,7 @@ float transDifCoef = sqrt(2 * transDif);
 float alpha = transDif / rotDif * pow(RADIUS, 2);
 float mu = alpha * RADIUS / pl;
 float range = 3;
+float c = 1;
 
 std::default_random_engine generator;
 std::normal_distribution<double> distribution(0, 1);
@@ -41,7 +42,7 @@ void DrawMatter(Matter, float = 0, float = 0);
 Vector2f RandomOrt();
 Vector2f RandomPos();
 
-Environment::Environment(float Lnum, float Tnum)
+Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
 {
 	srand(time(NULL));
 	n = Lnum;
@@ -70,12 +71,15 @@ Environment::Environment(float Lnum, float Tnum)
 	AddMatter(learner, 0, -5, 1, 0);*/
 
 	// transient phase
-	while (t < 10) {
-		std::vector<float> tempAction(n);
-		std::vector<float> tempReward(n);
-		Step(tempAction, tempReward);
+	if (transientEnabled) {
+		while (t < 10) {
+			std::vector<float> tempAction(n);
+			std::vector<float> tempReward(n);
+			std::vector<float> tempAW(n);
+			Step(tempAction, tempReward, tempAW);
+		}
+		t = 0;
 	}
-	t = 0;
 }
 
 std::vector<float> Environment::ReturnState()
@@ -113,7 +117,7 @@ std::vector<float> Environment::ReturnState()
 	return state;
 }
 
-std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<float> &rewardList) 
+std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<float> &rewardList, std::vector<float> &activeWorkList)
 {
 	for (int i = 0; i < matters.size(); i++) {
 		Matter &p = matters[i];
@@ -125,9 +129,10 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 	t += dt;
 	prevMatters = matters;
 
-	// calc reward by neighbour lost
 	for (int i = teacherCount; i < matters.size(); i++) {
 		Matter &p = matters[i];
+
+		#pragma region Compute reward by neighbour lost
 		int inRangeCount = 0;
 		for (int j = 0; j < prevMatters.size(); j++) {
 			Matter &m = prevMatters[j];
@@ -143,12 +148,18 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 		}
 
 		if (inRangeCount < p.neighbourCount)
-			rewardList[i-teacherCount] = (inRangeCount - p.neighbourCount)*1000;
+			rewardList[i-teacherCount] = (inRangeCount - p.neighbourCount)*c;
 		else
 			rewardList[i-teacherCount] = 0;
 		p.neighbourCount = inRangeCount;
-	}
+		#pragma endregion
 
+		#pragma region Compute active work
+		Vector2f r(p.pos[0] + p.posMultiplier[0] * scaledWindowWidth, p.pos[1] + p.posMultiplier[1] * scaledWindowHeight);
+		Vector2f u(p.ort[0], p.ort[1]);
+		activeWorkList[i - teacherCount] = r.dot(u);
+		#pragma endregion
+	}
 	return ReturnState();
 }
 
@@ -160,10 +171,9 @@ void Environment::Movement(Matter &p, float action) {
 	float avgOrt = 0;
 	float ortx = 0;
 	float orty = 0;
-	float c = 1000;
 
-	Vector2f r(p.x, p.y);
-	Vector2f rPrev(p.x, p.y);
+	Vector2f r(p.pos[0], p.pos[1]);
+	Vector2f rPrev(p.pos[0], p.pos[1]);
 	Vector2f tranNoise(xi_1, xi_2);
 	Vector2f F(0, 0);
 
@@ -193,33 +203,39 @@ void Environment::Movement(Matter &p, float action) {
 		float radDiff = RadiansDifference(atan2(orty, ortx), rad);
 		if (ortx == 0 && orty == 0)
 			radDiff = 0;
-		// theta = rad + radDiff * dt + sqrt(dt) * (rotDifCoef * eta);
-		theta = rad + radDiff * dt;
+		theta = rad + radDiff * dt + sqrt(dt) * (rotDifCoef * eta);
+		//theta = rad + radDiff * dt;
 	}
 	else {
-		// theta = rad + action * dt * c + sqrt(dt) * (rotDifCoef * eta);
-		theta = rad + action * dt * c;
+		theta = rad + action * dt * c + sqrt(dt) * (rotDifCoef * eta);
+		//theta = rad + action * dt * c;
 	}
 
 	Vector2f u(cos(theta), sin(theta)); // convert theta to ort vector u
 
-	// r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
-	r = r + dt * (mu * F) + dt * (p.v * u);
+	r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
+	//r = r + dt * (mu * F) + dt * (p.v * u);
 
 	#pragma region PBC Logic
-	if (r(0) < -scaledWindowWidth / 2)
+	if (r(0) < -scaledWindowWidth / 2) {
 		r(0) += scaledWindowWidth;
-	else if (r(0) >= scaledWindowWidth / 2)
+		p.posMultiplier[0]--;
+	} else if (r(0) >= scaledWindowWidth / 2) {
 		r(0) -= scaledWindowWidth;
+		p.posMultiplier[0]++;
+	}
 
-	if (r(1) < -scaledWindowHeight / 2)
+	if (r(1) < -scaledWindowHeight / 2) {
 		r(1) += scaledWindowHeight;
-	else if (r(1) >= scaledWindowHeight / 2)
+		p.posMultiplier[1]--;
+	} else if (r(1) >= scaledWindowHeight / 2) {
 		r(1) -= scaledWindowHeight;
+		p.posMultiplier[1]++;
+	}
 	#pragma endregion
 
-	p.x = r(0);
-	p.y = r(1);
+	p.pos[0] = r(0);
+	p.pos[1] = r(1);
 	p.ort[0] = u(0);
 	p.ort[1] = u(1);
 }
@@ -237,8 +253,8 @@ float Distance(float dx, float dy)
 }
 
 float DistancePBC(Matter m1, Matter m2, float &dx, float &dy) {
-	dx = m1.x - m2.x;
-	dy = m1.y - m2.y;
+	dx = m1.pos[0] - m2.pos[0];
+	dy = m1.pos[1] - m2.pos[1];
 
 	#pragma region PBC Logic
 	if (dx > scaledWindowWidth / 2)
@@ -275,17 +291,17 @@ void Environment::Display()
 		DrawMatter(p);
 
 		#pragma region PBC Logic
-		if (p.x - p.r / 2 < -scaledWindowWidth / 2) {
+		if (p.pos[0] - p.r / 2 < -scaledWindowWidth / 2) {
 			DrawMatter(p, +scaledWindowWidth, 0);
 		}
-		else if (p.x + p.r / 2 >= scaledWindowWidth / 2) {
+		else if (p.pos[0] + p.r / 2 >= scaledWindowWidth / 2) {
 			DrawMatter(p, -scaledWindowWidth, 0);
 		}
 
-		if (p.y - p.r / 2 < -scaledWindowHeight / 2) {
+		if (p.pos[1] - p.r / 2 < -scaledWindowHeight / 2) {
 			DrawMatter(p, 0, scaledWindowHeight);
 		}
-		else if (p.y + p.r / 2 >= scaledWindowHeight / 2) {
+		else if (p.pos[1] + p.r / 2 >= scaledWindowHeight / 2) {
 			DrawMatter(p, 0, -scaledWindowHeight);
 		}
 		#pragma endregion
@@ -298,7 +314,7 @@ void Environment::Display()
 void DrawMatter(Matter p, float transformX, float transformY) {
 	glPushMatrix();
 	glScalef(SCALE_FACTOR, SCALE_FACTOR, 1.0);
-	glTranslatef(p.x + transformX, p.y + transformY, 0.0f);
+	glTranslatef(p.pos[0] + transformX, p.pos[1] + transformY, 0.0f);
 
 	glColor3f(p.ort[0], p.ort[1], 1);
 
@@ -343,8 +359,8 @@ void Environment::AddMatter(MatterType mt)
 {
 	Matter p;
 	Vector2f pos = RandomPos();
-	p.x = pos(0);
-	p.y = pos(1);
+	p.pos[0] = pos(0);
+	p.pos[1] = pos(1);
 	p.v = V;
 	p.m = MASS;
 	p.r = RADIUS;
@@ -359,8 +375,8 @@ void Environment::AddMatter(MatterType mt)
 void Environment::AddMatter(MatterType mt, float x, float y, float ortx, float orty)
 {
 	Matter p;
-	p.x = x;
-	p.y = y;
+	p.pos[0] = x;
+	p.pos[1] = y;
 	p.v = V;
 	p.m = MASS;
 	p.r = RADIUS;
@@ -379,5 +395,5 @@ void Environment::RemoveMatters()
 
 Environment::~Environment()
 {
-
+	RemoveMatters();
 }
