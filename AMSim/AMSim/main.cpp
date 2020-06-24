@@ -30,13 +30,13 @@ extern int n;
 int currentEpisode = 1;
 int totalEpisode = 1000;
 float T = 100; // Total Timestep
-bool isLearning = true;
-bool displayEnabled = false;
+bool isLearning = false;
+bool displayEnabled = true;
 
 int WIN;
 int startTime = time(NULL);
 
-Environment env = Environment(1, 32);
+Environment env = Environment(1, 32, false);
 Agent agent = Agent(0.01, 1, 10,  0, 0.9);
 
 std::vector<float> currentState = env.ReturnState();
@@ -67,6 +67,9 @@ int main(int argc, char **argv)
 			trainTimer();
 		} else {
 			agent.LoadQTable("test.csv");
+			agent.LoadDTable();
+			agent.LoadSVTable();
+			agent.LoadTPMatrix();
 			agent.setEpsilon(0);
 			resultTimer();
 		}
@@ -93,7 +96,7 @@ int main(int argc, char **argv)
 
 			float normActiveWork = returnActiveWork();
 			std::fill(activeWork.begin(), activeWork.end(), 0);
-
+			agent.UpdateTPMatrix();
 			agent.UpdateEpsilonDecay(currentEpisode, totalEpisode);
 			std::cout << "episode ended: " << currentEpisode << std::endl;
 			std::cout << "epsilon is : " << agent.returnEpsilon() << std::endl;
@@ -104,6 +107,8 @@ int main(int argc, char **argv)
 			t = 0;
 			agent.SaveQTable("test.csv");
 			agent.SaveSVTable();
+			agent.SaveDTable();
+			agent.SaveTPMatrix();
 		}
 	}
 	std::cin.get();

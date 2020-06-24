@@ -38,8 +38,26 @@ void Agent::UpdateQTable(float state, int actionID, float reward, float newState
 	int newStateID = StateToIndex(newState);
 	QTable[stateID][actionID] += learningRate * (reward - QTable[stateID][actionID]);
 	SVTable[stateID] += learningRate * (reward - SVTable[stateID]);
+	DTable[stateID][newStateID][actionID]++;
 	// QTable[stateID][actionID] += learningRate * (reward + discountFactor * arrmax(QTable[newStateID], sizeof(QTable[newStateID])) - QTable[stateID][actionID]);
 	// QTable[stateID][actionID] += learningRate * (reward + discountFactor * QTable[newStateID][newActionID] - QTable[stateID][actionID]);
+}
+
+void Agent::UpdateTPMatrix() {
+	int n_d1 = sizeof(TPMatrix) / sizeof(*TPMatrix);
+	int n_d2 = sizeof(TPMatrix[n_d1]) / sizeof(*TPMatrix[n_d1]);
+	int n_d3 = sizeof(TPMatrix[n_d1][n_d2]) / sizeof(*TPMatrix[n_d1][n_d2]);
+	for (int i = 0; i < n_d3; i++) {
+		for (int j = 0; j < n_d1; j++) {
+			int actionTotal = 0;
+			for (int k = 0; k < n_d2; k++) {
+				actionTotal += DTable[j][k][i];
+			}
+			for (int k = 0; k < n_d3; k++) {
+				TPMatrix[j][k][i] = (float)DTable[j][k][i] / (float)actionTotal;
+			}
+		}
+	}
 }
 
 void Agent::UpdateQTable(std::vector<float> stateList, std::vector<int> actionIDList, std::vector<float> rewardList, std::vector<float> newStateList) {
@@ -51,10 +69,15 @@ void Agent::UpdateQTable(std::vector<float> stateList, std::vector<int> actionID
 float Agent::ReturnAction(float state, int &actionID) {
 	int stateID = StateToIndex(state);
 	int count = sizeof(QTable[stateID]) / sizeof(*QTable[stateID]);
-	if (epsilon >= ((double)rand() / (RAND_MAX))) 
+	if (epsilon >= ((double)rand() / (RAND_MAX))) {
 		actionID = rand() % count;
-	else
-		actionID = argmax(QTable[stateID], count);
+	}
+	else {
+		int optimumStateID = argmax(SVTable, count);
+		actionID = argmax(TPMatrix[stateID][optimumStateID], count);
+		//actionID = argmax(QTable[stateID], count);
+	}
+
 	return -(IndexToAction(actionID)); // append negative sign to flip orientation
 }
 
@@ -113,9 +136,51 @@ void Agent::SaveQTable(const char* path) {
 }
 
 void Agent::SaveSVTable() {
-	std::ofstream outFile("svtest.csv");
+	std::ofstream outFile("svtable.csv");
 	for (auto& row : SVTable) {
 			outFile << row << '\n';
+	}
+}
+
+void Agent::SaveTPMatrix() {
+	FILE* pFile = fopen("tpmatrix", "wb");
+	fwrite(TPMatrix, sizeof(TPMatrix), 1, pFile);
+	fclose(pFile);
+
+	std::ofstream outFile("tpmatrix.csv");
+	int n_d1 = sizeof(TPMatrix) / sizeof(*TPMatrix);
+	int n_d2 = sizeof(TPMatrix[n_d1]) / sizeof(*TPMatrix[n_d1]);
+	int n_d3 = sizeof(TPMatrix[n_d1][n_d2]) / sizeof(*TPMatrix[n_d1][n_d2]);
+	for (int i = 0; i < n_d3; i++) {
+		for (int j = 0; j < n_d1; j++) {
+			for (int k = 0; k < n_d2; k++) {
+				outFile << TPMatrix[j][k][i] << ',';
+			}
+			outFile << '\n';
+		}
+		outFile << '\n';
+		outFile << '\n';
+	}
+}
+
+void Agent::SaveDTable() {
+	FILE* pFile = fopen("dtable", "wb");
+	fwrite(DTable, sizeof(DTable), 1, pFile);
+	fclose(pFile);
+
+	std::ofstream outFile("dtable.csv");
+	int n_d1 = sizeof(DTable) / sizeof(*DTable);
+	int n_d2 = sizeof(DTable[n_d1]) / sizeof(*DTable[n_d1]);
+	int n_d3 = sizeof(DTable[n_d1][n_d2]) / sizeof(*DTable[n_d1][n_d2]);
+	for (int i = 0; i < n_d3; i++) {
+		for (int j = 0; j < n_d1; j++) {
+			for (int k = 0; k < n_d2; k++) {
+				outFile << DTable[k][j][i] << ',';
+			}
+			outFile << '\n';
+		}
+		outFile << '\n';
+		outFile << '\n';
 	}
 }
 
@@ -135,6 +200,30 @@ void Agent::LoadQTable(const char* path) {
 			convertor >> QTable[row][col];
 		}
 	}
+}
+
+void Agent::LoadSVTable() {
+	std::cout << "loading SV Table from svtable.csv" << std::endl;
+	std::ifstream file("svtable.csv");
+	for (int row = 0; row < pieces; row++)
+	{
+		std::string line;
+		std::getline(file, line);
+		std::stringstream iss(line);	
+		iss >> SVTable[row];
+	}
+}
+
+void Agent::LoadTPMatrix() {
+	FILE* pFile = fopen("tpmatrix", "rb");
+	fread(TPMatrix, sizeof(TPMatrix), 1, pFile);
+	fclose(pFile);
+}
+
+void Agent::LoadDTable() {
+	FILE* pFile = fopen("dtable", "rb");
+	fread(DTable, sizeof(DTable), 1, pFile);
+	fclose(pFile);
 }
 
 Agent::~Agent()
