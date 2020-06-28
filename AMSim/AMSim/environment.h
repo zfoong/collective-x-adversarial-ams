@@ -17,6 +17,7 @@ const float V = 1;
 
 struct Matter {
 	float pos[2];
+	float pos_aw[2];
 	int posMultiplier[2] = {0}; // Global position multiplier
 	float r = RADIUS; // radius, setting to const for now
 	float v = V;

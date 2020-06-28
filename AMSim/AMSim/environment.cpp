@@ -19,7 +19,7 @@ float scaledWindowHeight = windowHeight / SCALE_FACTOR;
 float t = 0; // current time
 float dt = 0.01f; // time step
 int n = 1; // total amt of learner matter
-int teacherCount = 32; // total amt of teacher matter
+int n_t = 32; // total amt of teacher matter
 
 float pl = 60;
 float rotDif = V / pl;
@@ -46,15 +46,15 @@ Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
 {
 	srand(time(NULL));
 	n = Lnum;
-	teacherCount = Tnum;
-	int totalCount = n + teacherCount;
+	n_t = Tnum;
+	int totalCount = n + n_t;
 	for (int i = 0; i < sqrt(totalCount); i++) {
 		for (int j = 0; j < sqrt(totalCount); j++) {
 			if (Tnum + Lnum == 0)
 				break;
 			Vector2f ort = RandomOrt();
-			float x = i * 2 - (windowWidth / 2 / SCALE_FACTOR / 2);
-			float y = j * 2 - (windowHeight / 2 / SCALE_FACTOR / 2);
+			float x = i - (windowWidth / 2 / SCALE_FACTOR / 2);
+			float y = j - (windowHeight / 2 / SCALE_FACTOR / 2);
 			if (Tnum > 0) {
 				AddMatter(teacher, x, y, ort(0), ort(1));
 				Tnum--;
@@ -73,10 +73,12 @@ Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
 	// transient phase
 	if (transientEnabled) {
 		while (t < 10) {
-			std::vector<float> tempAction(n);
-			std::vector<float> tempReward(n);
-			std::vector<float> tempAW(n);
-			Step(tempAction, tempReward, tempAW);
+			for (int i = 0; i < matters.size(); i++) {
+				Matter &p = matters[i];
+				Movement(p, 0);
+			}
+			t += dt;
+			prevMatters = matters;
 		}
 		t = 0;
 	}
@@ -85,7 +87,7 @@ Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
 std::vector<float> Environment::ReturnState()
 {
 	std::vector<float> state;
-	for (int i = teacherCount; i < matters.size(); i++) {
+	for (int i = n_t; i < matters.size(); i++) {
 		Matter &p = matters[i];
 
 		int inRangeCount = 0;
@@ -122,14 +124,14 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 	for (int i = 0; i < matters.size(); i++) {
 		Matter &p = matters[i];
 		float a = 0;
-		if(p.type == learner) a = actionList[i-teacherCount];
+		if(p.type == learner) a = actionList[i-n_t];
 		Movement(p, a);
 	}
 
 	t += dt;
 	prevMatters = matters;
 
-	for (int i = teacherCount; i < matters.size(); i++) {
+	for (int i = n_t; i < matters.size(); i++) {
 		Matter &p = matters[i];
 
 		#pragma region Compute reward by neighbour lost
@@ -147,17 +149,18 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 				inRangeCount++;
 		}
 
-		if (inRangeCount < p.neighbourCount)
-			rewardList[i-teacherCount] = (inRangeCount - p.neighbourCount)*c;
+		/*if (inRangeCount < p.neighbourCount)
+			rewardList[i-n_t] = (inRangeCount - p.neighbourCount)*c;
 		else
-			rewardList[i-teacherCount] = 0;
+			rewardList[i-n_t] = 0;*/
 		p.neighbourCount = inRangeCount;
 		#pragma endregion
 
 		#pragma region Compute active work
-		Vector2f r(p.pos[0] + p.posMultiplier[0] * scaledWindowWidth, p.pos[1] + p.posMultiplier[1] * scaledWindowHeight);
+		Vector2f r(p.pos_aw[0], p.pos_aw[1]);
 		Vector2f u(p.ort[0], p.ort[1]);
-		activeWorkList[i - teacherCount] = r.dot(u);
+		activeWorkList[i - n_t] += dt * (r.dot(u));
+		rewardList[i - n_t] = dt * (r.dot(u));
 		#pragma endregion
 	}
 	return ReturnState();
@@ -216,6 +219,10 @@ void Environment::Movement(Matter &p, float action) {
 	r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
 	//r = r + dt * (mu * F) + dt * (p.v * u);
 
+	Vector2f r_aw(p.pos[0], p.pos[1]);
+	r_aw = (mu * F) + (p.v * u) + (transDifCoef * tranNoise);
+	r_aw = (mu * F) + (p.v * u);
+
 	#pragma region PBC Logic
 	if (r(0) < -scaledWindowWidth / 2) {
 		r(0) += scaledWindowWidth;
@@ -236,6 +243,8 @@ void Environment::Movement(Matter &p, float action) {
 
 	p.pos[0] = r(0);
 	p.pos[1] = r(1);
+	p.pos_aw[0] = r_aw(0);
+	p.pos_aw[1] = r_aw(1);
 	p.ort[0] = u(0);
 	p.ort[1] = u(1);
 }

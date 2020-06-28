@@ -10,6 +10,7 @@
 #include <Eigen/Dense>
 #include <fstream>
 #include <ctime>
+#include <direct.h>
 
 void trainTimer(int = 0);
 void resultTimer(int = 0);
@@ -17,6 +18,9 @@ void display();
 void keyboard(unsigned char, int, int);
 void drawMatter(Matter, float = 0, float = 0);
 float returnActiveWork();
+std::string initSimulationData(int);
+void saveSimulationData(std::string, int);
+void updateSimulationResult(std::string, float);
 
 extern float windowWidth;
 extern float windowHeight;
@@ -26,18 +30,19 @@ extern float scaledWindowHeight;
 extern float t;
 extern float dt;
 extern int n;
+extern int n_t;
 
 int currentEpisode = 1;
 int totalEpisode = 1000;
 float T = 100; // Total Timestep
-bool isLearning = false;
-bool displayEnabled = true;
+bool isLearning = true;
+bool displayEnabled = false;
 
 int WIN;
 int startTime = time(NULL);
 
-Environment env = Environment(1, 32, false);
-Agent agent = Agent(0.01, 1, 10,  0, 0.9);
+Environment env = Environment(64, 0, false);
+Agent agent = Agent(0.1, 1, 10,  0, 0.9);
 
 std::vector<float> currentState = env.ReturnState();
 std::vector<int> actionID(n);
@@ -66,19 +71,22 @@ int main(int argc, char **argv)
 		if (isLearning) {
 			trainTimer();
 		} else {
-			agent.LoadQTable("test.csv");
-			agent.LoadDTable();
-			agent.LoadSVTable();
-			agent.LoadTPMatrix();
+			agent.LoadQTable("QTable");
+			agent.LoadDTable("DTable");
+			agent.LoadSVTable("SVTable");
+			agent.LoadTPMatrix("TPMatrix");
 			agent.setEpsilon(0);
 			resultTimer();
 		}
 		glutMainLoop();
 	} else {
+		std::string dir = initSimulationData(startTime);
 		while (currentEpisode <= totalEpisode) {
 			int currentTime = time(NULL);
-			env = Environment(1, 32);
+			env = Environment(64, 0);
 			currentState = env.ReturnState();
+			std::cout << "current epsilon is : " << agent.returnEpsilon() << std::endl;
+			std::cout << "current learning rate is : " << agent.returnLearningRate() << std::endl;
 			std::cout << "episode started: " << currentEpisode << std::endl;
 
 			while (t < T)
@@ -98,17 +106,15 @@ int main(int argc, char **argv)
 			std::fill(activeWork.begin(), activeWork.end(), 0);
 			agent.UpdateTPMatrix();
 			agent.UpdateEpsilonDecay(currentEpisode, totalEpisode);
+			agent.UpdateLearningRateDecay(currentEpisode, totalEpisode);
 			std::cout << "episode ended: " << currentEpisode << std::endl;
-			std::cout << "epsilon is : " << agent.returnEpsilon() << std::endl;
-			std::cout << "active work is : " << normActiveWork << std::endl;
 			std::cout << "seconds used : " << time(NULL) - currentTime << std::endl;
+			std::cout << "active work is : " << normActiveWork << std::endl;
 			std::cout << "------------------------" << std::endl;
+			saveSimulationData(dir, currentEpisode);
+			updateSimulationResult(dir, normActiveWork);
 			currentEpisode++;
 			t = 0;
-			agent.SaveQTable("test.csv");
-			agent.SaveSVTable();
-			agent.SaveDTable();
-			agent.SaveTPMatrix();
 		}
 	}
 	std::cin.get();
@@ -124,7 +130,6 @@ void trainTimer(int)
 	agent.UpdateQTable(currentState, actionID, reward, newState);
 	agent.UpdateEpsilonDecay(t, T*100);
 	currentState = newState;
-
 	glutTimerFunc(1, trainTimer, 0);
 }
 
@@ -199,6 +204,77 @@ void drawMatter(Matter p, float transformX, float transformY) {
 	glPopMatrix();
 }
 
+std::string initSimulationData(int time) {
+	int check;
+	std::string dir = "data\\";
+	std::string dirHead = "data_";
+	std::string propFileName = "properties.txt";
+	dir = dir + dirHead + std::to_string(time);
+	check = _mkdir(dir.c_str());
+
+	if (!check)
+		std::cout << "Directory created: " << dir << std::endl;
+	else {
+		std::cout << "Failed to created directory: " << dir << std::endl;
+		exit(1);
+	}
+
+	std::ofstream outFile(dir + "\\" + propFileName);
+	outFile << "time step = " << dt << '\n';
+	outFile << "total time step = " << T << '\n';
+	outFile << "total episode = " << totalEpisode << '\n';
+	outFile << "learning rate = " << agent.learningRate << '\n';
+	outFile << "learning rate decay = " << agent.learningRateDecay << '\n';
+	outFile << "epsilon = " << agent.epsilon << '\n';
+	outFile << "epsilon decay = " << agent.epsilonDecay << '\n';
+	outFile << "discount factor = " << agent.discountFactor << '\n';
+	outFile << "noise = " << '\n';
+	outFile << "range = " << '\n';
+	outFile << "density = " << '\n';
+	outFile << "learner count = " << n << '\n';
+	outFile << "teacher count = " << n_t << '\n';
+	outFile.close();
+
+	return dir;
+}
+
+void saveSimulationData(std::string dir, int episode) {
+	int check = 0;
+	std::string subDir = "ep_";
+	dir = dir + "\\" + subDir + std::to_string(episode);
+	check = _mkdir(dir.c_str());
+
+	if (!check)
+		std::cout << "Directory created: " << dir << std::endl;
+	else {
+		std::cout << "Failed to created directory: " << dir << std::endl;
+		exit(1);
+	}
+
+	agent.SaveQTable((dir + "\\" + "QTable").c_str());
+	agent.SaveSVTable((dir + "\\" + "SVTable").c_str());
+	agent.SaveDTable((dir + "\\" + "DTable").c_str());
+	agent.SaveTPMatrix((dir + "\\" + "TPMatrix").c_str());
+}
+
+void updateSimulationResult(std::string dir, float activeWork) {
+	std::string resultFileName = "result.csv";
+	dir = dir + "\\" + resultFileName;
+	//if (!std::ifstream(dir))
+	//{
+	//	int check = _mkdir(dir.c_str());
+	//	if (!check)
+	//		std::cout << "Directory created: " << dir << std::endl;
+	//	else {
+	//		std::cout << "Failed to created directory: " << dir << std::endl;
+	//		exit(1);
+	//	}
+	//}
+	std::ofstream outFile(dir, std::ofstream::app);
+	outFile << activeWork << '\n';
+	outFile.close();
+}
+
 void keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
@@ -219,8 +295,8 @@ void keyboard(unsigned char key, int x, int y)
 				}
 				std::cout << std::endl << "----------------------------" << std::endl;
 			}
-			agent.SaveQTable("test.csv");
-			agent.SaveSVTable();
+			agent.SaveQTable("QTable");
+			agent.SaveSVTable("SVTable");
 			std::cin.get();
 			break;
 		}
@@ -243,7 +319,7 @@ void keyboard(unsigned char key, int x, int y)
 		case 52: {
 			// "4"
 			std::cout << "Loading Q Table from CSV..." << std::endl;
-			agent.LoadQTable("test.csv");
+			agent.LoadQTable("QTable");
 			break;
 		}
 	}

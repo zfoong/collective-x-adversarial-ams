@@ -9,15 +9,6 @@
 #include <fstream>
 #include <sstream>
 
-const float RADIANS = M_PI * 2;
-float learningRate = 0.1;
-float discountFactor = 0.2;
-float minEpsilon = 0;
-float maxEpsilon = 1;
-float epsilon = 1;
-float epsilonDecay = 0.1;
-float radiansPiece = RADIANS / (float)pieces;
-
 int argmax(float*, int);
 float arrmax(float*, int);
 int StateToIndex(float);
@@ -27,6 +18,7 @@ float IndexToAction(int);
 Agent::Agent(float lr, float ep, float epDecay, float epMin, float df)
 {
 	learningRate = lr;
+	maxlr = learningRate;
 	epsilon = ep;
 	epsilonDecay = epDecay;
 	minEpsilon = epMin;
@@ -93,12 +85,24 @@ void Agent::UpdateEpsilonDecay(float t, float totalTime) {
 	epsilon = minEpsilon + (maxEpsilon - minEpsilon) * exp(-epsilonDecay * t / totalTime);
 }
 
+void Agent::UpdateLearningRateDecay(float t, float totalTime) {
+	learningRate = minlr + (maxlr - minlr) * exp(-learningRateDecay * t / totalTime);
+}
+
 void Agent::setEpsilon(float ep) {
 	epsilon = ep;
 }
 
 float Agent::returnEpsilon() {
 	return epsilon;
+}
+
+void Agent::setLearningRate(float lr) {
+	learningRate = lr;
+}
+
+float Agent::returnLearningRate() {
+	return learningRate;
 }
 
 int argmax(float *arr, int size) {
@@ -112,22 +116,24 @@ float arrmax(float *arr, int size) {
 	return max;
 }
 
-int StateToIndex(float state) {
+int Agent::StateToIndex(float state) {
 	state += M_PI;
 	return floor(state / radiansPiece);
 }
 
-int ActionToIndex(float state) {
+int Agent::ActionToIndex(float state) {
 	state += M_PI;
 	return floor(state / radiansPiece);
 }
 
-float IndexToAction(int index) {
+float Agent::IndexToAction(int index) {
 	return (radiansPiece * index) - M_PI;
 }
 
 void Agent::SaveQTable(const char* path) {
-	std::ofstream outFile(path);
+	std::string fileExt = ".csv";
+	std::string filePath = path + fileExt;
+	std::ofstream outFile(filePath);
 	for (auto& row : QTable) {	
 		for (auto col : row)
 			outFile << col << ',';
@@ -135,19 +141,23 @@ void Agent::SaveQTable(const char* path) {
 	}
 }
 
-void Agent::SaveSVTable() {
-	std::ofstream outFile("svtable.csv");
+void Agent::SaveSVTable(const char* path) {
+	std::string fileExt = ".csv";
+	std::string filePath = path + fileExt;
+	std::ofstream outFile(filePath);
 	for (auto& row : SVTable) {
 			outFile << row << '\n';
 	}
 }
 
-void Agent::SaveTPMatrix() {
-	FILE* pFile = fopen("tpmatrix", "wb");
+void Agent::SaveTPMatrix(const char* path) {
+	std::string fileExt = ".csv";
+	std::string filePath = path + fileExt;
+	FILE* pFile = fopen(path, "wb");
 	fwrite(TPMatrix, sizeof(TPMatrix), 1, pFile);
 	fclose(pFile);
 
-	std::ofstream outFile("tpmatrix.csv");
+	std::ofstream outFile(filePath);
 	int n_d1 = sizeof(TPMatrix) / sizeof(*TPMatrix);
 	int n_d2 = sizeof(TPMatrix[n_d1]) / sizeof(*TPMatrix[n_d1]);
 	int n_d3 = sizeof(TPMatrix[n_d1][n_d2]) / sizeof(*TPMatrix[n_d1][n_d2]);
@@ -163,12 +173,14 @@ void Agent::SaveTPMatrix() {
 	}
 }
 
-void Agent::SaveDTable() {
-	FILE* pFile = fopen("dtable", "wb");
+void Agent::SaveDTable(const char* path) {
+	std::string fileExt = ".csv";
+	std::string filePath = path + fileExt;
+	FILE* pFile = fopen(path, "wb");
 	fwrite(DTable, sizeof(DTable), 1, pFile);
 	fclose(pFile);
 
-	std::ofstream outFile("dtable.csv");
+	std::ofstream outFile(filePath);
 	int n_d1 = sizeof(DTable) / sizeof(*DTable);
 	int n_d2 = sizeof(DTable[n_d1]) / sizeof(*DTable[n_d1]);
 	int n_d3 = sizeof(DTable[n_d1][n_d2]) / sizeof(*DTable[n_d1][n_d2]);
@@ -185,8 +197,10 @@ void Agent::SaveDTable() {
 }
 
 void Agent::LoadQTable(const char* path) {
-	std::cout << "loading Q table from " << path << std::endl;
-	std::ifstream file(path);
+	std::string fileExt = ".csv";
+	std::string filePath = path + fileExt;
+	std::cout << "loading Q table from " << filePath << std::endl;
+	std::ifstream file(filePath);
 	for (int row = 0; row < pieces; row++)
 	{
 		std::string line;
@@ -202,9 +216,11 @@ void Agent::LoadQTable(const char* path) {
 	}
 }
 
-void Agent::LoadSVTable() {
+void Agent::LoadSVTable(const char* path) {
+	std::string fileExt = ".csv";
+	std::string filePath = path + fileExt;
 	std::cout << "loading SV Table from svtable.csv" << std::endl;
-	std::ifstream file("svtable.csv");
+	std::ifstream file(filePath);
 	for (int row = 0; row < pieces; row++)
 	{
 		std::string line;
@@ -214,14 +230,14 @@ void Agent::LoadSVTable() {
 	}
 }
 
-void Agent::LoadTPMatrix() {
-	FILE* pFile = fopen("tpmatrix", "rb");
+void Agent::LoadTPMatrix(const char* path) {
+	FILE* pFile = fopen(path, "rb");
 	fread(TPMatrix, sizeof(TPMatrix), 1, pFile);
 	fclose(pFile);
 }
 
-void Agent::LoadDTable() {
-	FILE* pFile = fopen("dtable", "rb");
+void Agent::LoadDTable(const char* path) {
+	FILE* pFile = fopen(path, "rb");
 	fread(DTable, sizeof(DTable), 1, pFile);
 	fclose(pFile);
 }
