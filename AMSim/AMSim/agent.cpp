@@ -8,12 +8,11 @@
 #include <algorithm> 
 #include <fstream>
 #include <sstream>
+#include <functional>
+#include <numeric>
 
 int argmax(float*, int);
 float arrmax(float*, int);
-int StateToIndex(float);
-int ActionToIndex(float);
-float IndexToAction(int);
 
 Agent::Agent(float lr, float ep, float epDecay, float epMin, float df)
 {
@@ -35,6 +34,14 @@ void Agent::UpdateQTable(float state, int actionID, float reward, float newState
 	// QTable[stateID][actionID] += learningRate * (reward + discountFactor * QTable[newStateID][newActionID] - QTable[stateID][actionID]);
 }
 
+void Agent::SortStateValueList() {
+	std::vector<int> V(pieces);
+	std::iota(V.begin(), V.end(), 0);
+	sort(V.begin(), V.end(), [&](int i, int j) {return SVTable[i]>SVTable[j]; });
+	for (int k = 0; k < V.size(); k++)
+		sortedSVTable[k] = V[k];
+}
+
 void Agent::UpdateTPMatrix() {
 	int n_d1 = sizeof(TPMatrix) / sizeof(*TPMatrix);
 	int n_d2 = sizeof(TPMatrix[n_d1]) / sizeof(*TPMatrix[n_d1]);
@@ -45,7 +52,7 @@ void Agent::UpdateTPMatrix() {
 			for (int k = 0; k < n_d2; k++) {
 				actionTotal += DTable[j][k][i];
 			}
-			for (int k = 0; k < n_d3; k++) {
+			for (int k = 0; k < n_d2; k++) {
 				TPMatrix[j][k][i] = (float)DTable[j][k][i] / (float)actionTotal;
 			}
 		}
@@ -63,13 +70,28 @@ float Agent::ReturnAction(float state, int &actionID) {
 	int count = sizeof(QTable[stateID]) / sizeof(*QTable[stateID]);
 	if (epsilon >= ((double)rand() / (RAND_MAX))) {
 		actionID = rand() % count;
-	}
-	else {
-		int optimumStateID = argmax(SVTable, count);
-		actionID = argmax(TPMatrix[stateID][optimumStateID], count);
-		//actionID = argmax(QTable[stateID], count);
-	}
+	} else {
+		//TP-matrix
+		//int optimumStateID = argmax(SVTable, count);
+		//actionID = argmax(TPMatrix[stateID][optimumStateID], count);
+		float thr = 0.1;
+		int index = 0;
+		int SVTableCount = sizeof(sortedSVTable) / sizeof(sortedSVTable[0]);
+		while (index < SVTableCount) {
+			int optimumStateID = sortedSVTable[index];
+			actionID = argmax(TPMatrix[stateID][optimumStateID], count);
+			if (TPMatrix[stateID][optimumStateID][actionID] > thr) {
+				return -(IndexToAction(actionID));
+			}
+			else {
+				index++;
+			}
+		}
+		actionID = rand() % count;
 
+		// Q-learning
+		// actionID = argmax(QTable[stateID], count);
+	}
 	return -(IndexToAction(actionID)); // append negative sign to flip orientation
 }
 
@@ -187,7 +209,7 @@ void Agent::SaveDTable(const char* path) {
 	for (int i = 0; i < n_d3; i++) {
 		for (int j = 0; j < n_d1; j++) {
 			for (int k = 0; k < n_d2; k++) {
-				outFile << DTable[k][j][i] << ',';
+				outFile << DTable[j][k][i] << ',';
 			}
 			outFile << '\n';
 		}

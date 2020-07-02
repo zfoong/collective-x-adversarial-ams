@@ -17,13 +17,13 @@ const float V = 1;
 
 struct Matter {
 	float pos[2];
-	float pos_aw[2];
 	int posMultiplier[2] = {0}; // Global position multiplier
 	float r = RADIUS; // radius, setting to const for now
 	float v = V;
 	float m = MASS; // mass of matter
 	float ort[2];
 	int neighbourCount = 0;
+	float acmlActiveWork = 0;
 	MatterType type = teacher;
 };
 
@@ -33,7 +33,8 @@ public:
 	std::vector<Matter> prevMatters;
 	std::vector<Matter> matters;
 	std::vector<float> ReturnState();
-	std::vector<float> Step(std::vector<float>, std::vector<float>&, std::vector<float>&);
+	std::vector<float> Step(std::vector<float>, std::vector<float>&);
+	float Environment::returnActiveWork();
 	void Movement(Matter&, float);
 	void Display();
 	virtual ~Environment();

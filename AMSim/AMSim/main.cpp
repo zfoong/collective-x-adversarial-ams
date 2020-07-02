@@ -17,7 +17,6 @@ void resultTimer(int = 0);
 void display();
 void keyboard(unsigned char, int, int);
 void drawMatter(Matter, float = 0, float = 0);
-float returnActiveWork();
 std::string initSimulationData(int);
 void saveSimulationData(std::string, int);
 void updateSimulationResult(std::string, float);
@@ -41,15 +40,14 @@ bool displayEnabled = false;
 int WIN;
 int startTime = time(NULL);
 
-Environment env = Environment(64, 0, false);
-Agent agent = Agent(0.1, 1, 10,  0, 0.9);
+Environment env = Environment(81, 0, true);
+Agent agent = Agent(0.05, 1, 10,  0, 0.9);
 
 std::vector<float> currentState = env.ReturnState();
 std::vector<int> actionID(n);
 std::vector<float> reward(n);
 std::vector<float> newState(n);
 std::vector<float> action(n);
-std::vector<float> activeWork(n);
 
 int main(int argc, char **argv)
 {
@@ -76,6 +74,7 @@ int main(int argc, char **argv)
 			agent.LoadSVTable("SVTable");
 			agent.LoadTPMatrix("TPMatrix");
 			agent.setEpsilon(0);
+			agent.SortStateValueList();
 			resultTimer();
 		}
 		glutMainLoop();
@@ -83,7 +82,7 @@ int main(int argc, char **argv)
 		std::string dir = initSimulationData(startTime);
 		while (currentEpisode <= totalEpisode) {
 			int currentTime = time(NULL);
-			env = Environment(64, 0);
+			env = Environment(81, 0);
 			currentState = env.ReturnState();
 			std::cout << "current epsilon is : " << agent.returnEpsilon() << std::endl;
 			std::cout << "current learning rate is : " << agent.returnLearningRate() << std::endl;
@@ -92,18 +91,18 @@ int main(int argc, char **argv)
 			while (t < T)
 			{
 				action = agent.ReturnAction(currentState, actionID);
-				newState = env.Step(action, reward, activeWork);
+				newState = env.Step(action, reward);
 				agent.UpdateQTable(currentState, actionID, reward, newState);
 				currentState = newState;
 
-				if (agent.returnEpsilon() < 0.1) {
+				/*if (agent.returnEpsilon() < 0.1) {
 					std::cout << "Epsilon < 1 " << std::endl;
 					std::cin.get();
-				}
+				}*/
 			}
 
-			float normActiveWork = returnActiveWork();
-			std::fill(activeWork.begin(), activeWork.end(), 0);
+			float normActiveWork = env.returnActiveWork();
+			agent.SortStateValueList();
 			agent.UpdateTPMatrix();
 			agent.UpdateEpsilonDecay(currentEpisode, totalEpisode);
 			agent.UpdateLearningRateDecay(currentEpisode, totalEpisode);
@@ -126,7 +125,7 @@ void trainTimer(int)
 	display();
 
 	action = agent.ReturnAction(currentState, actionID);
-	newState = env.Step(action, reward, activeWork);
+	newState = env.Step(action, reward);
 	agent.UpdateQTable(currentState, actionID, reward, newState);
 	agent.UpdateEpsilonDecay(t, T*100);
 	currentState = newState;
@@ -137,17 +136,15 @@ void resultTimer(int) {
 	display();
 
 	action = agent.ReturnAction(currentState, actionID);
-	newState = env.Step(action, reward, activeWork);
+	newState = env.Step(action, reward);
+
+	std::cout << "state is " << newState[0] << std::endl;
+	std::cout << "action is " << action[0] << std::endl;
+	std::cin.get();
+
 	currentState = newState;
 
 	glutTimerFunc(1, resultTimer, 0);
-}
-
-float returnActiveWork() {
-	float totalActiveWork = 0;
-	for each (float work in activeWork)
-		totalActiveWork += work;
-	return (1 / (n*t)) * totalActiveWork;
 }
 
 void display()
@@ -305,7 +302,7 @@ void keyboard(unsigned char key, int x, int y)
 			std::cout << "Print agent status:" << std::endl;
 			std::cout << "----------------------------" << std::endl;
 			std::cout << "current epsilon: " << agent.returnEpsilon() << std::endl;
-			std::cout << "current active work : " << returnActiveWork() << std::endl;
+			std::cout << "current active work : " << env.returnActiveWork() << std::endl;
 			std::cout << "seconds passed: " << std::to_string(time(NULL) - startTime) << std::endl;
 			std::cout << "----------------------------" << std::endl;
 			break;

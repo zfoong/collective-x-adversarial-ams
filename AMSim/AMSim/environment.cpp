@@ -119,7 +119,7 @@ std::vector<float> Environment::ReturnState()
 	return state;
 }
 
-std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<float> &rewardList, std::vector<float> &activeWorkList)
+std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<float> &rewardList)
 {
 	for (int i = 0; i < matters.size(); i++) {
 		Matter &p = matters[i];
@@ -156,13 +156,14 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 		p.neighbourCount = inRangeCount;
 		#pragma endregion
 
-		#pragma region Compute active work
-		Vector2f r(p.pos_aw[0], p.pos_aw[1]);
-		Vector2f u(p.ort[0], p.ort[1]);
-		activeWorkList[i - n_t] += dt * (r.dot(u));
-		rewardList[i - n_t] = dt * (r.dot(u));
-		#pragma endregion
 	}
+
+	#pragma region Compute active work
+	float normActiveWork =  returnActiveWork();
+	float powActiveWork = powf(normActiveWork*10, 2);
+	std::fill(rewardList.begin(), rewardList.end(), powActiveWork);
+	#pragma endregion
+
 	return ReturnState();
 }
 
@@ -219,9 +220,12 @@ void Environment::Movement(Matter &p, float action) {
 	r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
 	//r = r + dt * (mu * F) + dt * (p.v * u);
 
+	#pragma region Compute active work
 	Vector2f r_aw(p.pos[0], p.pos[1]);
 	r_aw = (mu * F) + (p.v * u) + (transDifCoef * tranNoise);
-	r_aw = (mu * F) + (p.v * u);
+	//r_aw = (mu * F) + (p.v * u);
+	p.acmlActiveWork += dt * (r_aw.dot(u));
+	#pragma endregion
 
 	#pragma region PBC Logic
 	if (r(0) < -scaledWindowWidth / 2) {
@@ -243,8 +247,6 @@ void Environment::Movement(Matter &p, float action) {
 
 	p.pos[0] = r(0);
 	p.pos[1] = r(1);
-	p.pos_aw[0] = r_aw(0);
-	p.pos_aw[1] = r_aw(1);
 	p.ort[0] = u(0);
 	p.ort[1] = u(1);
 }
@@ -288,6 +290,15 @@ float RadiansDifference(float radA, float radB) {
 	if ((radA - radB >= 0 && radA - radB <= M_PI) || (radA - radB <= -M_PI && radA - radB >= -M_PI*2)) 
 		return r;
 	return -r;
+}
+
+float Environment::returnActiveWork() {
+	float totalActiveWork = 0;
+	for (int i = n_t; i < matters.size(); i++) {
+		Matter &p = matters[i];
+		totalActiveWork += p.acmlActiveWork;
+	}
+	return (1 / (n*t)) * totalActiveWork;
 }
 
 void Environment::Display()
