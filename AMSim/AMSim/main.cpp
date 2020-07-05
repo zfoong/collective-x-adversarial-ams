@@ -20,6 +20,7 @@ void drawMatter(Matter, float = 0, float = 0);
 std::string initSimulationData(int);
 void saveSimulationData(std::string, int);
 void updateSimulationResult(std::string, float);
+void updateEpsilon(std::string, float);
 
 extern float windowWidth;
 extern float windowHeight;
@@ -40,14 +41,21 @@ bool displayEnabled = false;
 int WIN;
 int startTime = time(NULL);
 
-Environment env = Environment(81, 0, true);
-Agent agent = Agent(0.05, 1, 10,  0, 0.9);
+Environment env = Environment(50, 50, true);
+Agent agent = Agent(0.1, 1, 10,  0, 0.9);
 
 std::vector<float> currentState = env.ReturnState();
 std::vector<int> actionID(n);
 std::vector<float> reward(n);
 std::vector<float> newState(n);
 std::vector<float> action(n);
+
+std::vector<std::vector<float>> currentStateList(n);
+std::vector<std::vector<int>> actionIDList(n);
+std::vector<std::vector<float>> rewardList(n);
+std::vector<std::vector<float>> newStateList(n);
+
+int bufferSize = 100;
 
 int main(int argc, char **argv)
 {
@@ -82,7 +90,7 @@ int main(int argc, char **argv)
 		std::string dir = initSimulationData(startTime);
 		while (currentEpisode <= totalEpisode) {
 			int currentTime = time(NULL);
-			env = Environment(81, 0);
+			env = Environment(50, 50);
 			currentState = env.ReturnState();
 			std::cout << "current epsilon is : " << agent.returnEpsilon() << std::endl;
 			std::cout << "current learning rate is : " << agent.returnLearningRate() << std::endl;
@@ -92,26 +100,43 @@ int main(int argc, char **argv)
 			{
 				action = agent.ReturnAction(currentState, actionID);
 				newState = env.Step(action, reward);
-				agent.UpdateQTable(currentState, actionID, reward, newState);
+
+				currentStateList.push_back(currentState);
+				actionIDList.push_back(actionID);
+				rewardList.push_back(reward);
+				newStateList.push_back(newState);
+
 				currentState = newState;
 
-				/*if (agent.returnEpsilon() < 0.1) {
-					std::cout << "Epsilon < 1 " << std::endl;
-					std::cin.get();
-				}*/
+				if (currentStateList.size() >= bufferSize) {
+					for (int i = 0; i < currentStateList.size(); i++) {
+						std::vector<float> _currentState = currentStateList[i];
+						std::vector<int> _actionID = actionIDList[i];
+						std::vector<float> _reward = rewardList[i];
+						std::vector<float> _newState = newStateList[i];
+						agent.UpdateQTable(_currentState, _actionID, _reward, _newState);
+						agent.SortStateValueList();
+						agent.UpdateTPMatrix();
+					}
+					currentStateList.clear();
+					actionIDList.clear();
+					rewardList.clear();
+					newStateList.clear();
+				}
 			}
 
 			float normActiveWork = env.returnActiveWork();
-			agent.SortStateValueList();
-			agent.UpdateTPMatrix();
+			float currentNormActiveWork = env.returnCurrentActiveWork();
 			agent.UpdateEpsilonDecay(currentEpisode, totalEpisode);
-			agent.UpdateLearningRateDecay(currentEpisode, totalEpisode);
+			//agent.UpdateLearningRateDecay(currentEpisode, totalEpisode);
 			std::cout << "episode ended: " << currentEpisode << std::endl;
 			std::cout << "seconds used : " << time(NULL) - currentTime << std::endl;
 			std::cout << "active work is : " << normActiveWork << std::endl;
+			std::cout << "current active work is : " << currentNormActiveWork << std::endl;
 			std::cout << "------------------------" << std::endl;
 			saveSimulationData(dir, currentEpisode);
 			updateSimulationResult(dir, normActiveWork);
+			updateEpsilon(dir, agent.returnEpsilon());
 			currentEpisode++;
 			t = 0;
 		}
@@ -137,10 +162,6 @@ void resultTimer(int) {
 
 	action = agent.ReturnAction(currentState, actionID);
 	newState = env.Step(action, reward);
-
-	std::cout << "state is " << newState[0] << std::endl;
-	std::cout << "action is " << action[0] << std::endl;
-	std::cin.get();
 
 	currentState = newState;
 
@@ -228,8 +249,10 @@ std::string initSimulationData(int time) {
 	outFile << "noise = " << '\n';
 	outFile << "range = " << '\n';
 	outFile << "density = " << '\n';
+	outFile << "reward func = " << '\n';
 	outFile << "learner count = " << n << '\n';
 	outFile << "teacher count = " << n_t << '\n';
+	outFile << "remark = ''" << '\n';
 	outFile.close();
 
 	return dir;
@@ -257,18 +280,16 @@ void saveSimulationData(std::string dir, int episode) {
 void updateSimulationResult(std::string dir, float activeWork) {
 	std::string resultFileName = "result.csv";
 	dir = dir + "\\" + resultFileName;
-	//if (!std::ifstream(dir))
-	//{
-	//	int check = _mkdir(dir.c_str());
-	//	if (!check)
-	//		std::cout << "Directory created: " << dir << std::endl;
-	//	else {
-	//		std::cout << "Failed to created directory: " << dir << std::endl;
-	//		exit(1);
-	//	}
-	//}
 	std::ofstream outFile(dir, std::ofstream::app);
 	outFile << activeWork << '\n';
+	outFile.close();
+}
+
+void updateEpsilon(std::string dir, float epsilon) {
+	std::string resultFileName = "epsilon.csv";
+	dir = dir + "\\" + resultFileName;
+	std::ofstream outFile(dir, std::ofstream::app);
+	outFile << epsilon << '\n';
 	outFile.close();
 }
 
@@ -302,7 +323,8 @@ void keyboard(unsigned char key, int x, int y)
 			std::cout << "Print agent status:" << std::endl;
 			std::cout << "----------------------------" << std::endl;
 			std::cout << "current epsilon: " << agent.returnEpsilon() << std::endl;
-			std::cout << "current active work : " << env.returnActiveWork() << std::endl;
+			std::cout << "total active work : " << env.returnActiveWork() << std::endl;
+			std::cout << "current active work : " << env.returnCurrentActiveWork() << std::endl;
 			std::cout << "seconds passed: " << std::to_string(time(NULL) - startTime) << std::endl;
 			std::cout << "----------------------------" << std::endl;
 			break;

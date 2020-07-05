@@ -27,11 +27,14 @@ Agent::Agent(float lr, float ep, float epDecay, float epMin, float df)
 void Agent::UpdateQTable(float state, int actionID, float reward, float newState) {
 	int stateID = StateToIndex(state);
 	int newStateID = StateToIndex(newState);
-	QTable[stateID][actionID] += learningRate * (reward - QTable[stateID][actionID]);
+
+	//float lr = learningRate * (1 - ((float)DSATable[stateID][actionID] / (float)N));
+	//QTable[stateID][actionID] += lr * (reward + discountFactor * arrmax(QTable[newStateID], sizeof(QTable[newStateID])) - QTable[stateID][actionID]);
+	//QTable[stateID][actionID] += lr * (reward - QTable[stateID][actionID]);
 	SVTable[stateID] += learningRate * (reward - SVTable[stateID]);
 	DTable[stateID][newStateID][actionID]++;
-	// QTable[stateID][actionID] += learningRate * (reward + discountFactor * arrmax(QTable[newStateID], sizeof(QTable[newStateID])) - QTable[stateID][actionID]);
-	// QTable[stateID][actionID] += learningRate * (reward + discountFactor * QTable[newStateID][newActionID] - QTable[stateID][actionID]);
+	//DSATable[stateID][actionID]++;
+	//N++;
 }
 
 void Agent::SortStateValueList() {
@@ -40,6 +43,12 @@ void Agent::SortStateValueList() {
 	sort(V.begin(), V.end(), [&](int i, int j) {return SVTable[i]>SVTable[j]; });
 	for (int k = 0; k < V.size(); k++)
 		sortedSVTable[k] = V[k];
+}
+
+void Agent::UpdateQTable(std::vector<float> stateList, std::vector<int> actionIDList, std::vector<float> rewardList, std::vector<float> newStateList) {
+	for (int i = 0; i < stateList.size(); i++) {
+		UpdateQTable(stateList[i], actionIDList[i], rewardList[i], newStateList[i]);
+	}
 }
 
 void Agent::UpdateTPMatrix() {
@@ -56,12 +65,6 @@ void Agent::UpdateTPMatrix() {
 				TPMatrix[j][k][i] = (float)DTable[j][k][i] / (float)actionTotal;
 			}
 		}
-	}
-}
-
-void Agent::UpdateQTable(std::vector<float> stateList, std::vector<int> actionIDList, std::vector<float> rewardList, std::vector<float> newStateList) {
-	for (int i = 0; i < stateList.size(); i++) {
-		UpdateQTable(stateList[i], actionIDList[i], rewardList[i], newStateList[i]);
 	}
 }
 
@@ -87,10 +90,9 @@ float Agent::ReturnAction(float state, int &actionID) {
 				index++;
 			}
 		}
-		actionID = rand() % count;
 
 		// Q-learning
-		// actionID = argmax(QTable[stateID], count);
+		//actionID = argmax(QTable[stateID], count);
 	}
 	return -(IndexToAction(actionID)); // append negative sign to flip orientation
 }

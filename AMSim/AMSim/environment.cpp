@@ -80,6 +80,10 @@ Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
 			t += dt;
 			prevMatters = matters;
 		}
+		for (int i = 0; i < matters.size(); i++) {
+			Matter &p = matters[i];
+			p.acmlActiveWork = 0;
+		}
 		t = 0;
 	}
 }
@@ -159,9 +163,13 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 	}
 
 	#pragma region Compute active work
-	float normActiveWork =  returnActiveWork();
-	float powActiveWork = powf(normActiveWork*10, 2);
+	float normActiveWork =  returnCurrentActiveWork();
+	float powActiveWork = powf((normActiveWork/dt)*10, 2);
 	std::fill(rewardList.begin(), rewardList.end(), powActiveWork);
+	//for (int i = n_t; i < matters.size(); i++) {
+	//	Matter &p = matters[i];
+	//	rewardList[i - n_t] += p.acmlActiveWork/t;
+	//}
 	#pragma endregion
 
 	return ReturnState();
@@ -207,24 +215,26 @@ void Environment::Movement(Matter &p, float action) {
 		float radDiff = RadiansDifference(atan2(orty, ortx), rad);
 		if (ortx == 0 && orty == 0)
 			radDiff = 0;
-		theta = rad + radDiff * dt + sqrt(dt) * (rotDifCoef * eta);
-		//theta = rad + radDiff * dt;
+		//theta = rad + radDiff * dt + sqrt(dt) * (rotDifCoef * eta);
+		theta = rad + radDiff * dt;
 	}
 	else {
-		theta = rad + action * dt * c + sqrt(dt) * (rotDifCoef * eta);
-		//theta = rad + action * dt * c;
+		//theta = rad + action * dt * c + sqrt(dt) * (rotDifCoef * eta);
+		theta = rad + action * dt * c;
 	}
 
 	Vector2f u(cos(theta), sin(theta)); // convert theta to ort vector u
 
-	r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
-	//r = r + dt * (mu * F) + dt * (p.v * u);
+	//r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
+	r = r + dt * (mu * F) + dt * (p.v * u);
 
 	#pragma region Compute active work
 	Vector2f r_aw(p.pos[0], p.pos[1]);
-	r_aw = (mu * F) + (p.v * u) + (transDifCoef * tranNoise);
-	//r_aw = (mu * F) + (p.v * u);
-	p.acmlActiveWork += dt * (r_aw.dot(u));
+	//r_aw = (mu * F) + (p.v * u) + (transDifCoef * tranNoise);
+	r_aw = (mu * F) + (p.v * u);
+	float aw = dt * (r_aw.dot(u));
+	p.acmlActiveWork += aw;
+	p.acmlCurrentActiveWork = aw;
 	#pragma endregion
 
 	#pragma region PBC Logic
@@ -294,11 +304,20 @@ float RadiansDifference(float radA, float radB) {
 
 float Environment::returnActiveWork() {
 	float totalActiveWork = 0;
-	for (int i = n_t; i < matters.size(); i++) {
+	for (int i = 0; i < matters.size(); i++) {
 		Matter &p = matters[i];
 		totalActiveWork += p.acmlActiveWork;
 	}
-	return (1 / (n*t)) * totalActiveWork;
+	return (1 / ((float)(n+n_t)*t)) * totalActiveWork;
+}
+
+float Environment::returnCurrentActiveWork() {
+	float totalActiveWork = 0;
+	for (int i = 0; i < matters.size(); i++) {
+		Matter &p = matters[i];
+		totalActiveWork += p.acmlCurrentActiveWork;
+	}
+	return (1 / (float)(n + n_t)) * totalActiveWork;
 }
 
 void Environment::Display()

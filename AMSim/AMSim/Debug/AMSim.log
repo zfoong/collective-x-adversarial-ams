@@ -1,4 +1,4 @@
-﻿Build started 7/1/2020 6:58:12 PM.
+﻿Build started 7/5/2020 3:21:15 AM.
 Environment at start of build:
 ALLUSERSPROFILE = C:\ProgramData
 APPDATA = C:\Users\zfoong\AppData\Roaming
@@ -56,10 +56,10 @@ VS120COMNTOOLS = C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Too
 VS140COMNTOOLS = C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\
 VSLANG = 1033
 windir = C:\Windows
-_PTVS_PID = 10728
+_PTVS_PID = 12872
 
-18:58:12.129     1>Project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" on node 2 (Build target(s)).
-18:58:12.129     1>Initial Properties:
+03:21:15.583     1>Project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" on node 2 (Build target(s)).
+03:21:15.583     1>Initial Properties:
                    _AfterCompileWinFXInternalDependsOn = 
                            PrepareResourcesForSatelliteAssemblies;
                            MergeLocalizationDirectives;
@@ -1166,8 +1166,8 @@ _PTVS_PID = 10728
                    XamlTemporaryAssemblyName = AMSim
                    YieldDuringToolExecution = true
 
-18:58:12.129     1>Building with tools version "14.0".
-18:58:12.129     1>Target "_CheckForInvalidConfigurationAndPlatform: (TargetId:2)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (entry point):
+03:21:15.583     1>Building with tools version "14.0".
+03:21:15.595     1>Target "_CheckForInvalidConfigurationAndPlatform: (TargetId:2)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (entry point):
                    Set Property: _InvalidConfigurationMessageText=The OutputPath property is not set for project 'AMSim.vcxproj'.  Please check to make sure that you have specified a valid combination of Configuration and Platform for this project.  Configuration='Debug'  Platform='Win32'.
                    Set Property: _InvalidConfigurationMessageText=The OutputPath property is not set for project 'AMSim.vcxproj'.  Please check to make sure that you have specified a valid combination of Configuration and Platform for this project.  Configuration='Debug'  Platform='Win32'.  This error may also appear if some other project is trying to follow a project-to-project reference to this project, this project has been unloaded or is not included in the solution, and the referencing project does not build using the same or an equivalent Configuration or Platform.
                    Task "Error" skipped, due to false condition; ( '$(_InvalidConfigurationError)' == 'true' ) was evaluated as ( '' == 'true' ).
@@ -1186,8 +1186,8 @@ _PTVS_PID = 10728
                    Task "Error" skipped, due to false condition; ('$(OutDir)' != '' and !HasTrailingSlash('$(OutDir)')) was evaluated as ('C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\' != '' and !HasTrailingSlash('C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\')).
                    Task "Error" skipped, due to false condition; ('$(BaseIntermediateOutputPath)' != '' and !HasTrailingSlash('$(BaseIntermediateOutputPath)')) was evaluated as ('obj\' != '' and !HasTrailingSlash('obj\')).
                    Task "Error" skipped, due to false condition; ('$(IntermediateOutputPath)' != '' and !HasTrailingSlash('$(IntermediateOutputPath)')) was evaluated as ('Debug\' != '' and !HasTrailingSlash('Debug\')).
-18:58:12.131     1>Done building target "_CheckForInvalidConfigurationAndPlatform" in project "AMSim.vcxproj".: (TargetId:2)
-18:58:12.131     1>Target "_PrepareForBuild: (TargetId:3)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.BuildSteps.Targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
+03:21:15.617     1>Done building target "_CheckForInvalidConfigurationAndPlatform" in project "AMSim.vcxproj".: (TargetId:2)
+03:21:15.618     1>Target "_PrepareForBuild: (TargetId:3)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.BuildSteps.Targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
                    Set Property: BuildType=Build
                    Set Property: _BuildActionType=Build
                    Task "CreateItem" skipped, due to false condition; ('%(CustomBuild.IncludeFileToTool)'!='') was evaluated as (''!='').
@@ -1195,17 +1195,17 @@ _PTVS_PID = 10728
                        CustomBuildStep=
                            AMSim
                                    Message=Performing Custom Build Step
-18:58:12.131     1>Done building target "_PrepareForBuild" in project "AMSim.vcxproj".: (TargetId:3)
-18:58:12.131     1>Target "_PrepareForReferenceResolution: (TargetId:4)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
+03:21:15.620     1>Done building target "_PrepareForBuild" in project "AMSim.vcxproj".: (TargetId:3)
+03:21:15.620     1>Target "_PrepareForReferenceResolution: (TargetId:4)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
                    Set Property: TargetFrameworkMoniker=
                    Set Property: _FindDependencies=false
                    Set Property: AdditionalExplicitAssemblyReferences=
                    Task "Message" skipped, due to false condition; ('$(_REFERENCE_DEBUG)'=='true') was evaluated as (''=='true').
-18:58:12.131     1>Done building target "_PrepareForReferenceResolution" in project "AMSim.vcxproj".: (TargetId:4)
+03:21:15.621     1>Done building target "_PrepareForReferenceResolution" in project "AMSim.vcxproj".: (TargetId:4)
                    Target "ComputeCrtSDKReference" skipped, due to false condition; ('@(ClCompile)'!='' and '$(WindowsAppContainer)'=='true' and '$(UseCrtSDKReference)' != 'false') was evaluated as ('agent.cpp;display.cpp;environment.cpp;main.cpp'!='' and 'false'=='true' and '' != 'false').
-18:58:12.132     1>Target "BeforeResolveReferences: (TargetId:5)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
-18:58:12.132     1>Done building target "BeforeResolveReferences" in project "AMSim.vcxproj".: (TargetId:5)
-18:58:12.132     1>Target "AssignProjectConfiguration: (TargetId:6)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
+03:21:15.622     1>Target "BeforeResolveReferences: (TargetId:5)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
+03:21:15.622     1>Done building target "BeforeResolveReferences" in project "AMSim.vcxproj".: (TargetId:5)
+03:21:15.622     1>Target "AssignProjectConfiguration: (TargetId:6)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
                    Set Property: ShouldUnsetParentConfigurationAndPlatform=true
                    Using "AssignProjectConfiguration" task from assembly "Microsoft.Build.Tasks.Core, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
                    Task "AssignProjectConfiguration" (TaskId:4)
@@ -1220,23 +1220,23 @@ _PTVS_PID = 10728
                      Task Parameter:OnlyReferenceAndBuildProjectsEnabledInSolutionConfiguration=True (TaskId:4)
                      Task Parameter:ShouldUnsetParentConfigurationAndPlatform=True (TaskId:4)
                    Done executing task "AssignProjectConfiguration". (TaskId:4)
-18:58:12.132     1>Done building target "AssignProjectConfiguration" in project "AMSim.vcxproj".: (TargetId:6)
+03:21:15.627     1>Done building target "AssignProjectConfiguration" in project "AMSim.vcxproj".: (TargetId:6)
                    Target "AssignProjectConfiguration" skipped. Previously built successfully.
-18:58:12.132     1>Target "_SplitProjectReferencesByFileExistence: (TargetId:7)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveProjectReferences" depends on it):
+03:21:15.627     1>Target "_SplitProjectReferencesByFileExistence: (TargetId:7)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveProjectReferences" depends on it):
                    Task "ResolveNonMSBuildProjectOutput" skipped, due to false condition; ('$(BuildingInsideVisualStudio)'=='true' and '@(ProjectReferenceWithConfiguration)'!='') was evaluated as ('true'=='true' and ''!='').
-18:58:12.132     1>Done building target "_SplitProjectReferencesByFileExistence" in project "AMSim.vcxproj".: (TargetId:7)
+03:21:15.628     1>Done building target "_SplitProjectReferencesByFileExistence" in project "AMSim.vcxproj".: (TargetId:7)
                    Target "_RemoveNameMetadataFromProjectReferenceItems" skipped, due to false condition; ('@(ProjectReference)'!='') was evaluated as (''!='').
-18:58:12.132     1>Target "ResolveProjectReferences: (TargetId:8)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
+03:21:15.628     1>Target "ResolveProjectReferences: (TargetId:8)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
                    Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and ('$(BuildingInsideVisualStudio)' == 'true' or '$(BuildProjectReferences)' != 'true') and '$(VisualStudioVersion)' != '10.0' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('' == 'true' and '' != '' and ('true' == 'true' or 'true' != 'true') and '14.0' != '10.0' and '' != '').
                    Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and ('$(BuildingInsideVisualStudio)' == 'true' or '$(BuildProjectReferences)' != 'true') and '$(VisualStudioVersion)' == '10.0' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('' == 'true' and '' != '' and ('true' == 'true' or 'true' != 'true') and '14.0' == '10.0' and '' != '').
                    Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '$(BuildingInsideVisualStudio)' != 'true' and '$(BuildProjectReferences)' == 'true' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('' == 'true' and '' != '' and 'true' != 'true' and 'true' == 'true' and '' != '').
                    Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '$(BuildingProject)' == 'true' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('' == 'true' and '' != '' and 'true' == 'true' and '' != '').
                    Task "Warning" skipped, due to false condition; ('@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceNonexistent)' != '') was evaluated as ('' != '' and '' != '').
-18:58:12.132     1>Done building target "ResolveProjectReferences" in project "AMSim.vcxproj".: (TargetId:8)
+03:21:15.630     1>Done building target "ResolveProjectReferences" in project "AMSim.vcxproj".: (TargetId:8)
                    Target "FindInvalidProjectReferences" skipped, due to false condition; ('$(FindInvalidProjectReferences)' == 'true') was evaluated as ('' == 'true').
                    Target "ResolveNativeReferences" skipped, due to false condition; ('@(NativeReference)'!='') was evaluated as (''!='').
                    Target "_PrepareForReferenceResolution" skipped. Previously built successfully.
-18:58:12.132     1>Target "GetFrameworkPaths: (TargetId:9)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.NetFramework.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+03:21:15.630     1>Target "GetFrameworkPaths: (TargetId:9)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.NetFramework.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveAssemblyReferences" depends on it):
                    Added Item(s): _TargetFramework40DirectoryItem=C:\Windows\Microsoft.NET\Framework\v4.0.30319
                    Added Item(s): _TargetFramework35DirectoryItem=C:\Windows\Microsoft.NET\Framework\v3.5
                    Added Item(s): _TargetFramework30DirectoryItem=C:\Windows\Microsoft.NET\Framework\v3.0
@@ -1246,16 +1246,16 @@ _PTVS_PID = 10728
                    Set Property: TargetFrameworkDirectory=C:\Windows\Microsoft.NET\Framework\v4.0.30319
                    Set Property: TargetFrameworkSDKDirectory=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\
                    Added Item(s): _TargetFrameworkSDKDirectoryItem=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\
-18:58:12.133     1>Done building target "GetFrameworkPaths" in project "AMSim.vcxproj".: (TargetId:9)
+03:21:15.632     1>Done building target "GetFrameworkPaths" in project "AMSim.vcxproj".: (TargetId:9)
                    Target "GetWinFXPath" skipped, due to false condition; (('@(Page)' != '' or '@(ApplicationDefinition)' != '' or '@(Resource)' != '') and ('$(GetWinFXNativePath)' != '' or '$(GetWinFXWoWPath)' != '' )) was evaluated as (('' != '' or '' != '' or '' != '') and ('' != '' or '' != '' )).
-18:58:12.133     1>Target "GetReferenceAssemblyPaths: (TargetId:10)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+03:21:15.632     1>Target "GetReferenceAssemblyPaths: (TargetId:10)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveAssemblyReferences" depends on it):
                    Set Property: TargetFrameworkDirectory=
                    Task "GetReferenceAssemblyPaths" skipped, due to false condition; ('$(TargetFrameworkMoniker)' != '' and ('$(_TargetFrameworkDirectories)' == '' or '$(_FullFrameworkReferenceAssemblyPaths)' == '')) was evaluated as ('' != '' and ('C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '' or 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '')).
                    Set Property: TargetFrameworkDirectory=C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0;;
                    Set Property: TargetFrameworkDirectory=C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0;;;C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral
                    Set Property: RemoveAssemblyFoldersIfNoTargetFramework=true
-18:58:12.133     1>Done building target "GetReferenceAssemblyPaths" in project "AMSim.vcxproj".: (TargetId:10)
-18:58:12.133     1>Target "SetBuildDefaultEnvironmentVariables: (TargetId:11)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.Cpp.Current.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForBuild" depends on it):
+03:21:15.633     1>Done building target "GetReferenceAssemblyPaths" in project "AMSim.vcxproj".: (TargetId:10)
+03:21:15.634     1>Target "SetBuildDefaultEnvironmentVariables: (TargetId:11)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.Cpp.Current.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForBuild" depends on it):
                    Using "SetEnv" task from assembly "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.Build.CppTasks.Common.dll".
                    Task "SetEnv" (TaskId:5)
                      Task Parameter:Name=PATH (TaskId:5)
@@ -1285,9 +1285,9 @@ _PTVS_PID = 10728
                      INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include;;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include;;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt;;;C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;; (TaskId:8)
                      Output Property: INCLUDE=C:\Program Files %28x86%29\Microsoft Visual Studio 14.0\VC\include%3b%3bC:\Program Files %28x86%29\Microsoft Visual Studio 14.0\VC\atlmfc\include%3b%3bC:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\ucrt%3b%3b%3bC:\Program Files %28x86%29\Windows Kits\8.1\Include\um%3bC:\Program Files %28x86%29\Windows Kits\8.1\Include\shared%3bC:\Program Files %28x86%29\Windows Kits\8.1\Include\winrt%3b%3b (TaskId:8)
                    Done executing task "SetEnv". (TaskId:8)
-18:58:12.133     1>Done building target "SetBuildDefaultEnvironmentVariables" in project "AMSim.vcxproj".: (TargetId:11)
+03:21:15.643     1>Done building target "SetBuildDefaultEnvironmentVariables" in project "AMSim.vcxproj".: (TargetId:11)
                    Target "SetUserMacroEnvironmentVariables" skipped, due to false condition; ('@(BuildMacro)' != '' and '$(DesignTimeBuild)' != 'true') was evaluated as ('' != '' and '' != 'true').
-18:58:12.133     1>Target "GetResolvedWinMD: (TargetId:12)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForBuild" depends on it):
+03:21:15.643     1>Target "GetResolvedWinMD: (TargetId:12)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForBuild" depends on it):
                    Added Item(s): 
                        Link=
                            tmp
@@ -1372,8 +1372,8 @@ _PTVS_PID = 10728
                                    TypeLibraryResourceID=1
                                    UACExecutionLevel=AsInvoker
                                    UACUIAccess=false
-18:58:12.134     1>Done building target "GetResolvedWinMD" in project "AMSim.vcxproj".: (TargetId:12)
-18:58:12.134     1>Target "PlatformPrepareForBuild: (TargetId:13)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.Cpp.Platform.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForBuild" depends on it):
+03:21:15.690     1>Done building target "GetResolvedWinMD" in project "AMSim.vcxproj".: (TargetId:12)
+03:21:15.690     1>Target "PlatformPrepareForBuild: (TargetId:13)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.Cpp.Platform.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForBuild" depends on it):
                    Set Property: ConfigurationPlatformExists=true
                    Set Property: _CurrentPlatformToolsetShortName=v140
                    Task "VCMessage" skipped, due to false condition; ('$(_Error64bitToolsNotInstalled)' == 'true') was evaluated as ('' == 'true').
@@ -1381,22 +1381,22 @@ _PTVS_PID = 10728
                    Task "VCMessage" skipped, due to false condition; ('$(DesignTimeBuild)'!='true' and '$(_ToolsetFound)' != 'true' and '$(PlatformToolset)' == 'v100') was evaluated as (''!='true' and 'true' != 'true' and 'v140' == 'v100').
                    Task "VCMessage" skipped, due to false condition; ('$(DesignTimeBuild)'!='true' and '$(_ToolsetFound)' != 'true' and '$(PlatformToolset)' == 'v90') was evaluated as (''!='true' and 'true' != 'true' and 'v140' == 'v90').
                    Task "VCMessage" skipped, due to false condition; ('$(DesignTimeBuild)'!='true' and '$(_ToolsetFound)' != 'true' and '$(PlatformToolset)' != 'v90' and '$(PlatformToolset)' != 'v100' and '$(PlatformToolset)' != 'v110') was evaluated as (''!='true' and 'true' != 'true' and 'v140' != 'v90' and 'v140' != 'v100' and 'v140' != 'v110').
-18:58:12.134     1>Done building target "PlatformPrepareForBuild" in project "AMSim.vcxproj".: (TargetId:13)
-18:58:12.134     1>Target "Desktop_PlatformPrepareForBuild: (TargetId:14)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Platforms\Win32\PlatformToolsets\v140\Toolset.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForBuild" depends on it):
+03:21:15.690     1>Done building target "PlatformPrepareForBuild" in project "AMSim.vcxproj".: (TargetId:13)
+03:21:15.690     1>Target "Desktop_PlatformPrepareForBuild: (TargetId:14)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Platforms\Win32\PlatformToolsets\v140\Toolset.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForBuild" depends on it):
                    Task "VCMessage" skipped, due to false condition; ($(MissingSDKProps) == 'true') was evaluated as ( == 'true').
-18:58:12.134     1>Done building target "Desktop_PlatformPrepareForBuild" in project "AMSim.vcxproj".: (TargetId:14)
+03:21:15.690     1>Done building target "Desktop_PlatformPrepareForBuild" in project "AMSim.vcxproj".: (TargetId:14)
                    Target "GetFrameworkPaths" skipped. Previously built successfully.
                    Target "GetReferenceAssemblyPaths" skipped. Previously built successfully.
                    Target "AssignLinkMetadata" skipped, due to false condition; ( '$(SynthesizeLinkMetadata)' == 'true' ) was evaluated as ( '' == 'true' ).
-18:58:12.134     1>Target "SetCABuildNativeEnvironmentVariables: (TargetId:15)" in file "C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v14.0\CodeAnalysis\Microsoft.CodeAnalysis.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForBuild" depends on it):
+03:21:15.690     1>Target "SetCABuildNativeEnvironmentVariables: (TargetId:15)" in file "C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v14.0\CodeAnalysis\Microsoft.CodeAnalysis.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForBuild" depends on it):
                    Initializing task factory "CodeTaskFactory" from assembly "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Build.Tasks.Core.dll".
                    Using "SetEnvironmentVariable" task from the task factory "Code Task Factory".
                    Task "SetEnvironmentVariable" (TaskId:9)
                      Task Parameter:EnvValue=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include;C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;; (TaskId:9)
                      Task Parameter:EnvKey=CAExcludePath (TaskId:9)
                    Done executing task "SetEnvironmentVariable". (TaskId:9)
-18:58:12.137     1>Done building target "SetCABuildNativeEnvironmentVariables" in project "AMSim.vcxproj".: (TargetId:15)
-18:58:12.137     1>Target "PrepareForBuild: (TargetId:16)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+03:21:17.120     1>Done building target "SetCABuildNativeEnvironmentVariables" in project "AMSim.vcxproj".: (TargetId:15)
+03:21:17.120     1>Target "PrepareForBuild: (TargetId:16)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveAssemblyReferences" depends on it):
                    Set Property: TargetDir=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\
                    Set Property: LocalDebuggerCommand=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.exe
                    Set Property: BuildProjectReferences=false
@@ -1426,25 +1426,25 @@ _PTVS_PID = 10728
                              C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\
                              Debug\AMSim.tlog\ (TaskId:11)
                    Done executing task "MakeDir". (TaskId:11)
-18:58:12.139     1>Done building target "PrepareForBuild" in project "AMSim.vcxproj".: (TargetId:16)
+03:21:17.130     1>Done building target "PrepareForBuild" in project "AMSim.vcxproj".: (TargetId:16)
                    Target "_PrepareForReferenceResolution" skipped. Previously built successfully.
                    Target "ComputeCrtSDKReference" skipped, due to false condition; ('@(ClCompile)'!='' and '$(WindowsAppContainer)'=='true' and '$(UseCrtSDKReference)' != 'false') was evaluated as ('agent.cpp;display.cpp;environment.cpp;main.cpp'!='' and 'false'=='true' and '' != 'false').
-18:58:12.139     1>Target "GetInstalledSDKLocations: (TargetId:17)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveSDKReferences" depends on it):
+03:21:17.131     1>Target "GetInstalledSDKLocations: (TargetId:17)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveSDKReferences" depends on it):
                    Task "GetInstalledSDKLocations" skipped, due to false condition; ('@(SDKReference)' != '') was evaluated as ('' != '').
                    Task "GetInstalledSDKLocations" skipped, due to false condition; ('@(SDKReference)' != '' and '$(SupportWindows81SDKs)' == 'true' and '$(TargetPlatformIdentifierWindows81)' != '' and '$(TargetPlatformVersionWindows81)' != '') was evaluated as ('' != '' and '' == 'true' and '' != '' and '' != '').
                    Task "GetInstalledSDKLocations" skipped, due to false condition; ('@(SDKReference)' != '' and '$(SupportWindowsPhone81SDKs)' == 'true' and '$(TargetPlatformIdentifierWindowsPhone81)' != '' and '$(TargetPlatformVersionWindowsPhone81)' != '') was evaluated as ('' != '' and '' == 'true' and '' != '' and '' != '').
-18:58:12.139     1>Done building target "GetInstalledSDKLocations" in project "AMSim.vcxproj".: (TargetId:17)
-18:58:12.139     1>Target "ModifyUnitTestPlatformVersion: (TargetId:18)" in file "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportBefore\Windows.8.1.UT_SDKReference.props" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveSDKReferences" depends on it):
-18:58:12.139     1>Done building target "ModifyUnitTestPlatformVersion" in project "AMSim.vcxproj".: (TargetId:18)
-18:58:12.139     1>Target "ResolveSDKReferences: (TargetId:19)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+03:21:17.131     1>Done building target "GetInstalledSDKLocations" in project "AMSim.vcxproj".: (TargetId:17)
+03:21:17.131     1>Target "ModifyUnitTestPlatformVersion: (TargetId:18)" in file "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportBefore\Windows.8.1.UT_SDKReference.props" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveSDKReferences" depends on it):
+03:21:17.132     1>Done building target "ModifyUnitTestPlatformVersion" in project "AMSim.vcxproj".: (TargetId:18)
+03:21:17.132     1>Target "ResolveSDKReferences: (TargetId:19)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveAssemblyReferences" depends on it):
                    Task "ResolveSDKReference" skipped, due to false condition; ('@(SDKReference)'!='') was evaluated as (''!='').
-18:58:12.139     1>Done building target "ResolveSDKReferences" in project "AMSim.vcxproj".: (TargetId:19)
+03:21:17.132     1>Done building target "ResolveSDKReferences" in project "AMSim.vcxproj".: (TargetId:19)
                    Target "ResolveSDKReferences" skipped. Previously built successfully.
-18:58:12.139     1>Target "ExpandSDKReferences: (TargetId:20)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+03:21:17.132     1>Target "ExpandSDKReferences: (TargetId:20)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveAssemblyReferences" depends on it):
                    Task "GetSDKReferenceFiles" skipped, due to false condition; ('@(ResolvedSDKReference)'!='') was evaluated as (''!='').
-18:58:12.139     1>Done building target "ExpandSDKReferences" in project "AMSim.vcxproj".: (TargetId:20)
+03:21:17.132     1>Done building target "ExpandSDKReferences" in project "AMSim.vcxproj".: (TargetId:20)
                    Target "ResolveNuGetPackageAssets" skipped, due to false condition; ('$(ResolveNuGetPackages)' == 'true' and exists('$(ProjectLockFile)')) was evaluated as ('true' == 'true' and exists('project.lock.json')).
-18:58:12.139     1>Target "ResolveAssemblyReferences: (TargetId:21)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
+03:21:17.132     1>Target "ResolveAssemblyReferences: (TargetId:21)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
                    Added Item(s): 
                        _ReferenceInstalledAssemblyDirectory=
                            C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0
@@ -1453,19 +1453,19 @@ _PTVS_PID = 10728
                    Set Property: ResolveAssemblyReferencesSilent=false
                    Set Property: ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch=Warning
                    Task "ResolveAssemblyReference" skipped, due to false condition; ('@(Reference)'!='' or '@(_ResolvedProjectReferencePaths)'!='' or '@(_ExplicitReference)' != '') was evaluated as (''!='' or ''!='' or '' != '').
-18:58:12.140     1>Done building target "ResolveAssemblyReferences" in project "AMSim.vcxproj".: (TargetId:21)
+03:21:17.133     1>Done building target "ResolveAssemblyReferences" in project "AMSim.vcxproj".: (TargetId:21)
                    Target "GenerateBindingRedirects" skipped, due to false condition; ('$(AutoGenerateBindingRedirects)' == 'true' and '$(GenerateBindingRedirectsOutputType)' == 'true') was evaluated as ('' == 'true' and 'true' == 'true').
                    Target "GenerateBindingRedirectsUpdateAppConfig" skipped, due to false condition; ('$(AutoGenerateBindingRedirects)' == 'true' and '$(GenerateBindingRedirectsOutputType)' == 'true' and Exists('$(_GenerateBindingRedirectsIntermediateAppConfig)')) was evaluated as ('' == 'true' and 'true' == 'true' and Exists('Debug\AMSim.vcxproj.AMSim.exe.config')).
                    Target "ResolveComReferences" skipped, due to false condition; ('@(COMReference)'!='' or '@(COMFileReference)'!='') was evaluated as (''!='' or ''!='').
-18:58:12.140     1>Target "AfterResolveReferences: (TargetId:22)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
-18:58:12.140     1>Done building target "AfterResolveReferences" in project "AMSim.vcxproj".: (TargetId:22)
+03:21:17.134     1>Target "AfterResolveReferences: (TargetId:22)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ResolveReferences" depends on it):
+03:21:17.134     1>Done building target "AfterResolveReferences" in project "AMSim.vcxproj".: (TargetId:22)
                    Target "ImplicitlyExpandDesignTimeFacades" skipped, due to false condition; ('$(ImplicitlyExpandDesignTimeFacades)' == 'true') was evaluated as ('' == 'true').
                    Target "ResolveTestReferences" skipped, due to false condition; ('@(Shadow)'!='') was evaluated as (''!='').
-18:58:12.140     1>Target "ResolveReferences: (TargetId:23)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
-18:58:12.140     1>Done building target "ResolveReferences" in project "AMSim.vcxproj".: (TargetId:23)
+03:21:17.134     1>Target "ResolveReferences: (TargetId:23)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
+03:21:17.134     1>Done building target "ResolveReferences" in project "AMSim.vcxproj".: (TargetId:23)
                    Target "PrepareForBuild" skipped. Previously built successfully.
                    Target "PrepareForBuild" skipped. Previously built successfully.
-18:58:12.140     1>Target "InitializeBuildStatus: (TargetId:24)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
+03:21:17.134     1>Target "InitializeBuildStatus: (TargetId:24)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
                    Using "ReadLinesFromFile" task from assembly "Microsoft.Build.Tasks.Core, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
                    Task "ReadLinesFromFile" (TaskId:12)
                      Task Parameter:File=Debug\AMSim.tlog\AMSim.lastbuildstate (TaskId:12)
@@ -1491,76 +1491,76 @@ _PTVS_PID = 10728
                      Task Parameter:Files=Debug\AMSim.tlog\unsuccessfulbuild (TaskId:14)
                      Creating "Debug\AMSim.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified. (TaskId:14)
                    Done executing task "Touch". (TaskId:14)
-18:58:12.141     1>Done building target "InitializeBuildStatus" in project "AMSim.vcxproj".: (TargetId:24)
+03:21:17.142     1>Done building target "InitializeBuildStatus" in project "AMSim.vcxproj".: (TargetId:24)
                    Target "AssignProjectConfiguration" skipped. Previously built successfully.
                    Target "_SplitProjectReferencesByFileExistence" skipped. Previously built successfully.
-18:58:12.141     1>Target "BuildGenerateSourcesTraverse: (TargetId:25)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildGenerateSources" depends on it):
+03:21:17.143     1>Target "BuildGenerateSourcesTraverse: (TargetId:25)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildGenerateSources" depends on it):
                    Task "MSBuild" skipped, due to false condition; ('$(BuildPassReferences)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != '' and '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true') was evaluated as ('' == 'true' and '' != '' and '' != '' and '' == 'true').
-18:58:12.141     1>Done building target "BuildGenerateSourcesTraverse" in project "AMSim.vcxproj".: (TargetId:25)
+03:21:17.143     1>Done building target "BuildGenerateSourcesTraverse" in project "AMSim.vcxproj".: (TargetId:25)
                    Target "PrepareForBuild" skipped. Previously built successfully.
                    Target "ResolveReferences" skipped. Previously built successfully.
-18:58:12.141     1>Target "BeforeBuildGenerateSources: (TargetId:26)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.BuildSteps.Targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
-18:58:12.141     1>Done building target "BeforeBuildGenerateSources" in project "AMSim.vcxproj".: (TargetId:26)
-18:58:12.141     1>Target "PreBuildEvent: (TargetId:27)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+03:21:17.143     1>Target "BeforeBuildGenerateSources: (TargetId:26)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.BuildSteps.Targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+03:21:17.143     1>Done building target "BeforeBuildGenerateSources" in project "AMSim.vcxproj".: (TargetId:26)
+03:21:17.143     1>Target "PreBuildEvent: (TargetId:27)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
                    Task "Message" skipped, due to false condition; ('%(PreBuildEvent.Message)' != '' and '%(PreBuildEvent.Command)' != '') was evaluated as ('' != '' and '' != '').
                    Task "Exec" skipped, due to false condition; ('%(PreBuildEvent.Command)' != '') was evaluated as ('' != '').
-18:58:12.141     1>Done building target "PreBuildEvent" in project "AMSim.vcxproj".: (TargetId:27)
+03:21:17.143     1>Done building target "PreBuildEvent" in project "AMSim.vcxproj".: (TargetId:27)
                    Target "CustomBuild" skipped, due to false condition; ('@(CustomBuild)' != '') was evaluated as ('' != '').
                    Target "FxExport" skipped, due to false condition; ('@(FxCompile)' != '') was evaluated as ('' != '').
                    Target "FxCompile" skipped, due to false condition; ('@(FxCompile)' != '') was evaluated as ('' != '').
                    Target "Xsd" skipped, due to false condition; ('@(Xsd)' != '') was evaluated as ('' != '').
-18:58:12.141     1>Target "_Xsd: (TargetId:28)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
-18:58:12.141     1>Done building target "_Xsd" in project "AMSim.vcxproj".: (TargetId:28)
-18:58:12.141     1>Target "MakeDirsForMidl: (TargetId:29)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Midl" depends on it):
+03:21:17.144     1>Target "_Xsd: (TargetId:28)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+03:21:17.144     1>Done building target "_Xsd" in project "AMSim.vcxproj".: (TargetId:28)
+03:21:17.144     1>Target "MakeDirsForMidl: (TargetId:29)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Midl" depends on it):
                    Set Property: Midl_OutputDir=
                    Task "Makedir" (TaskId:15)
                    Done executing task "Makedir". (TaskId:15)
-18:58:12.141     1>Done building target "MakeDirsForMidl" in project "AMSim.vcxproj".: (TargetId:29)
+03:21:17.145     1>Done building target "MakeDirsForMidl" in project "AMSim.vcxproj".: (TargetId:29)
                    Target "Midl" skipped, due to false condition; ('@(Midl)' != '') was evaluated as ('' != '').
                    Target "CustomBuild" skipped, due to false condition; ('@(CustomBuild)' != '') was evaluated as ('' != '').
                    Target "FxExport" skipped, due to false condition; ('@(FxCompile)' != '') was evaluated as ('' != '').
                    Target "FxCompile" skipped, due to false condition; ('@(FxCompile)' != '') was evaluated as ('' != '').
-18:58:12.141     1>Target "ComputeMIDLGeneratedCompileInputs: (TargetId:30)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Midl" depends on it):
+03:21:17.145     1>Target "ComputeMIDLGeneratedCompileInputs: (TargetId:30)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Midl" depends on it):
                    Set Property: Midl_OutputDir=
-18:58:12.141     1>Done building target "ComputeMIDLGeneratedCompileInputs" in project "AMSim.vcxproj".: (TargetId:30)
-18:58:12.141     1>Target "AfterMidl: (TargetId:31)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Midl" depends on it):
-18:58:12.141     1>Done building target "AfterMidl" in project "AMSim.vcxproj".: (TargetId:31)
-18:58:12.141     1>Target "_Midl: (TargetId:32)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
-18:58:12.141     1>Done building target "_Midl" in project "AMSim.vcxproj".: (TargetId:32)
-18:58:12.141     1>Target "AfterBuildGenerateSources: (TargetId:33)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.BuildSteps.Targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
-18:58:12.141     1>Done building target "AfterBuildGenerateSources" in project "AMSim.vcxproj".: (TargetId:33)
-18:58:12.141     1>Target "AfterBuildGenerateSourcesEvent: (TargetId:34)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
-18:58:12.141     1>Done building target "AfterBuildGenerateSourcesEvent" in project "AMSim.vcxproj".: (TargetId:34)
-18:58:12.141     1>Target "_BuildGenerateSourcesAction: (TargetId:35)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildGenerateSources" depends on it):
-18:58:12.141     1>Done building target "_BuildGenerateSourcesAction" in project "AMSim.vcxproj".: (TargetId:35)
-18:58:12.141     1>Target "BuildGenerateSources: (TargetId:36)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
-18:58:12.141     1>Done building target "BuildGenerateSources" in project "AMSim.vcxproj".: (TargetId:36)
+03:21:17.145     1>Done building target "ComputeMIDLGeneratedCompileInputs" in project "AMSim.vcxproj".: (TargetId:30)
+03:21:17.145     1>Target "AfterMidl: (TargetId:31)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Midl" depends on it):
+03:21:17.145     1>Done building target "AfterMidl" in project "AMSim.vcxproj".: (TargetId:31)
+03:21:17.145     1>Target "_Midl: (TargetId:32)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+03:21:17.145     1>Done building target "_Midl" in project "AMSim.vcxproj".: (TargetId:32)
+03:21:17.145     1>Target "AfterBuildGenerateSources: (TargetId:33)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.BuildSteps.Targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+03:21:17.145     1>Done building target "AfterBuildGenerateSources" in project "AMSim.vcxproj".: (TargetId:33)
+03:21:17.145     1>Target "AfterBuildGenerateSourcesEvent: (TargetId:34)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+03:21:17.145     1>Done building target "AfterBuildGenerateSourcesEvent" in project "AMSim.vcxproj".: (TargetId:34)
+03:21:17.145     1>Target "_BuildGenerateSourcesAction: (TargetId:35)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildGenerateSources" depends on it):
+03:21:17.145     1>Done building target "_BuildGenerateSourcesAction" in project "AMSim.vcxproj".: (TargetId:35)
+03:21:17.145     1>Target "BuildGenerateSources: (TargetId:36)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
+03:21:17.145     1>Done building target "BuildGenerateSources" in project "AMSim.vcxproj".: (TargetId:36)
                    Target "AssignProjectConfiguration" skipped. Previously built successfully.
                    Target "_SplitProjectReferencesByFileExistence" skipped. Previously built successfully.
-18:58:12.142     1>Target "BuildCompileTraverse: (TargetId:37)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildCompile" depends on it):
+03:21:17.145     1>Target "BuildCompileTraverse: (TargetId:37)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildCompile" depends on it):
                    Task "MSBuild" skipped, due to false condition; ('$(BuildPassReferences)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != ''  and '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true') was evaluated as ('' == 'true' and '' != '' and '' != ''  and '' == 'true').
-18:58:12.142     1>Done building target "BuildCompileTraverse" in project "AMSim.vcxproj".: (TargetId:37)
+03:21:17.146     1>Done building target "BuildCompileTraverse" in project "AMSim.vcxproj".: (TargetId:37)
                    Target "PrepareForBuild" skipped. Previously built successfully.
                    Target "ResolveReferences" skipped. Previously built successfully.
-18:58:12.142     1>Target "BeforeClCompile: (TargetId:38)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
-18:58:12.142     1>Done building target "BeforeClCompile" in project "AMSim.vcxproj".: (TargetId:38)
+03:21:17.146     1>Target "BeforeClCompile: (TargetId:38)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
+03:21:17.146     1>Done building target "BeforeClCompile" in project "AMSim.vcxproj".: (TargetId:38)
                    Target "ComputeMIDLGeneratedCompileInputs" skipped. Previously built successfully.
-18:58:12.142     1>Target "ComputeCLInputPDBName: (TargetId:39)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
-18:58:12.142     1>Done building target "ComputeCLInputPDBName" in project "AMSim.vcxproj".: (TargetId:39)
+03:21:17.146     1>Target "ComputeCLInputPDBName: (TargetId:39)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
+03:21:17.146     1>Done building target "ComputeCLInputPDBName" in project "AMSim.vcxproj".: (TargetId:39)
                    Target "ResolveReferences" skipped. Previously built successfully.
-18:58:12.142     1>Target "ComputeReferenceCLInput: (TargetId:40)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
+03:21:17.146     1>Target "ComputeReferenceCLInput: (TargetId:40)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
                    Task "WriteLinesToFile" skipped, due to false condition; (('@(_ReferenceCopyLocalPaths)'!='') and '$(DesignTimeBuild)' != 'true') was evaluated as ((''!='') and '' != 'true').
                    Task "Message" skipped, due to false condition; ('$(_REFERENCE_DEBUG)'=='true') was evaluated as (''=='true').
-18:58:12.142     1>Done building target "ComputeReferenceCLInput" in project "AMSim.vcxproj".: (TargetId:40)
-18:58:12.142     1>Target "WarnCompileDuplicatedFilename: (TargetId:41)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
+03:21:17.147     1>Done building target "ComputeReferenceCLInput" in project "AMSim.vcxproj".: (TargetId:40)
+03:21:17.147     1>Target "WarnCompileDuplicatedFilename: (TargetId:41)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
                    Task "VCMessage" skipped, due to false condition; ('%(ClCompile.ExcludedFromBuild)' != 'true' and '%(Filename)%(Extension)' != '@(ClCompile->'%(Filename)%(Extension)')' and '%(ObjectFileName)' == '@(ClCompile->Metadata(ObjectFileName)->Distinct())') was evaluated as ('' != 'true' and 'agent.cpp' != 'agent.cpp' and 'Debug\' == 'Debug\').
                    Task "VCMessage" skipped, due to false condition; ('%(ClCompile.ExcludedFromBuild)' != 'true' and '%(Filename)%(Extension)' != '@(ClCompile->'%(Filename)%(Extension)')' and '%(ObjectFileName)' == '@(ClCompile->Metadata(ObjectFileName)->Distinct())') was evaluated as ('' != 'true' and 'display.cpp' != 'display.cpp' and 'Debug\' == 'Debug\').
                    Task "VCMessage" skipped, due to false condition; ('%(ClCompile.ExcludedFromBuild)' != 'true' and '%(Filename)%(Extension)' != '@(ClCompile->'%(Filename)%(Extension)')' and '%(ObjectFileName)' == '@(ClCompile->Metadata(ObjectFileName)->Distinct())') was evaluated as ('' != 'true' and 'environment.cpp' != 'environment.cpp' and 'Debug\' == 'Debug\').
                    Task "VCMessage" skipped, due to false condition; ('%(ClCompile.ExcludedFromBuild)' != 'true' and '%(Filename)%(Extension)' != '@(ClCompile->'%(Filename)%(Extension)')' and '%(ObjectFileName)' == '@(ClCompile->Metadata(ObjectFileName)->Distinct())') was evaluated as ('' != 'true' and 'main.cpp' != 'main.cpp' and 'Debug\' == 'Debug\').
-18:58:12.146     1>Done building target "WarnCompileDuplicatedFilename" in project "AMSim.vcxproj".: (TargetId:41)
-18:58:12.146     1>Target "FixupCLCompileOptions: (TargetId:42)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
-18:58:12.146     1>Done building target "FixupCLCompileOptions" in project "AMSim.vcxproj".: (TargetId:42)
-18:58:12.146     1>Target "MakeDirsForCl: (TargetId:43)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
+03:21:17.150     1>Done building target "WarnCompileDuplicatedFilename" in project "AMSim.vcxproj".: (TargetId:41)
+03:21:17.150     1>Target "FixupCLCompileOptions: (TargetId:42)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
+03:21:17.152     1>Done building target "FixupCLCompileOptions" in project "AMSim.vcxproj".: (TargetId:42)
+03:21:17.152     1>Target "MakeDirsForCl: (TargetId:43)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
                    Added Item(s): ClDirsToMake=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug
                    Added Item(s): ClDirsToMake=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug
                    Added Item(s): ClDirsToMake=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug
@@ -1579,25 +1579,25 @@ _PTVS_PID = 10728
                            C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug
                            C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug
                            C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug
-18:58:12.146     1>Done building target "MakeDirsForCl" in project "AMSim.vcxproj".: (TargetId:43)
+03:21:17.154     1>Done building target "MakeDirsForCl" in project "AMSim.vcxproj".: (TargetId:43)
                    Target "PrepareForBuild" skipped. Previously built successfully.
                    Target "SetBuildDefaultEnvironmentVariables" skipped. Previously built successfully.
                    Target "SetUserMacroEnvironmentVariables" skipped, due to false condition; ('@(BuildMacro)' != '' and '$(DesignTimeBuild)' != 'true') was evaluated as ('' != '' and '' != 'true').
-18:58:12.146     1>Target "_SelectedFiles: (TargetId:44)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "SelectClCompile" depends on it):
-18:58:12.146     1>Done building target "_SelectedFiles" in project "AMSim.vcxproj".: (TargetId:44)
+03:21:17.154     1>Target "_SelectedFiles: (TargetId:44)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "SelectClCompile" depends on it):
+03:21:17.154     1>Done building target "_SelectedFiles" in project "AMSim.vcxproj".: (TargetId:44)
                    Target "ComputeMIDLGeneratedCompileInputs" skipped. Previously built successfully.
                    Target "ComputeCLInputPDBName" skipped. Previously built successfully.
                    Target "ComputeReferenceCLInput" skipped. Previously built successfully.
                    Target "WarnCompileDuplicatedFilename" skipped. Previously built successfully.
                    Target "FixupCLCompileOptions" skipped. Previously built successfully.
                    Target "_SelectedFiles" skipped. Previously built successfully.
-18:58:12.147     1>Target "SelectCustomBuild: (TargetId:45)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "SelectClCompile" depends on it):
-18:58:12.147     1>Done building target "SelectCustomBuild" in project "AMSim.vcxproj".: (TargetId:45)
-18:58:12.147     1>Target "SelectClCompile: (TargetId:46)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ClCompile" depends on it):
-18:58:12.147     1>Done building target "SelectClCompile" in project "AMSim.vcxproj".: (TargetId:46)
+03:21:17.154     1>Target "SelectCustomBuild: (TargetId:45)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "SelectClCompile" depends on it):
+03:21:17.154     1>Done building target "SelectCustomBuild" in project "AMSim.vcxproj".: (TargetId:45)
+03:21:17.154     1>Target "SelectClCompile: (TargetId:46)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ClCompile" depends on it):
+03:21:17.154     1>Done building target "SelectClCompile" in project "AMSim.vcxproj".: (TargetId:46)
                    Target "GenerateTargetFrameworkMonikerAttribute" skipped, due to false condition; ('$(GenerateTargetFrameworkAttribute)' == 'true') was evaluated as ('false' == 'true').
                    Target "ManagedIncrementalBuildPreProcessDependencyGraph" skipped, due to false condition; ('@(ClCompile)' != '' and '$(EnableManagedIncrementalBuild)' == 'True') was evaluated as ('agent.cpp;display.cpp;environment.cpp;main.cpp' != '' and 'false' == 'True').
-18:58:12.147     1>Target "ClCompile: (TargetId:47)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
+03:21:17.154     1>Target "ClCompile: (TargetId:47)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
                    Set Property: CLToolArchitecture=Native32Bit
                    Set Property: CLDeleteOutputOnExecute=true
                    Task "Delete" skipped, due to false condition; ('%(ClCompile.DebugInformationFormat)' != '' and '%(ClCompile.DebugInformationFormat)' != 'None' and '%(ClCompile.DebugInformationFormat)' != 'OldStyle' and '%(ClCompile.ProgramDataBaseFileName)' != '' and !Exists(%(ClCompile.ProgramDataBaseFileName))) was evaluated as ('EditAndContinue' != '' and 'EditAndContinue' != 'None' and 'EditAndContinue' != 'OldStyle' and 'Debug\vc140.pdb' != '' and !Exists(Debug\vc140.pdb)).
@@ -1930,80 +1930,57 @@ _PTVS_PID = 10728
                      	C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\DISPLAY.OBJ (TaskId:17)
                      	C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\ENVIRONMENT.OBJ (TaskId:17)
                      	C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\MAIN.OBJ (TaskId:17)
-                     agent.cpp will be compiled as C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\AGENT.H was modified at 7/1/2020 6:58:06 PM. (TaskId:17)
-                     main.cpp will be compiled as C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\main.cpp was modified at 7/1/2020 6:57:37 PM. (TaskId:17)
+                     main.cpp will be compiled as C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\main.cpp was modified at 7/5/2020 3:04:22 AM. (TaskId:17)
                      Environment Variables passed to tool: (TaskId:17)
-                       VS_UNICODE_OUTPUT=1904 (TaskId:17)
-                     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I.\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt agent.cpp main.cpp (TaskId:17)
+                       VS_UNICODE_OUTPUT=1208 (TaskId:17)
+                     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I.\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp (TaskId:17)
                      Tracking command: (TaskId:17)
-                     C:\Program Files (x86)\MSBuild\14.0\bin\Tracker.exe /d "C:\Program Files (x86)\MSBuild\14.0\bin\FileTracker32.dll" /i "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug\AMSim.tlog" /r "C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\AGENT.CPP|C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\MAIN.CPP" /b MSBuildConsole_CancelEvent998ebad7ad964e8a977b5f5087d177c9  /c "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe"  /c /I.\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt agent.cpp main.cpp (TaskId:17)
+                     C:\Program Files (x86)\MSBuild\14.0\bin\Tracker.exe /d "C:\Program Files (x86)\MSBuild\14.0\bin\FileTracker32.dll" /i "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug\AMSim.tlog" /r "C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\MAIN.CPP" /b MSBuildConsole_CancelEvent463b9f5d4a144eab8513500952ddc30b  /c "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe"  /c /I.\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp (TaskId:17)
                      main.cpp (TaskId:17)
-18:58:12.415     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.h(11): warning C4305: 'initializing': truncation from 'double' to 'const float'
-18:58:12.415     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.h(12): warning C4305: 'initializing': truncation from 'double' to 'float'
-18:58:12.415     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.h(16): warning C4305: 'initializing': truncation from 'double' to 'float'
-18:58:12.765     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\main.cpp(155): warning C4018: '<': signed/unsigned mismatch
-                     Generating Code... (TaskId:17)
-                     Compiling... (TaskId:17)
-                     agent.cpp (TaskId:17)
-18:58:13.271     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.h(11): warning C4305: 'initializing': truncation from 'double' to 'const float'
-18:58:13.271     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.h(12): warning C4305: 'initializing': truncation from 'double' to 'float'
-18:58:13.271     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.h(16): warning C4305: 'initializing': truncation from 'double' to 'float'
-18:58:13.357     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(41): warning C4018: '<': signed/unsigned mismatch
-18:58:13.361     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(63): warning C4018: '<': signed/unsigned mismatch
-18:58:13.362     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(77): warning C4305: 'initializing': truncation from 'double' to 'float'
-18:58:13.362     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(100): warning C4018: '<': signed/unsigned mismatch
-18:58:13.363     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(142): warning C4305: '+=': truncation from 'double' to 'float'
-18:58:13.363     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(143): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-18:58:13.363     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(147): warning C4305: '+=': truncation from 'double' to 'float'
-18:58:13.363     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(148): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-18:58:13.363     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(152): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-18:58:13.368     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(178): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                     c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen' (TaskId:17)
-18:58:13.370     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(201): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                     c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen' (TaskId:17)
-18:58:13.373     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(256): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                     c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen' (TaskId:17)
-18:58:13.373     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.cpp(262): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                     c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen' (TaskId:17)
-                     Generating Code... (TaskId:17)
+03:21:19.229     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.h(11): warning C4305: 'initializing': truncation from 'double' to 'const float'
+03:21:19.229     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.h(12): warning C4305: 'initializing': truncation from 'double' to 'float'
+03:21:19.229     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\agent.h(16): warning C4305: 'initializing': truncation from 'double' to 'float'
+03:21:20.045     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\main.cpp(111): warning C4018: '>=': signed/unsigned mismatch
+03:21:20.045     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\main.cpp(112): warning C4018: '<': signed/unsigned mismatch
+03:21:20.075     1>c:\users\zfoong\desktop\master thesis\collective-x-adversarial-ams\amsim\amsim\main.cpp(176): warning C4018: '<': signed/unsigned mismatch
                    Done executing task "CL". (TaskId:17)
-18:58:13.679     1>Done building target "ClCompile" in project "AMSim.vcxproj".: (TargetId:47)
+03:21:21.475     1>Done building target "ClCompile" in project "AMSim.vcxproj".: (TargetId:47)
                    Target "ManagedIncrementalBuildPostProcessDependencyGraph" skipped, due to false condition; ('@(ClCompile)' != '' and '$(EnableManagedIncrementalBuild)' == 'True') was evaluated as ('agent.cpp;display.cpp;environment.cpp;main.cpp' != '' and 'false' == 'True').
-18:58:13.679     1>Target "AfterClCompile: (TargetId:48)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
-18:58:13.679     1>Done building target "AfterClCompile" in project "AMSim.vcxproj".: (TargetId:48)
-18:58:13.679     1>Target "_ClCompile: (TargetId:49)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildCompileAction" depends on it):
-18:58:13.679     1>Done building target "_ClCompile" in project "AMSim.vcxproj".: (TargetId:49)
+03:21:21.475     1>Target "AfterClCompile: (TargetId:48)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ClCompile" depends on it):
+03:21:21.475     1>Done building target "AfterClCompile" in project "AMSim.vcxproj".: (TargetId:48)
+03:21:21.475     1>Target "_ClCompile: (TargetId:49)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildCompileAction" depends on it):
+03:21:21.475     1>Done building target "_ClCompile" in project "AMSim.vcxproj".: (TargetId:49)
                    Target "_ResGen" skipped, due to false condition; ('@(EmbeddedResource)'!='') was evaluated as (''!='').
-18:58:13.679     1>Target "BeforeResourceCompile: (TargetId:50)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ResourceCompile" depends on it):
-18:58:13.679     1>Done building target "BeforeResourceCompile" in project "AMSim.vcxproj".: (TargetId:50)
-18:58:13.679     1>Target "MakeDirsForResourceCompile: (TargetId:51)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ResourceCompile" depends on it):
+03:21:21.475     1>Target "BeforeResourceCompile: (TargetId:50)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ResourceCompile" depends on it):
+03:21:21.475     1>Done building target "BeforeResourceCompile" in project "AMSim.vcxproj".: (TargetId:50)
+03:21:21.475     1>Target "MakeDirsForResourceCompile: (TargetId:51)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ResourceCompile" depends on it):
                    Added Item(s): RcDirsToMake=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug
                    Task "MakeDir" (TaskId:18)
                      Task Parameter:Directories=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug (TaskId:18)
                    Done executing task "MakeDir". (TaskId:18)
                    Removed Item(s): RcDirsToMake=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug
-18:58:13.680     1>Done building target "MakeDirsForResourceCompile" in project "AMSim.vcxproj".: (TargetId:51)
+03:21:21.476     1>Done building target "MakeDirsForResourceCompile" in project "AMSim.vcxproj".: (TargetId:51)
                    Target "ResourceCompile" skipped, due to false condition; ('@(ResourceCompile)' != '') was evaluated as ('' != '').
-18:58:13.680     1>Target "AfterResourceCompile: (TargetId:52)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ResourceCompile" depends on it):
-18:58:13.680     1>Done building target "AfterResourceCompile" in project "AMSim.vcxproj".: (TargetId:52)
-18:58:13.680     1>Target "_ResourceCompile: (TargetId:53)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildCompileAction" depends on it):
-18:58:13.680     1>Done building target "_ResourceCompile" in project "AMSim.vcxproj".: (TargetId:53)
+03:21:21.476     1>Target "AfterResourceCompile: (TargetId:52)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_ResourceCompile" depends on it):
+03:21:21.476     1>Done building target "AfterResourceCompile" in project "AMSim.vcxproj".: (TargetId:52)
+03:21:21.476     1>Target "_ResourceCompile: (TargetId:53)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildCompileAction" depends on it):
+03:21:21.476     1>Done building target "_ResourceCompile" in project "AMSim.vcxproj".: (TargetId:53)
                    Target "_ImpLib" skipped, due to false condition; ('$(ImpLibCompiled)' == 'true') was evaluated as ('' == 'true').
                    Target "_Lib" skipped, due to false condition; ('$(LibCompiled)' == 'true') was evaluated as ('' == 'true').
-18:58:13.680     1>Target "AfterBuildCompileEvent: (TargetId:54)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildCompileAction" depends on it):
-18:58:13.680     1>Done building target "AfterBuildCompileEvent" in project "AMSim.vcxproj".: (TargetId:54)
-18:58:13.680     1>Target "_BuildCompileAction: (TargetId:55)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildCompile" depends on it):
-18:58:13.680     1>Done building target "_BuildCompileAction" in project "AMSim.vcxproj".: (TargetId:55)
-18:58:13.680     1>Target "BuildCompile: (TargetId:56)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
-18:58:13.680     1>Done building target "BuildCompile" in project "AMSim.vcxproj".: (TargetId:56)
+03:21:21.476     1>Target "AfterBuildCompileEvent: (TargetId:54)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildCompileAction" depends on it):
+03:21:21.476     1>Done building target "AfterBuildCompileEvent" in project "AMSim.vcxproj".: (TargetId:54)
+03:21:21.476     1>Target "_BuildCompileAction: (TargetId:55)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildCompile" depends on it):
+03:21:21.476     1>Done building target "_BuildCompileAction" in project "AMSim.vcxproj".: (TargetId:55)
+03:21:21.476     1>Target "BuildCompile: (TargetId:56)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
+03:21:21.476     1>Done building target "BuildCompile" in project "AMSim.vcxproj".: (TargetId:56)
                    Target "AssignProjectConfiguration" skipped. Previously built successfully.
                    Target "_SplitProjectReferencesByFileExistence" skipped. Previously built successfully.
-18:58:13.680     1>Target "BuildLinkTraverse: (TargetId:57)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildLink" depends on it):
+03:21:21.476     1>Target "BuildLinkTraverse: (TargetId:57)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildLink" depends on it):
                    Task "MSBuild" skipped, due to false condition; ('$(BuildPassReferences)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != ''  and '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true') was evaluated as ('' == 'true' and '' != '' and '' != ''  and '' == 'true').
-18:58:13.680     1>Done building target "BuildLinkTraverse" in project "AMSim.vcxproj".: (TargetId:57)
+03:21:21.476     1>Done building target "BuildLinkTraverse" in project "AMSim.vcxproj".: (TargetId:57)
                    Target "PrepareForBuild" skipped. Previously built successfully.
                    Target "ResolveReferences" skipped. Previously built successfully.
-18:58:13.680     1>Target "ComputeLegacyManifestEmbedding: (TargetId:58)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:21.476     1>Target "ComputeLegacyManifestEmbedding: (TargetId:58)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
                    Added Item(s): 
                        Manifest=
                            temp
@@ -2033,26 +2010,26 @@ _PTVS_PID = 10728
                                    TrackerLogDirectory=Debug\AMSim.tlog\
                                    UpdateFileHashes=false
                                    VerboseOutput=true
-18:58:13.680     1>Done building target "ComputeLegacyManifestEmbedding" in project "AMSim.vcxproj".: (TargetId:58)
-18:58:13.680     1>Target "BeforeLink: (TargetId:59)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
-18:58:13.680     1>Done building target "BeforeLink" in project "AMSim.vcxproj".: (TargetId:59)
-18:58:13.680     1>Target "ComputeRCOutputs: (TargetId:60)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ComputeRCGeneratedLinkInputs" depends on it):
-18:58:13.681     1>Done building target "ComputeRCOutputs" in project "AMSim.vcxproj".: (TargetId:60)
-18:58:13.681     1>Target "ComputeRCGeneratedLinkInputs: (TargetId:61)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
-18:58:13.681     1>Done building target "ComputeRCGeneratedLinkInputs" in project "AMSim.vcxproj".: (TargetId:61)
-18:58:13.681     1>Target "ComputeManifestGeneratedLinkerInputs: (TargetId:62)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
-18:58:13.681     1>Done building target "ComputeManifestGeneratedLinkerInputs" in project "AMSim.vcxproj".: (TargetId:62)
-18:58:13.681     1>Target "ComputeCustomBuildOutput: (TargetId:63)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.476     1>Done building target "ComputeLegacyManifestEmbedding" in project "AMSim.vcxproj".: (TargetId:58)
+03:21:21.476     1>Target "BeforeLink: (TargetId:59)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.476     1>Done building target "BeforeLink" in project "AMSim.vcxproj".: (TargetId:59)
+03:21:21.476     1>Target "ComputeRCOutputs: (TargetId:60)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ComputeRCGeneratedLinkInputs" depends on it):
+03:21:21.476     1>Done building target "ComputeRCOutputs" in project "AMSim.vcxproj".: (TargetId:60)
+03:21:21.476     1>Target "ComputeRCGeneratedLinkInputs: (TargetId:61)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.476     1>Done building target "ComputeRCGeneratedLinkInputs" in project "AMSim.vcxproj".: (TargetId:61)
+03:21:21.476     1>Target "ComputeManifestGeneratedLinkerInputs: (TargetId:62)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.476     1>Done building target "ComputeManifestGeneratedLinkerInputs" in project "AMSim.vcxproj".: (TargetId:62)
+03:21:21.476     1>Target "ComputeCustomBuildOutput: (TargetId:63)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
                    Task "CreateItem" skipped, due to false condition; ('%(CustomBuildDirsToMake.OutputFileToTool)'!='') was evaluated as (''!='').
                    Task "MakeDir" (TaskId:19)
                    Done executing task "MakeDir". (TaskId:19)
-18:58:13.681     1>Done building target "ComputeCustomBuildOutput" in project "AMSim.vcxproj".: (TargetId:63)
+03:21:21.477     1>Done building target "ComputeCustomBuildOutput" in project "AMSim.vcxproj".: (TargetId:63)
                    Target "ComputeMIDLGeneratedCompileInputs" skipped. Previously built successfully.
                    Target "ComputeCLInputPDBName" skipped. Previously built successfully.
                    Target "ComputeReferenceCLInput" skipped. Previously built successfully.
                    Target "WarnCompileDuplicatedFilename" skipped. Previously built successfully.
                    Target "FixupCLCompileOptions" skipped. Previously built successfully.
-18:58:13.681     1>Target "ComputeCLOutputs: (TargetId:64)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ComputeCLGeneratedLinkInputs" depends on it):
+03:21:21.477     1>Target "ComputeCLOutputs: (TargetId:64)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "ComputeCLGeneratedLinkInputs" depends on it):
                    Added Item(s): 
                        Obj=
                            Debug\agent.obj
@@ -2299,8 +2276,8 @@ _PTVS_PID = 10728
                                    WholeProgramOptimization=false
                                    WinRTNoStdLib=false
                                    XMLDocumentationFileName=Debug\
-18:58:13.682     1>Done building target "ComputeCLOutputs" in project "AMSim.vcxproj".: (TargetId:64)
-18:58:13.682     1>Target "ComputeCLGeneratedLinkInputs: (TargetId:65)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.478     1>Done building target "ComputeCLOutputs" in project "AMSim.vcxproj".: (TargetId:64)
+03:21:21.478     1>Target "ComputeCLGeneratedLinkInputs: (TargetId:65)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
                    Added Item(s): 
                        Link=
                            Debug\agent.obj
@@ -2459,11 +2436,11 @@ _PTVS_PID = 10728
                                    TypeLibraryResourceID=1
                                    UACExecutionLevel=AsInvoker
                                    UACUIAccess=false
-18:58:13.682     1>Done building target "ComputeCLGeneratedLinkInputs" in project "AMSim.vcxproj".: (TargetId:65)
-18:58:13.682     1>Target "ComputeLinkInputsFromProject: (TargetId:66)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
-18:58:13.683     1>Done building target "ComputeLinkInputsFromProject" in project "AMSim.vcxproj".: (TargetId:66)
+03:21:21.478     1>Done building target "ComputeCLGeneratedLinkInputs" in project "AMSim.vcxproj".: (TargetId:65)
+03:21:21.478     1>Target "ComputeLinkInputsFromProject: (TargetId:66)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.479     1>Done building target "ComputeLinkInputsFromProject" in project "AMSim.vcxproj".: (TargetId:66)
                    Target "ComputeReferenceLinkInputs" skipped, due to false condition; (@(ProjectReference) != '') was evaluated as ( != '').
-18:58:13.683     1>Target "ComputeManifestInputsTargets: (TargetId:67)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.479     1>Target "ComputeManifestInputsTargets: (TargetId:67)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
                    Added Item(s): 
                        Manifest=
                            temp
@@ -2494,10 +2471,10 @@ _PTVS_PID = 10728
                                    TrackerLogDirectory=Debug\AMSim.tlog\
                                    UpdateFileHashes=false
                                    VerboseOutput=true
-18:58:13.683     1>Done building target "ComputeManifestInputsTargets" in project "AMSim.vcxproj".: (TargetId:67)
+03:21:21.479     1>Done building target "ComputeManifestInputsTargets" in project "AMSim.vcxproj".: (TargetId:67)
                    Target "ManifestResourceCompile" skipped, due to false condition; ('$(EmbedManifestBy)' == 'LINK' and '@(Manifest)' != '') was evaluated as ('LINK' == 'LINK' and '' != '').
                    Target "AssignWinFXEmbeddedResource" skipped, due to false condition; ('@(WinFXEmbeddedResource)' != '') was evaluated as ('' != '').
-18:58:13.683     1>Target "AssignTargetPaths: (TargetId:68)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareResourceNames" depends on it):
+03:21:21.479     1>Target "AssignTargetPaths: (TargetId:68)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareResourceNames" depends on it):
                    Using "AssignTargetPath" task from assembly "Microsoft.Build.Tasks.Core, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
                    Task "AssignTargetPath" (TaskId:20)
                      Task Parameter:RootFolder=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim (TaskId:20)
@@ -2512,9 +2489,9 @@ _PTVS_PID = 10728
                      Task Parameter:RootFolder=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim (TaskId:23)
                    Done executing task "AssignTargetPath". (TaskId:23)
                    Task "AssignTargetPath" skipped, due to false condition; ('@(_DeploymentBaseManifestWithTargetPath)'=='' and '%(None.Extension)'=='.manifest') was evaluated as (''=='' and ''=='.manifest').
-18:58:13.683     1>Done building target "AssignTargetPaths" in project "AMSim.vcxproj".: (TargetId:68)
+03:21:21.480     1>Done building target "AssignTargetPaths" in project "AMSim.vcxproj".: (TargetId:68)
                    Target "AssignTargetPaths" skipped. Previously built successfully.
-18:58:13.683     1>Target "SplitResourcesByCulture: (TargetId:69)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareResourceNames" depends on it):
+03:21:21.480     1>Target "SplitResourcesByCulture: (TargetId:69)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareResourceNames" depends on it):
                    Task "Warning" skipped, due to false condition; ('@(ResxWithNoCulture)'!='') was evaluated as (''!='').
                    Task "Warning" skipped, due to false condition; ('@(ResxWithCulture)'!='') was evaluated as (''!='').
                    Task "Warning" skipped, due to false condition; ('@(NonResxWithCulture)'!='') was evaluated as (''!='').
@@ -2522,13 +2499,13 @@ _PTVS_PID = 10728
                    Using "AssignCulture" task from assembly "Microsoft.Build.Tasks.Core, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
                    Task "AssignCulture" (TaskId:24)
                    Done executing task "AssignCulture". (TaskId:24)
-18:58:13.684     1>Done building target "SplitResourcesByCulture" in project "AMSim.vcxproj".: (TargetId:69)
+03:21:21.490     1>Done building target "SplitResourcesByCulture" in project "AMSim.vcxproj".: (TargetId:69)
                    Target "CreateManifestResourceNames" skipped, due to false condition; ('@(EmbeddedResource)' != '') was evaluated as ('' != '').
-18:58:13.684     1>Target "CreateCustomManifestResourceNames: (TargetId:70)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareResourceNames" depends on it):
-18:58:13.684     1>Done building target "CreateCustomManifestResourceNames" in project "AMSim.vcxproj".: (TargetId:70)
-18:58:13.684     1>Target "PrepareResourceNames: (TargetId:71)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
-18:58:13.684     1>Done building target "PrepareResourceNames" in project "AMSim.vcxproj".: (TargetId:71)
-18:58:13.684     1>Target "MakeDirsForLink: (TargetId:72)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.490     1>Target "CreateCustomManifestResourceNames: (TargetId:70)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareResourceNames" depends on it):
+03:21:21.490     1>Done building target "CreateCustomManifestResourceNames" in project "AMSim.vcxproj".: (TargetId:70)
+03:21:21.490     1>Target "PrepareResourceNames: (TargetId:71)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.490     1>Done building target "PrepareResourceNames" in project "AMSim.vcxproj".: (TargetId:71)
+03:21:21.490     1>Target "MakeDirsForLink: (TargetId:72)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
                    Set Property: _LinkImportLibrary=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.lib
                    Added Item(s): _LinkImportLibraryFile=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.lib
                    Added Item(s): LinkDirsToMake=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug
@@ -2550,25 +2527,25 @@ _PTVS_PID = 10728
                            C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug
                            C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\
                    Removed Item(s): _LinkImportLibraryFile=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.lib
-18:58:13.684     1>Done building target "MakeDirsForLink" in project "AMSim.vcxproj".: (TargetId:72)
-18:58:13.684     1>Target "DoLinkOutputFilesMatch: (TargetId:73)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.491     1>Done building target "MakeDirsForLink" in project "AMSim.vcxproj".: (TargetId:72)
+03:21:21.491     1>Target "DoLinkOutputFilesMatch: (TargetId:73)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
                    Added Item(s): _OutputFileFromLink=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.exe
                    Task "VCMessage" skipped, due to false condition; ('@(_OutputFileFromLink)' == '') was evaluated as ('C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.exe' == '').
                    Task "VCMessage" skipped, due to false condition; ('@(_OutputFileFromLink)' != '' and '%(_OutputFileFromLink.FullPath)' != '$([System.IO.Path]::GetFullPath($(TargetPath)))') was evaluated as ('C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.exe' != '' and 'C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.exe' != 'C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.exe').
                    Task "VCMessage" skipped, due to false condition; ('@(_OutputFileFromLink)' != '' and '%(_OutputFileFromLink.Extension)' != '' and '%(_OutputFileFromLink.Extension)' != '$(TargetExt)') was evaluated as ('C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.exe' != '' and '.exe' != '' and '.exe' != '.exe').
                    Task "VCMessage" skipped, due to false condition; ('@(_OutputFileFromLink)' != '' and '%(_OutputFileFromLink.Filename)' != '' and '%(_OutputFileFromLink.Filename)' != '$(TargetName)') was evaluated as ('C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.exe' != '' and 'AMSim' != '' and 'AMSim' != 'AMSim').
                    Task "VCMessage" skipped, due to false condition; ('%(Link.MinimumRequiredVersion)' != '' and ('%(Link.Subsystem)' == '' or '%(Link.Subsystem)' == 'NotSet')) was evaluated as ('' != '' and ('Console' == '' or 'Console' == 'NotSet')).
-18:58:13.685     1>Done building target "DoLinkOutputFilesMatch" in project "AMSim.vcxproj".: (TargetId:73)
-18:58:13.685     1>Target "PreLinkEvent: (TargetId:74)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.491     1>Done building target "DoLinkOutputFilesMatch" in project "AMSim.vcxproj".: (TargetId:73)
+03:21:21.491     1>Target "PreLinkEvent: (TargetId:74)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
                    Task "Message" skipped, due to false condition; ('%(PreLinkEvent.Message)' != '' and '%(PreLinkEvent.Command)' != '') was evaluated as ('' != '' and '' != '').
                    Task "Exec" skipped, due to false condition; ('%(PreLinkEvent.Command)' != '') was evaluated as ('' != '').
-18:58:13.685     1>Done building target "PreLinkEvent" in project "AMSim.vcxproj".: (TargetId:74)
-18:58:13.685     1>Target "ComputeLinkSwitches: (TargetId:75)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Link" depends on it):
+03:21:21.491     1>Done building target "PreLinkEvent" in project "AMSim.vcxproj".: (TargetId:74)
+03:21:21.491     1>Target "ComputeLinkSwitches: (TargetId:75)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Link" depends on it):
                    Set Property: Link_MinimalRebuildFromTracking=true
                    Set Property: LinkToolArchitecture=Native32Bit
                    Set Property: _GenerateWindowsMetadata=
-18:58:13.685     1>Done building target "ComputeLinkSwitches" in project "AMSim.vcxproj".: (TargetId:75)
-18:58:13.685     1>Target "Link: (TargetId:76)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:21.492     1>Done building target "ComputeLinkSwitches" in project "AMSim.vcxproj".: (TargetId:75)
+03:21:21.492     1>Target "Link: (TargetId:76)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
                    Using "Link" task from assembly "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.Build.CppTasks.Common.dll".
                    Task "Link" (TaskId:26)
                      Task Parameter:BuildingInIde=True (TaskId:26)
@@ -2849,6 +2826,7 @@ _PTVS_PID = 10728
                      	C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\ENVIRONMENT.OBJ (TaskId:26)
                      	C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\MAIN.OBJ (TaskId:26)
                      	C:\WINDOWS\SYSTEM32\TZRES.DLL (TaskId:26)
+                     	C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\VC\BIN\1033\LINKUI.DLL (TaskId:26)
                      	C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\VC\LIB\MSVCPRTD.LIB (TaskId:26)
                      	C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\VC\LIB\MSVCRTD.LIB (TaskId:26)
                      	C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\VC\LIB\OLDNAMES.LIB (TaskId:26)
@@ -2856,15 +2834,17 @@ _PTVS_PID = 10728
                      	C:\PROGRAM FILES (X86)\WINDOWS KITS\8.1\LIB\WINV6.3\UM\X86\GLU32.LIB (TaskId:26)
                      	C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\VC\LIB\VCRUNTIMED.LIB (TaskId:26)
                      	C:\PROGRAM FILES (X86)\WINDOWS KITS\10\LIB\10.0.10240.0\UCRT\X86\UCRTD.LIB (TaskId:26)
-                     Source compilation required: input C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\AGENT.OBJ is newer than output C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\DEBUG\AMSIM.PDB. (TaskId:26)
+                     	C:\PROGRAM FILES (X86)\WINDOWS KITS\8.1\BIN\X86\RC.EXE (TaskId:26)
+                     	C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\VC\BIN\CVTRES.EXE (TaskId:26)
+                     Source compilation required: input C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\MAIN.OBJ is newer than output C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\DEBUG\AMSIM.EXE. (TaskId:26)
                      Environment Variables passed to tool: (TaskId:26)
-                       VS_UNICODE_OUTPUT=2700 (TaskId:26)
+                       VS_UNICODE_OUTPUT=1228 (TaskId:26)
                      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.exe" /INCREMENTAL /NOLOGO /LIBPATH:.\lib glew32.lib glew32s.lib SDL2.lib SDL2main.lib SDL2test.lib OpenGL32.lib glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.lib" /MACHINE:X86 Debug\agent.obj
                      Debug\display.obj
                      Debug\environment.obj
                      Debug\main.obj (TaskId:26)
                      Tracking command: (TaskId:26)
-                     C:\Program Files (x86)\MSBuild\14.0\bin\Tracker.exe /a /d "C:\Program Files (x86)\MSBuild\14.0\bin\FileTracker32.dll" /i "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug\AMSim.tlog" /r "C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\AGENT.OBJ|C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\DISPLAY.OBJ|C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\ENVIRONMENT.OBJ|C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\MAIN.OBJ" /b MSBuildConsole_CancelEvent3c2fc4aa5fba4a24880d14e3ad715025  /c "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe"  /ERRORREPORT:PROMPT /OUT:"C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.exe" /INCREMENTAL /NOLOGO /LIBPATH:.\lib glew32.lib glew32s.lib SDL2.lib SDL2main.lib SDL2test.lib OpenGL32.lib glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.lib" /MACHINE:X86 Debug\agent.obj
+                     C:\Program Files (x86)\MSBuild\14.0\bin\Tracker.exe /a /d "C:\Program Files (x86)\MSBuild\14.0\bin\FileTracker32.dll" /i "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\Debug\AMSim.tlog" /r "C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\AGENT.OBJ|C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\DISPLAY.OBJ|C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\ENVIRONMENT.OBJ|C:\USERS\ZFOONG\DESKTOP\MASTER THESIS\COLLECTIVE-X-ADVERSARIAL-AMS\AMSIM\AMSIM\DEBUG\MAIN.OBJ" /b MSBuildConsole_CancelEventa9771e201f594f0caea817d1d15942b2  /c "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe"  /ERRORREPORT:PROMPT /OUT:"C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.exe" /INCREMENTAL /NOLOGO /LIBPATH:.\lib glew32.lib glew32s.lib SDL2.lib SDL2main.lib SDL2test.lib OpenGL32.lib glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.lib" /MACHINE:X86 Debug\agent.obj
                      Debug\display.obj
                      Debug\environment.obj
                      Debug\main.obj (TaskId:26)
@@ -2883,36 +2863,36 @@ _PTVS_PID = 10728
                      Task Parameter:Importance=High (TaskId:28)
                      AMSim.vcxproj -> C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.pdb (Full PDB) (TaskId:28)
                    Done executing task "Message". (TaskId:28)
-18:58:13.932     1>Done building target "Link" in project "AMSim.vcxproj".: (TargetId:76)
+03:21:23.438     1>Done building target "Link" in project "AMSim.vcxproj".: (TargetId:76)
                    Target "MetaGenInputsOutputs" skipped, due to false condition; ('$(EnableManagedIncrementalBuild)' == 'True') was evaluated as ('false' == 'True').
                    Target "ComputeMetaGenInputs" skipped, due to false condition; ('$(CLRSupport)'!='' and '$(CLRSupport)'!='false') was evaluated as ('false'!='' and 'false'!='false').
                    Target "MetaGen" skipped, due to false condition; ('@(MetaGen)' != '') was evaluated as ('' != '').
-18:58:13.932     1>Target "ComputeLinkImportLibraryOutputsForClean: (TargetId:77)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:23.438     1>Target "ComputeLinkImportLibraryOutputsForClean: (TargetId:77)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
                    Task "WriteLinesToFile" skipped, due to false condition; ('@(_LinkSecondaryOutput)' != '') was evaluated as ('' != '').
-18:58:13.932     1>Done building target "ComputeLinkImportLibraryOutputsForClean" in project "AMSim.vcxproj".: (TargetId:77)
-18:58:13.932     1>Target "AfterLink: (TargetId:78)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
-18:58:13.932     1>Done building target "AfterLink" in project "AMSim.vcxproj".: (TargetId:78)
-18:58:13.932     1>Target "_Link: (TargetId:79)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
-18:58:13.932     1>Done building target "_Link" in project "AMSim.vcxproj".: (TargetId:79)
-18:58:13.932     1>Target "_ALink: (TargetId:80)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
-18:58:13.932     1>Done building target "_ALink" in project "AMSim.vcxproj".: (TargetId:80)
+03:21:23.438     1>Done building target "ComputeLinkImportLibraryOutputsForClean" in project "AMSim.vcxproj".: (TargetId:77)
+03:21:23.438     1>Target "AfterLink: (TargetId:78)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_Link" depends on it):
+03:21:23.438     1>Done building target "AfterLink" in project "AMSim.vcxproj".: (TargetId:78)
+03:21:23.438     1>Target "_Link: (TargetId:79)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:23.438     1>Done building target "_Link" in project "AMSim.vcxproj".: (TargetId:79)
+03:21:23.438     1>Target "_ALink: (TargetId:80)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:23.438     1>Done building target "_ALink" in project "AMSim.vcxproj".: (TargetId:80)
                    Target "ComputeLegacyManifestEmbedding" skipped. Previously built successfully.
-18:58:13.932     1>Target "_Manifest: (TargetId:81)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:23.439     1>Target "_Manifest: (TargetId:81)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
                    Task "CallTarget" skipped, due to false condition; ('$(LegacyManifestEmbedding)' == 'true') was evaluated as ('' == 'true').
-18:58:13.932     1>Done building target "_Manifest" in project "AMSim.vcxproj".: (TargetId:81)
-18:58:13.932     1>Target "RegisterOutput: (TargetId:82)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:23.439     1>Done building target "_Manifest" in project "AMSim.vcxproj".: (TargetId:81)
+03:21:23.439     1>Target "RegisterOutput: (TargetId:82)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
                    Task "Exec" skipped, due to false condition; ('$(ConfigurationType)'=='DynamicLibrary' and '%(Link.RegisterOutput)'=='true' and '%(Link.PerUserRedirection)'!='true') was evaluated as ('Application'=='DynamicLibrary' and 'false'=='true' and 'false'!='true').
                    Task "Exec" skipped, due to false condition; ('$(ConfigurationType)'=='DynamicLibrary' and '%(Link.RegisterOutput)'=='true' and '%(Link.PerUserRedirection)'=='true') was evaluated as ('Application'=='DynamicLibrary' and 'false'=='true' and 'false'=='true').
                    Task "Exec" skipped, due to false condition; ('$(ConfigurationType)'=='Application' and '%(Link.RegisterOutput)'=='true' and '%(Link.PerUserRedirection)'!='true') was evaluated as ('Application'=='Application' and 'false'=='true' and 'false'!='true').
                    Task "Exec" skipped, due to false condition; ('$(ConfigurationType)'=='Application' and '%(Link.RegisterOutput)'=='true' and '%(Link.PerUserRedirection)'=='true') was evaluated as ('Application'=='Application' and 'false'=='true' and 'false'=='true').
                    Task "VCMessage" skipped, due to false condition; ('$(_RegisterOutputExitCode)' != '' and '$(_RegisterOutputExitCode)' != '0') was evaluated as ('' != '' and '' != '0').
-18:58:13.932     1>Done building target "RegisterOutput" in project "AMSim.vcxproj".: (TargetId:82)
+03:21:23.439     1>Done building target "RegisterOutput" in project "AMSim.vcxproj".: (TargetId:82)
                    Target "PrepareForBuild" skipped. Previously built successfully.
                    Target "ResolveReferences" skipped. Previously built successfully.
-18:58:13.932     1>Target "ResolvedXDCMake: (TargetId:83)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_XdcMake" depends on it):
+03:21:23.440     1>Target "ResolvedXDCMake: (TargetId:83)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_XdcMake" depends on it):
                    Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.Extension)' == '.vcxproj' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != '' and '$(_ClCompileGenerateXMLDocumentationFiles)' == 'true') was evaluated as ('' == '.vcxproj' and '' != '' and '' != '' and '' == 'true').
-18:58:13.932     1>Done building target "ResolvedXDCMake" in project "AMSim.vcxproj".: (TargetId:83)
-18:58:13.932     1>Target "ComputeCLCompileGeneratedXDCFiles: (TargetId:84)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_XdcMake" depends on it):
+03:21:23.440     1>Done building target "ResolvedXDCMake" in project "AMSim.vcxproj".: (TargetId:83)
+03:21:23.440     1>Target "ComputeCLCompileGeneratedXDCFiles: (TargetId:84)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_XdcMake" depends on it):
                    Added Item(s): 
                        XdcMake=
                            temp
@@ -2935,67 +2915,67 @@ _PTVS_PID = 10728
                                    OutputFile=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\Debug\AMSim.xml
                                    SuppressStartupBanner=true
                                    TrackerLogDirectory=Debug\AMSim.tlog\
-18:58:13.933     1>Done building target "ComputeCLCompileGeneratedXDCFiles" in project "AMSim.vcxproj".: (TargetId:84)
-18:58:13.933     1>Target "MakeDirsForXdcMake: (TargetId:85)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_XdcMake" depends on it):
+03:21:23.441     1>Done building target "ComputeCLCompileGeneratedXDCFiles" in project "AMSim.vcxproj".: (TargetId:84)
+03:21:23.441     1>Target "MakeDirsForXdcMake: (TargetId:85)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_XdcMake" depends on it):
                    Task "MakeDir" (TaskId:29)
                    Done executing task "MakeDir". (TaskId:29)
-18:58:13.933     1>Done building target "MakeDirsForXdcMake" in project "AMSim.vcxproj".: (TargetId:85)
+03:21:23.441     1>Done building target "MakeDirsForXdcMake" in project "AMSim.vcxproj".: (TargetId:85)
                    Target "XdcMake" skipped, due to false condition; ('@(XdcMake)' != '') was evaluated as ('' != '').
-18:58:13.933     1>Target "_XdcMake: (TargetId:86)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
-18:58:13.933     1>Done building target "_XdcMake" in project "AMSim.vcxproj".: (TargetId:86)
-18:58:13.933     1>Target "ComputeCLCompileGeneratedSbrFiles: (TargetId:87)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BscMake" depends on it):
-18:58:13.933     1>Done building target "ComputeCLCompileGeneratedSbrFiles" in project "AMSim.vcxproj".: (TargetId:87)
-18:58:13.933     1>Target "MakeDirsForBscMake: (TargetId:88)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BscMake" depends on it):
+03:21:23.441     1>Target "_XdcMake: (TargetId:86)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:23.441     1>Done building target "_XdcMake" in project "AMSim.vcxproj".: (TargetId:86)
+03:21:23.441     1>Target "ComputeCLCompileGeneratedSbrFiles: (TargetId:87)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BscMake" depends on it):
+03:21:23.441     1>Done building target "ComputeCLCompileGeneratedSbrFiles" in project "AMSim.vcxproj".: (TargetId:87)
+03:21:23.441     1>Target "MakeDirsForBscMake: (TargetId:88)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BscMake" depends on it):
                    Task "MakeDir" (TaskId:30)
                    Done executing task "MakeDir". (TaskId:30)
-18:58:13.933     1>Done building target "MakeDirsForBscMake" in project "AMSim.vcxproj".: (TargetId:88)
+03:21:23.441     1>Done building target "MakeDirsForBscMake" in project "AMSim.vcxproj".: (TargetId:88)
                    Target "BscMake" skipped, due to false condition; ('@(BscMake)' != '') was evaluated as ('' != '').
                    Target "CustomBuildStep" skipped, due to false condition; ('@(CustomBuildStep)' != '' and '$(SelectedFiles)'=='') was evaluated as ('' != '' and ''=='').
-18:58:13.933     1>Target "_BscMake: (TargetId:89)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
-18:58:13.933     1>Done building target "_BscMake" in project "AMSim.vcxproj".: (TargetId:89)
+03:21:23.441     1>Target "_BscMake: (TargetId:89)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:23.441     1>Done building target "_BscMake" in project "AMSim.vcxproj".: (TargetId:89)
                    Target "RunMergeNativeCodeAnalysis" skipped, due to false condition; ('$(Language)'=='C++' and '$(RunCodeAnalysisOnThisProject)'=='true') was evaluated as ('C++'=='C++' and ''=='true').
                    Target "RunNativeCodeAnalysis" skipped, due to false condition; ('$(Language)'=='C++' and '$(RunCodeAnalysisOnThisProject)'=='true') was evaluated as ('C++'=='C++' and ''=='true').
-18:58:13.933     1>Target "_GenerateSatelliteAssemblyInputs: (TargetId:90)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "CreateSatelliteAssemblies" depends on it):
+03:21:23.442     1>Target "_GenerateSatelliteAssemblyInputs: (TargetId:90)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "CreateSatelliteAssemblies" depends on it):
                    Task "Warning" skipped, due to false condition; ('@(ManifestResourceWithCulture)'!='' and '%(ManifestResourceWithCulture.EmittedForCompatibilityOnly)'=='') was evaluated as (''!='' and ''=='').
                    Task "Warning" skipped, due to false condition; ('@(ManifestNonResxWithCultureOnDisk)'!='' and '%(ManifestNonResxWithCultureOnDisk.EmittedForCompatibilityOnly)'=='') was evaluated as (''!='' and ''=='').
-18:58:13.933     1>Done building target "_GenerateSatelliteAssemblyInputs" in project "AMSim.vcxproj".: (TargetId:90)
+03:21:23.442     1>Done building target "_GenerateSatelliteAssemblyInputs" in project "AMSim.vcxproj".: (TargetId:90)
                    Target "ComputeIntermediateSatelliteAssemblies" skipped, due to false condition; (@(ReferenceSatellitePaths->'%(DestinationSubDirectory)') != '') was evaluated as ( != '').
                    Target "GenerateSatelliteAssemblies" skipped, due to false condition; ('@(_SatelliteAssemblyResourceInputs)' != '') was evaluated as ('' != '').
-18:58:13.933     1>Target "CreateSatelliteAssemblies: (TargetId:91)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
-18:58:13.933     1>Done building target "CreateSatelliteAssemblies" in project "AMSim.vcxproj".: (TargetId:91)
-18:58:13.933     1>Target "_Appverifier: (TargetId:92)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
-18:58:13.933     1>Done building target "_Appverifier" in project "AMSim.vcxproj".: (TargetId:92)
-18:58:13.933     1>Target "_Deploy: (TargetId:93)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
-18:58:13.933     1>Done building target "_Deploy" in project "AMSim.vcxproj".: (TargetId:93)
+03:21:23.442     1>Target "CreateSatelliteAssemblies: (TargetId:91)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:23.442     1>Done building target "CreateSatelliteAssemblies" in project "AMSim.vcxproj".: (TargetId:91)
+03:21:23.442     1>Target "_Appverifier: (TargetId:92)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:23.442     1>Done building target "_Appverifier" in project "AMSim.vcxproj".: (TargetId:92)
+03:21:23.442     1>Target "_Deploy: (TargetId:93)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:23.442     1>Done building target "_Deploy" in project "AMSim.vcxproj".: (TargetId:93)
                    Target "ComputeIntermediateSatelliteAssemblies" skipped, due to false condition; (@(ReferenceSatellitePaths->'%(DestinationSubDirectory)') != '') was evaluated as ( != '').
                    Target "_CopyFilesMarkedCopyLocal" skipped, due to false condition; ('@(ReferenceCopyLocalPaths)' != '') was evaluated as ('' != '').
                    Target "AssignTargetPaths" skipped. Previously built successfully.
                    Target "_SplitProjectReferencesByFileExistence" skipped. Previously built successfully.
-18:58:13.933     1>Target "GetCopyToOutputDirectoryXamlAppDefs: (TargetId:94)" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "GetCopyToOutputDirectoryItems" depends on it):
+03:21:23.443     1>Target "GetCopyToOutputDirectoryXamlAppDefs: (TargetId:94)" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "GetCopyToOutputDirectoryItems" depends on it):
                    Task "AssignTargetPath" (TaskId:31)
                      Task Parameter:RootFolder=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim (TaskId:31)
                    Done executing task "AssignTargetPath". (TaskId:31)
-18:58:13.934     1>Done building target "GetCopyToOutputDirectoryXamlAppDefs" in project "AMSim.vcxproj".: (TargetId:94)
-18:58:13.934     1>Target "GetCopyToOutputDirectoryItems: (TargetId:95)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_CopySourceItemsToOutputDirectory" depends on it):
+03:21:23.443     1>Done building target "GetCopyToOutputDirectoryXamlAppDefs" in project "AMSim.vcxproj".: (TargetId:94)
+03:21:23.443     1>Target "GetCopyToOutputDirectoryItems: (TargetId:95)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_CopySourceItemsToOutputDirectory" depends on it):
                    Set Property: _GCTODIKeepDuplicates=false
                    Set Property: _GCTODIKeepMetadata=CopyToOutputDirectory;TargetPath
                    Task "MSBuild" skipped, due to false condition; ('@(_MSBuildProjectReferenceExistent)' != '' and '$(_GetChildProjectCopyToOutputDirectoryItems)' == 'true' and '%(_MSBuildProjectReferenceExistent.Private)' != 'false' and '$(UseCommonOutputDirectory)' != 'true') was evaluated as ('' != '' and 'true' == 'true' and '' != 'false' and 'false' != 'true').
                    Task "AssignTargetPath" (TaskId:32)
                      Task Parameter:RootFolder=C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim (TaskId:32)
                    Done executing task "AssignTargetPath". (TaskId:32)
-18:58:13.934     1>Done building target "GetCopyToOutputDirectoryItems" in project "AMSim.vcxproj".: (TargetId:95)
+03:21:23.444     1>Done building target "GetCopyToOutputDirectoryItems" in project "AMSim.vcxproj".: (TargetId:95)
                    Target "_CopyOutOfDateSourceItemsToOutputDirectory" skipped, due to false condition; ( '@(_SourceItemsToCopyToOutputDirectory)' != '' ) was evaluated as ( '' != '' ).
                    Target "_CopyOutOfDateSourceItemsToOutputDirectoryAlways" skipped, due to false condition; ( '@(_SourceItemsToCopyToOutputDirectoryAlways)' != '' ) was evaluated as ( '' != '' ).
-18:58:13.934     1>Target "_CopySourceItemsToOutputDirectory: (TargetId:96)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "CopyFilesToOutputDirectory" depends on it):
-18:58:13.934     1>Done building target "_CopySourceItemsToOutputDirectory" in project "AMSim.vcxproj".: (TargetId:96)
+03:21:23.444     1>Target "_CopySourceItemsToOutputDirectory: (TargetId:96)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "CopyFilesToOutputDirectory" depends on it):
+03:21:23.444     1>Done building target "_CopySourceItemsToOutputDirectory" in project "AMSim.vcxproj".: (TargetId:96)
                    Target "_CopyAppConfigFile" skipped, due to false condition; ( '@(AppConfigWithTargetPath)' != '' ) was evaluated as ( '' != '' ).
                    Target "_CopyManifestFiles" skipped, due to false condition; ( '$(_DeploymentCopyApplicationManifest)'=='true' or '$(GenerateClickOnceManifests)'=='true' ) was evaluated as ( ''=='true' or ''=='true' ).
-18:58:13.934     1>Target "_CheckForCompileOutputs: (TargetId:97)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "CopyFilesToOutputDirectory" depends on it):
+03:21:23.444     1>Target "_CheckForCompileOutputs: (TargetId:97)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "CopyFilesToOutputDirectory" depends on it):
                    Set Property: _DocumentationFileProduced=false
                    Set Property: _DebugSymbolsProduced=false
-18:58:13.934     1>Done building target "_CheckForCompileOutputs" in project "AMSim.vcxproj".: (TargetId:97)
+03:21:23.444     1>Done building target "_CheckForCompileOutputs" in project "AMSim.vcxproj".: (TargetId:97)
                    Target "_SGenCheckForOutputs" skipped, due to false condition; ('$(_SGenGenerateSerializationAssembliesConfig)' == 'On' or ('@(WebReferenceUrl)'!='' and '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')) was evaluated as ('Off' == 'On' or (''!='' and 'Off' == 'Auto')).
-18:58:13.934     1>Target "CopyFilesToOutputDirectory: (TargetId:98)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForRun" depends on it):
+03:21:23.444     1>Target "CopyFilesToOutputDirectory: (TargetId:98)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "PrepareForRun" depends on it):
                    Set Property: CreateHardLinksForCopyFilesToOutputDirectoryIfPossible=false
                    Set Property: CopyBuildOutputToOutputDirectory=true
                    Set Property: CopyOutputSymbolsToOutputDirectory=true
@@ -3009,22 +2989,22 @@ _PTVS_PID = 10728
                    Task "Copy" skipped, due to false condition; ('@(ReferenceComWrappersToCopyLocal)' != '' or '@(ResolvedIsolatedComModules)' != '' or '@(_DeploymentLooseManifestFile)' != '' or '@(NativeReferenceFile)' != '' ) was evaluated as ('' != '' or '' != '' or '' != '' or '' != '' ).
                    Task "Copy" skipped, due to false condition; ('$(SkipCopyWinMDArtifact)' != 'true' and '@(WinMDExpArtifacts)' != '') was evaluated as ('' != 'true' and '' != '').
                    Task "Message" skipped, due to false condition; ('$(SkipCopyWinMDArtifact)' != 'true' and '$(_WindowsMetadataOutputPath)' != '') was evaluated as ('' != 'true' and '' != '').
-18:58:13.934     1>Done building target "CopyFilesToOutputDirectory" in project "AMSim.vcxproj".: (TargetId:98)
-18:58:13.934     1>Target "PrepareForRun: (TargetId:99)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
-18:58:13.934     1>Done building target "PrepareForRun" in project "AMSim.vcxproj".: (TargetId:99)
+03:21:23.445     1>Done building target "CopyFilesToOutputDirectory" in project "AMSim.vcxproj".: (TargetId:98)
+03:21:23.445     1>Target "PrepareForRun: (TargetId:99)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:23.445     1>Done building target "PrepareForRun" in project "AMSim.vcxproj".: (TargetId:99)
                    Target "CustomBuildStep" skipped, due to false condition; ('@(CustomBuildStep)' != '' and '$(SelectedFiles)'=='') was evaluated as ('' != '' and ''=='').
-18:58:13.934     1>Target "PostBuildEvent: (TargetId:100)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
+03:21:23.445     1>Target "PostBuildEvent: (TargetId:100)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "_BuildLinkAction" depends on it):
                    Task "Message" skipped, due to false condition; ('%(PostBuildEvent.Message)' != '' and '%(PostBuildEvent.Command)' != '') was evaluated as ('' != '' and '' != '').
                    Task "Exec" skipped, due to false condition; ('%(PostBuildEvent.Command)' != '') was evaluated as ('' != '').
-18:58:13.934     1>Done building target "PostBuildEvent" in project "AMSim.vcxproj".: (TargetId:100)
-18:58:13.934     1>Target "_BuildLinkAction: (TargetId:101)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildLink" depends on it):
-18:58:13.934     1>Done building target "_BuildLinkAction" in project "AMSim.vcxproj".: (TargetId:101)
-18:58:13.934     1>Target "BuildLink: (TargetId:102)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
-18:58:13.934     1>Done building target "BuildLink" in project "AMSim.vcxproj".: (TargetId:102)
+03:21:23.445     1>Done building target "PostBuildEvent" in project "AMSim.vcxproj".: (TargetId:100)
+03:21:23.445     1>Target "_BuildLinkAction: (TargetId:101)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "BuildLink" depends on it):
+03:21:23.445     1>Done building target "_BuildLinkAction" in project "AMSim.vcxproj".: (TargetId:101)
+03:21:23.445     1>Target "BuildLink: (TargetId:102)" in file "C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
+03:21:23.445     1>Done building target "BuildLink" in project "AMSim.vcxproj".: (TargetId:102)
                    Target "CreateTfsBuildInfoResource" skipped, due to false condition; ( $(AddBuildInfoToAssembly)==true ) was evaluated as ( false==true ).
-18:58:13.934     1>Target "AfterBuild: (TargetId:103)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.BuildSteps.Targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
-18:58:13.934     1>Done building target "AfterBuild" in project "AMSim.vcxproj".: (TargetId:103)
-18:58:13.934     1>Target "FinalizeBuildStatus: (TargetId:104)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
+03:21:23.446     1>Target "AfterBuild: (TargetId:103)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.BuildSteps.Targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
+03:21:23.446     1>Done building target "AfterBuild" in project "AMSim.vcxproj".: (TargetId:103)
+03:21:23.446     1>Target "FinalizeBuildStatus: (TargetId:104)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (target "Build" depends on it):
                    Using "Delete" task from assembly "Microsoft.Build.Tasks.Core, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
                    Task "Delete" (TaskId:33)
                      Task Parameter:Files=Debug\AMSim.tlog\unsuccessfulbuild (TaskId:33)
@@ -3034,136 +3014,136 @@ _PTVS_PID = 10728
                      Task Parameter:Files=Debug\AMSim.tlog\AMSim.lastbuildstate (TaskId:34)
                      Touching "Debug\AMSim.tlog\AMSim.lastbuildstate". (TaskId:34)
                    Done executing task "Touch". (TaskId:34)
-18:58:13.935     1>Done building target "FinalizeBuildStatus" in project "AMSim.vcxproj".: (TargetId:104)
-18:58:13.935     1>Target "Build: (TargetId:105)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.BuildSteps.Targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (entry point):
-18:58:13.935     1>Done building target "Build" in project "AMSim.vcxproj".: (TargetId:105)
-18:58:13.935     1>Done Building Project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (Build target(s)).
+03:21:23.448     1>Done building target "FinalizeBuildStatus" in project "AMSim.vcxproj".: (TargetId:104)
+03:21:23.448     1>Target "Build: (TargetId:105)" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.BuildSteps.Targets" from project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (entry point):
+03:21:23.448     1>Done building target "Build" in project "AMSim.vcxproj".: (TargetId:105)
+03:21:23.448     1>Done Building Project "C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj" (Build target(s)).
 
 Project Performance Summary:
-     1806 ms  C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj   1 calls
-               1806 ms  Build                                      1 calls
+     7865 ms  C:\Users\zfoong\Desktop\Master Thesis\collective-x-adversarial-ams\AMSim\AMSim\AMSim.vcxproj   1 calls
+               7865 ms  Build                                      1 calls
 
 Target Performance Summary:
         0 ms  AfterBuildCompileEvent                     1 calls
         0 ms  _CheckForCompileOutputs                    1 calls
         0 ms  _Manifest                                  1 calls
         0 ms  _SelectedFiles                             1 calls
-        0 ms  _PrepareForBuild                           1 calls
         0 ms  PostBuildEvent                             1 calls
         0 ms  _Midl                                      1 calls
         0 ms  SelectCustomBuild                          1 calls
         0 ms  _ClCompile                                 1 calls
-        0 ms  FixupCLCompileOptions                      1 calls
-        0 ms  GetReferenceAssemblyPaths                  1 calls
-        0 ms  ModifyUnitTestPlatformVersion              1 calls
+        0 ms  GetCopyToOutputDirectoryXamlAppDefs        1 calls
         0 ms  CreateCustomManifestResourceNames          1 calls
-        0 ms  SetBuildDefaultEnvironmentVariables        1 calls
-        0 ms  BeforeLink                                 1 calls
         0 ms  AfterBuild                                 1 calls
         0 ms  ComputeCLInputPDBName                      1 calls
         0 ms  ComputeManifestInputsTargets               1 calls
-        0 ms  GetCopyToOutputDirectoryItems              1 calls
         0 ms  _BuildLinkAction                           1 calls
-        0 ms  SelectClCompile                            1 calls
         0 ms  BeforeResourceCompile                      1 calls
-        0 ms  ResolveReferences                          1 calls
-        0 ms  AfterBuildGenerateSources                  1 calls
+        0 ms  AfterMidl                                  1 calls
+        0 ms  PreLinkEvent                               1 calls
+        0 ms  BeforeLink                                 1 calls
+        0 ms  _Deploy                                    1 calls
+        0 ms  SelectClCompile                            1 calls
+        0 ms  ComputeManifestGeneratedLinkerInputs       1 calls
         0 ms  BuildGenerateSources                       1 calls
         0 ms  _CopySourceItemsToOutputDirectory          1 calls
         0 ms  ComputeLinkImportLibraryOutputsForClean    1 calls
         0 ms  AfterResourceCompile                       1 calls
         0 ms  _Xsd                                       1 calls
-        0 ms  ComputeCustomBuildOutput                   1 calls
         0 ms  MakeDirsForBscMake                         1 calls
-        0 ms  ComputeLinkSwitches                        1 calls
         0 ms  _GenerateSatelliteAssemblyInputs           1 calls
+        0 ms  ResolveReferences                          1 calls
         0 ms  _ResourceCompile                           1 calls
-        0 ms  Build                                      1 calls
         0 ms  _Link                                      1 calls
         0 ms  BuildLinkTraverse                          1 calls
+        0 ms  ComputeRCOutputs                           1 calls
         0 ms  _XdcMake                                   1 calls
         0 ms  CreateSatelliteAssemblies                  1 calls
-        0 ms  CopyFilesToOutputDirectory                 1 calls
         0 ms  ExpandSDKReferences                        1 calls
-        0 ms  BuildCompileTraverse                       1 calls
-        0 ms  MakeDirsForCl                              1 calls
-        0 ms  ComputeManifestGeneratedLinkerInputs       1 calls
-        0 ms  AfterMidl                                  1 calls
+        0 ms  AfterBuildGenerateSources                  1 calls
+        0 ms  Build                                      1 calls
+        0 ms  BeforeBuildGenerateSources                 1 calls
         0 ms  ComputeMIDLGeneratedCompileInputs          1 calls
-        0 ms  _Deploy                                    1 calls
-        0 ms  ComputeCLGeneratedLinkInputs               1 calls
+        0 ms  ResolvedXDCMake                            1 calls
         0 ms  AfterResolveReferences                     1 calls
-        0 ms  Desktop_PlatformPrepareForBuild            1 calls
         0 ms  BeforeResolveReferences                    1 calls
-        0 ms  _ALink                                     1 calls
-        0 ms  ComputeReferenceCLInput                    1 calls
-        0 ms  PreLinkEvent                               1 calls
-        0 ms  ResolveProjectReferences                   1 calls
+        0 ms  DoLinkOutputFilesMatch                     1 calls
         0 ms  PrepareForRun                              1 calls
-        0 ms  MakeDirsForMidl                            1 calls
+        0 ms  AfterClCompile                             1 calls
         0 ms  _BscMake                                   1 calls
-        0 ms  ResolveSDKReferences                       1 calls
-        0 ms  ComputeCLCompileGeneratedSbrFiles          1 calls
         0 ms  _Appverifier                               1 calls
         0 ms  RegisterOutput                             1 calls
+        0 ms  _BuildGenerateSourcesAction                1 calls
         0 ms  BuildLink                                  1 calls
-        0 ms  PreBuildEvent                              1 calls
+        0 ms  ComputeCLCompileGeneratedSbrFiles          1 calls
+        0 ms  ResolveSDKReferences                       1 calls
+        0 ms  _ALink                                     1 calls
+        0 ms  Desktop_PlatformPrepareForBuild            1 calls
+        0 ms  ComputeCLGeneratedLinkInputs               1 calls
+        0 ms  BuildGenerateSourcesTraverse               1 calls
+        0 ms  ComputeLegacyManifestEmbedding             1 calls
         0 ms  BeforeClCompile                            1 calls
         0 ms  AfterBuildGenerateSourcesEvent             1 calls
-        0 ms  PrepareResourceNames                       1 calls
-        0 ms  _PrepareForReferenceResolution             1 calls
-        0 ms  MakeDirsForLink                            1 calls
-        0 ms  ComputeLegacyManifestEmbedding             1 calls
-        0 ms  BeforeBuildGenerateSources                 1 calls
-        0 ms  AfterClCompile                             1 calls
-        0 ms  ResolvedXDCMake                            1 calls
-        0 ms  PlatformPrepareForBuild                    1 calls
-        0 ms  AssignTargetPaths                          1 calls
-        0 ms  MakeDirsForXdcMake                         1 calls
-        0 ms  BuildGenerateSourcesTraverse               1 calls
-        0 ms  GetInstalledSDKLocations                   1 calls
+        0 ms  PreBuildEvent                              1 calls
         0 ms  _BuildCompileAction                        1 calls
-        0 ms  AssignProjectConfiguration                 1 calls
-        0 ms  BuildCompile                               1 calls
-        0 ms  ComputeRCGeneratedLinkInputs               1 calls
-        0 ms  _SplitProjectReferencesByFileExistence     1 calls
+        0 ms  GetInstalledSDKLocations                   1 calls
         0 ms  AfterLink                                  1 calls
-        0 ms  _BuildGenerateSourcesAction                1 calls
-        1 ms  ComputeRCOutputs                           1 calls
-        1 ms  ComputeCLCompileGeneratedXDCFiles          1 calls
-        1 ms  ResolveAssemblyReferences                  1 calls
-        1 ms  GetCopyToOutputDirectoryXamlAppDefs        1 calls
-        1 ms  ComputeCLOutputs                           1 calls
-        1 ms  GetFrameworkPaths                          1 calls
-        1 ms  ComputeLinkInputsFromProject               1 calls
-        1 ms  SplitResourcesByCulture                    1 calls
-        1 ms  InitializeBuildStatus                      1 calls
-        1 ms  GetResolvedWinMD                           1 calls
-        1 ms  DoLinkOutputFilesMatch                     1 calls
+        0 ms  BuildCompile                               1 calls
+        0 ms  PlatformPrepareForBuild                    1 calls
+        0 ms  ComputeRCGeneratedLinkInputs               1 calls
+        0 ms  PrepareResourceNames                       1 calls
+        0 ms  MakeDirsForXdcMake                         1 calls
+        1 ms  _PrepareForReferenceResolution             1 calls
+        1 ms  _SplitProjectReferencesByFileExistence     1 calls
+        1 ms  CopyFilesToOutputDirectory                 1 calls
+        1 ms  MakeDirsForLink                            1 calls
+        1 ms  ModifyUnitTestPlatformVersion              1 calls
         1 ms  MakeDirsForResourceCompile                 1 calls
-        1 ms  FinalizeBuildStatus                        1 calls
-        2 ms  PrepareForBuild                            1 calls
-        2 ms  _CheckForInvalidConfigurationAndPlatform   1 calls
-        3 ms  SetCABuildNativeEnvironmentVariables       1 calls
-        4 ms  WarnCompileDuplicatedFilename              1 calls
-      247 ms  Link                                       1 calls
-     1532 ms  ClCompile                                  1 calls
+        1 ms  ComputeLinkInputsFromProject               1 calls
+        1 ms  MakeDirsForMidl                            1 calls
+        1 ms  ComputeCustomBuildOutput                   1 calls
+        1 ms  AssignTargetPaths                          1 calls
+        1 ms  ComputeLinkSwitches                        1 calls
+        1 ms  ComputeCLCompileGeneratedXDCFiles          1 calls
+        1 ms  ComputeCLOutputs                           1 calls
+        1 ms  BuildCompileTraverse                       1 calls
+        1 ms  GetReferenceAssemblyPaths                  1 calls
+        1 ms  ResolveAssemblyReferences                  1 calls
+        1 ms  ComputeReferenceCLInput                    1 calls
+        1 ms  GetCopyToOutputDirectoryItems              1 calls
+        2 ms  MakeDirsForCl                              1 calls
+        2 ms  FinalizeBuildStatus                        1 calls
+        2 ms  ResolveProjectReferences                   1 calls
+        2 ms  GetFrameworkPaths                          1 calls
+        2 ms  FixupCLCompileOptions                      1 calls
+        2 ms  _PrepareForBuild                           1 calls
+        3 ms  WarnCompileDuplicatedFilename              1 calls
+        5 ms  AssignProjectConfiguration                 1 calls
+        8 ms  InitializeBuildStatus                      1 calls
+        9 ms  SetBuildDefaultEnvironmentVariables        1 calls
+       10 ms  SplitResourcesByCulture                    1 calls
+       10 ms  PrepareForBuild                            1 calls
+       22 ms  _CheckForInvalidConfigurationAndPlatform   1 calls
+       47 ms  GetResolvedWinMD                           1 calls
+     1430 ms  SetCABuildNativeEnvironmentVariables       1 calls
+     1946 ms  Link                                       1 calls
+     4321 ms  ClCompile                                  1 calls
 
 Task Performance Summary:
-        0 ms  AssignTargetPath                           6 calls
-        0 ms  SetEnv                                     4 calls
-        0 ms  MakeDir                                    9 calls
-        0 ms  SetEnvironmentVariable                     1 calls
-        0 ms  AssignProjectConfiguration                 1 calls
-        0 ms  Touch                                      2 calls
-        0 ms  Delete                                     1 calls
-        0 ms  AssignCulture                              1 calls
-        0 ms  Message                                    4 calls
-        0 ms  ReadLinesFromFile                          1 calls
-        1 ms  WriteLinesToFile                           1 calls
-      245 ms  Link                                       1 calls
-     1531 ms  CL                                         1 calls
+        1 ms  Delete                                     1 calls
+        2 ms  ReadLinesFromFile                          1 calls
+        2 ms  SetEnvironmentVariable                     1 calls
+        2 ms  WriteLinesToFile                           1 calls
+        2 ms  AssignTargetPath                           6 calls
+        3 ms  Message                                    4 calls
+        4 ms  Touch                                      2 calls
+        4 ms  SetEnv                                     4 calls
+        4 ms  MakeDir                                    9 calls
+        4 ms  AssignProjectConfiguration                 1 calls
+       10 ms  AssignCulture                              1 calls
+     1944 ms  Link                                       1 calls
+     4316 ms  CL                                         1 calls
 
 Build succeeded.
 
-Time Elapsed 00:00:01.81
+Time Elapsed 00:00:07.87

@@ -24,6 +24,7 @@ struct Matter {
 	float ort[2];
 	int neighbourCount = 0;
 	float acmlActiveWork = 0;
+	float acmlCurrentActiveWork = 0;
 	MatterType type = teacher;
 };
 
@@ -35,6 +36,7 @@ public:
 	std::vector<float> ReturnState();
 	std::vector<float> Step(std::vector<float>, std::vector<float>&);
 	float Environment::returnActiveWork();
+	float Environment::returnCurrentActiveWork();
 	void Movement(Matter&, float);
 	void Display();
 	virtual ~Environment();
