@@ -28,12 +28,12 @@ void Agent::UpdateQTable(float state, int actionID, float reward, float newState
 	int stateID = StateToIndex(state);
 	int newStateID = StateToIndex(newState);
 
-	//float lr = learningRate * (1 - ((float)DSATable[stateID][actionID] / (float)N));
+	//float lr = learningRate * (1 - ((float)DSTable[stateID] / (float)N));
 	//QTable[stateID][actionID] += lr * (reward + discountFactor * arrmax(QTable[newStateID], sizeof(QTable[newStateID])) - QTable[stateID][actionID]);
 	//QTable[stateID][actionID] += lr * (reward - QTable[stateID][actionID]);
 	SVTable[stateID] += learningRate * (reward - SVTable[stateID]);
 	DTable[stateID][newStateID][actionID]++;
-	//DSATable[stateID][actionID]++;
+	//DSTable[stateID]++;
 	//N++;
 }
 

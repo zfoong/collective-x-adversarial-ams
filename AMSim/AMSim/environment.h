@@ -12,7 +12,6 @@ enum MatterType {
 };
 
 const float RADIUS = 1;
-const float MASS = 100;
 const float V = 1;
 
 struct Matter {
@@ -20,7 +19,6 @@ struct Matter {
 	int posMultiplier[2] = {0}; // Global position multiplier
 	float r = RADIUS; // radius, setting to const for now
 	float v = V;
-	float m = MASS; // mass of matter
 	float ort[2];
 	int neighbourCount = 0;
 	float acmlActiveWork = 0;
@@ -34,7 +32,7 @@ public:
 	std::vector<Matter> prevMatters;
 	std::vector<Matter> matters;
 	std::vector<float> ReturnState();
-	std::vector<float> Step(std::vector<float>, std::vector<float>&);
+	std::vector<float> Step(std::vector<float>, std::vector<float>&, bool&);
 	float Environment::returnActiveWork();
 	float Environment::returnCurrentActiveWork();
 	void Movement(Matter&, float);

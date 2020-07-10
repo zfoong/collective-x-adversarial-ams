@@ -21,6 +21,7 @@ std::string initSimulationData(int);
 void saveSimulationData(std::string, int);
 void updateSimulationResult(std::string, float);
 void updateEpsilon(std::string, float);
+void readConfig();
 
 extern float windowWidth;
 extern float windowHeight;
@@ -35,6 +36,7 @@ extern int n_t;
 int currentEpisode = 1;
 int totalEpisode = 1000;
 float T = 100; // Total Timestep
+bool terminate_t = false;
 bool isLearning = true;
 bool displayEnabled = false;
 
@@ -91,6 +93,7 @@ int main(int argc, char **argv)
 		while (currentEpisode <= totalEpisode) {
 			int currentTime = time(NULL);
 			env = Environment(50, 50);
+			terminate_t = false;
 			currentState = env.ReturnState();
 			std::cout << "current epsilon is : " << agent.returnEpsilon() << std::endl;
 			std::cout << "current learning rate is : " << agent.returnLearningRate() << std::endl;
@@ -99,7 +102,12 @@ int main(int argc, char **argv)
 			while (t < T)
 			{
 				action = agent.ReturnAction(currentState, actionID);
-				newState = env.Step(action, reward);
+				newState = env.Step(action, reward, terminate_t);
+
+				if (terminate_t) {
+					break;
+					std::cout << "Episode terminated**" << std::endl;
+				}
 
 				currentStateList.push_back(currentState);
 				actionIDList.push_back(actionID);
@@ -128,7 +136,7 @@ int main(int argc, char **argv)
 			float normActiveWork = env.returnActiveWork();
 			float currentNormActiveWork = env.returnCurrentActiveWork();
 			agent.UpdateEpsilonDecay(currentEpisode, totalEpisode);
-			//agent.UpdateLearningRateDecay(currentEpisode, totalEpisode);
+			agent.UpdateLearningRateDecay(currentEpisode, totalEpisode);
 			std::cout << "episode ended: " << currentEpisode << std::endl;
 			std::cout << "seconds used : " << time(NULL) - currentTime << std::endl;
 			std::cout << "active work is : " << normActiveWork << std::endl;
@@ -150,7 +158,10 @@ void trainTimer(int)
 	display();
 
 	action = agent.ReturnAction(currentState, actionID);
-	newState = env.Step(action, reward);
+	newState = env.Step(action, reward, terminate_t);
+
+	if (terminate_t) std::cout << "invalid terminate" << std::endl;
+
 	agent.UpdateQTable(currentState, actionID, reward, newState);
 	agent.UpdateEpsilonDecay(t, T*100);
 	currentState = newState;
@@ -161,7 +172,9 @@ void resultTimer(int) {
 	display();
 
 	action = agent.ReturnAction(currentState, actionID);
-	newState = env.Step(action, reward);
+	newState = env.Step(action, reward, terminate_t);
+
+	if (terminate_t) std::cout << "invalid terminate" << std::endl;
 
 	currentState = newState;
 
@@ -291,6 +304,10 @@ void updateEpsilon(std::string dir, float epsilon) {
 	std::ofstream outFile(dir, std::ofstream::app);
 	outFile << epsilon << '\n';
 	outFile.close();
+}
+
+void readConfig() {
+
 }
 
 void keyboard(unsigned char key, int x, int y)

@@ -10,16 +10,17 @@
 
 using namespace Eigen;
 
-float windowWidth = 500;
-float windowHeight = 500;
 extern const float SCALE_FACTOR = 40;
-float scaledWindowWidth = windowWidth / SCALE_FACTOR;
-float scaledWindowHeight = windowHeight / SCALE_FACTOR;
+float scaledWindowWidth = 12;
+float scaledWindowHeight = 12;
+float windowWidth = scaledWindowWidth * SCALE_FACTOR;
+float windowHeight = scaledWindowHeight * SCALE_FACTOR;
 
 float t = 0; // current time
 float dt = 0.01f; // time step
 int n = 1; // total amt of learner matter
 int n_t = 32; // total amt of teacher matter
+int totalCount = n + n_t;
 
 float pl = 60;
 float rotDif = V / pl;
@@ -30,6 +31,7 @@ float alpha = transDif / rotDif * pow(RADIUS, 2);
 float mu = alpha * RADIUS / pl;
 float range = 3;
 float c = 1;
+float s = 3;
 
 std::default_random_engine generator;
 std::normal_distribution<double> distribution(0, 1);
@@ -47,7 +49,7 @@ Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
 	srand(time(NULL));
 	n = Lnum;
 	n_t = Tnum;
-	int totalCount = n + n_t;
+	totalCount = n + n_t;
 	for (int i = 0; i < sqrt(totalCount); i++) {
 		for (int j = 0; j < sqrt(totalCount); j++) {
 			if (Tnum + Lnum == 0)
@@ -64,11 +66,6 @@ Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
 			}
 		}
 	}
-
-	/*AddMatter(teacher, -2, 5, 0, 1);
-	AddMatter(teacher, 0, 5, 0, 1);
-	AddMatter(teacher, 2, 5, 0, 1);
-	AddMatter(learner, 0, -5, 1, 0);*/
 
 	// transient phase
 	if (transientEnabled) {
@@ -123,7 +120,7 @@ std::vector<float> Environment::ReturnState()
 	return state;
 }
 
-std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<float> &rewardList)
+std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<float> &rewardList, bool &terminate)
 {
 	for (int i = 0; i < matters.size(); i++) {
 		Matter &p = matters[i];
@@ -135,40 +132,44 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 	t += dt;
 	prevMatters = matters;
 
-	for (int i = n_t; i < matters.size(); i++) {
-		Matter &p = matters[i];
+	//for (int i = n_t; i < matters.size(); i++) {
+	//	Matter &p = matters[i];
 
-		#pragma region Compute reward by neighbour lost
-		int inRangeCount = 0;
-		for (int j = 0; j < prevMatters.size(); j++) {
-			Matter &m = prevMatters[j];
-			float dx = 0;
-			float dy = 0;
-			float dis = DistancePBC(p, m, dx, dy);
+	//	#pragma region Compute reward by neighbour lost
+	//	int inRangeCount = 0;
+	//	for (int j = 0; j < prevMatters.size(); j++) {
+	//		Matter &m = prevMatters[j];
+	//		float dx = 0;
+	//		float dy = 0;
+	//		float dis = DistancePBC(p, m, dx, dy);
 
-			if (dis == 0)
-				continue;
+	//		if (dis == 0)
+	//			continue;
 
-			if (dis < range)
-				inRangeCount++;
-		}
+	//		if (dis < range)
+	//			inRangeCount++;
+	//	}
 
-		/*if (inRangeCount < p.neighbourCount)
-			rewardList[i-n_t] = (inRangeCount - p.neighbourCount)*c;
-		else
-			rewardList[i-n_t] = 0;*/
-		p.neighbourCount = inRangeCount;
-		#pragma endregion
+	//	if (inRangeCount < p.neighbourCount)
+	//		rewardList[i-n_t] = (inRangeCount - p.neighbourCount)*c;
+	//	else
+	//		rewardList[i-n_t] = 0;
+	//	p.neighbourCount = inRangeCount;
+	//	#pragma endregion
 
-	}
+	//}
 
 	#pragma region Compute active work
 	float normActiveWork =  returnCurrentActiveWork();
-	float powActiveWork = powf((normActiveWork/dt)*10, 2);
-	std::fill(rewardList.begin(), rewardList.end(), powActiveWork);
+	float scaledActiveWork = powf((normActiveWork / dt)*10, 2);
+	if (normActiveWork > 2 || normActiveWork < -2) terminate = true;
+	//float G = 1 / dt * std::log(std::exp(-s*dt*totalCount*scaledActiveWork));
+	//float activeWork_s = -(G / totalCount);
+
+	std::fill(rewardList.begin(), rewardList.end(), scaledActiveWork);
 	//for (int i = n_t; i < matters.size(); i++) {
 	//	Matter &p = matters[i];
-	//	rewardList[i - n_t] += p.acmlActiveWork/t;
+	//	rewardList[i - n_t] += powf((p.acmlCurrentActiveWork / dt) * 10, 2);;
 	//}
 	#pragma endregion
 
@@ -215,23 +216,23 @@ void Environment::Movement(Matter &p, float action) {
 		float radDiff = RadiansDifference(atan2(orty, ortx), rad);
 		if (ortx == 0 && orty == 0)
 			radDiff = 0;
-		//theta = rad + radDiff * dt + sqrt(dt) * (rotDifCoef * eta);
-		theta = rad + radDiff * dt;
+		theta = rad + radDiff * dt + sqrt(dt) * (rotDifCoef * eta);
+		//theta = rad + radDiff * dt;
 	}
 	else {
-		//theta = rad + action * dt * c + sqrt(dt) * (rotDifCoef * eta);
-		theta = rad + action * dt * c;
+		theta = rad + action * dt * c + sqrt(dt) * (rotDifCoef * eta);
+		//theta = rad + action * dt * c;
 	}
 
 	Vector2f u(cos(theta), sin(theta)); // convert theta to ort vector u
 
-	//r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
-	r = r + dt * (mu * F) + dt * (p.v * u);
+	r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
+	//r = r + dt * (mu * F) + dt * (p.v * u);
 
 	#pragma region Compute active work
 	Vector2f r_aw(p.pos[0], p.pos[1]);
-	//r_aw = (mu * F) + (p.v * u) + (transDifCoef * tranNoise);
-	r_aw = (mu * F) + (p.v * u);
+	r_aw = (mu * F) + (p.v * u) + (transDifCoef * tranNoise);
+	//r_aw = (mu * F) + (p.v * u);
 	float aw = dt * (r_aw.dot(u));
 	p.acmlActiveWork += aw;
 	p.acmlCurrentActiveWork = aw;
@@ -401,7 +402,6 @@ void Environment::AddMatter(MatterType mt)
 	p.pos[0] = pos(0);
 	p.pos[1] = pos(1);
 	p.v = V;
-	p.m = MASS;
 	p.r = RADIUS;
 	Vector2f ort = RandomOrt();
 	p.ort[0] = ort(0);
@@ -417,7 +417,6 @@ void Environment::AddMatter(MatterType mt, float x, float y, float ortx, float o
 	p.pos[0] = x;
 	p.pos[1] = y;
 	p.v = V;
-	p.m = MASS;
 	p.r = RADIUS;
 	p.ort[0] = ortx;
 	p.ort[1] = orty;

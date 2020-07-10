@@ -25,8 +25,8 @@ public:
 	int sortedSVTable[pieces] = { 0 };
 	float TPMatrix[pieces][pieces][pieces] = {{{0}}};
 	int DTable[pieces][pieces][pieces] = {{{0}}};
-	int DSATable[pieces][pieces] = { 1 };
-	int N = pieces*pieces;
+	int DSTable[pieces] = { 1 };
+	int N = pieces;
 	void UpdateQTable(float, int, float, float);
 	void UpdateQTable(std::vector<float>, std::vector<int>, std::vector<float>, std::vector<float>);
 	void SortStateValueList();
