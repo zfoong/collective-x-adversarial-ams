@@ -15,27 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <CudaCompile Include="agent.cu">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="display.cpp">
+    </CudaCompile>
+    <CudaCompile Include="display.cu">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="agent.cpp">
+    </CudaCompile>
+    <CudaCompile Include="environment.cu">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="environment.cpp">
+    </CudaCompile>
+    <CudaCompile Include="main.cu">
       <Filter>Source Files</Filter>
-    </ClCompile>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="display.h">
+    <ClInclude Include="agent.cuh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="agent.h">
+    <ClInclude Include="display.cuh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="environment.h">
+    <ClInclude Include="environment.cuh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

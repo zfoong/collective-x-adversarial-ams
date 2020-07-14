@@ -1,0 +1,55 @@
+#ifndef ENVIRONMENT_H
+#define ENVIRONMENT_H
+
+#include <string>
+#include <vector>
+#include <cuda.h>
+#include <device_launch_parameters.h>
+#include <device_types.h>
+#include <device_functions.h>
+#include <cuda_runtime.h>
+
+enum MatterType {
+	collective,
+	adversarial,
+	learner,
+	teacher
+};
+
+const float RADIUS = 1;
+const float V = 1;
+
+struct Matter {
+	float pos[2];
+	int posMultiplier[2] = {0}; // Global position multiplier
+	float r = RADIUS; // radius, setting to const for now
+	float v = V;
+	float ort[2];
+	int neighbourCount = 0;
+	float acmlActiveWork = 0;
+	float acmlCurrentActiveWork = 0;
+	MatterType type = teacher;
+};
+
+class Environment {
+public:
+	Environment(float = 1, float = 32, bool=true);
+	std::vector<Matter> prevMatters;
+	std::vector<Matter> matters;
+	std::vector<float> ReturnState();
+	std::vector<float> Step(std::vector<float>, std::vector<float>&, bool&);
+	float Environment::returnActiveWork();
+	float Environment::returnCurrentActiveWork();
+	void Environment::Movement(std::vector<float>);
+	void Display();
+	virtual ~Environment();
+protected:
+private:
+	//Environment(const Environment& other) {}
+	// Environment& operator=(const Environment& other) {}
+	void AddMatter(MatterType);
+	void AddMatter(MatterType, float, float, float, float);
+	void RemoveMatters();
+};
+
+#endif // ENVIRONMENT_H
