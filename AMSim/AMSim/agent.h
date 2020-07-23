@@ -1,13 +1,19 @@
 #ifndef AGENT_H
 #define AGENT_H
 
+#ifndef M_PI
+	#define M_PI 3.14159265358979323846
+#endif
+
 #include <string>
 #include <vector>
+#include <cmath>
 
-const int pieces = 20;
+static const int pieces = 20;
 
 class Agent {
 public:
+	Agent(float = 0.5, float = 1, float = 10, float = 0 , float = 0.9);
 	const float RADIANS = M_PI * 2;
 	float learningRate = 0.1;
 	float minlr = 0;
@@ -19,7 +25,6 @@ public:
 	float maxEpsilon = epsilon;
 	float epsilonDecay = 10;
 	float radiansPiece = RADIANS / (float)pieces;
-	Agent(float = 0.5, float = 1, float = 10, float = 0 , float = 0.9);
 	float QTable[pieces][pieces] = {{0}};
 	float SVTable[pieces] = {0};
 	int sortedSVTable[pieces] = { 0 };
@@ -27,8 +32,8 @@ public:
 	int DTable[pieces][pieces][pieces] = {{{0}}};
 	int DSTable[pieces] = { 1 };
 	int N = pieces;
-	void UpdateQTable(float, int, float, float);
-	void UpdateQTable(std::vector<float>, std::vector<int>, std::vector<float>, std::vector<float>);
+	void UpdateSVTable(float, int, float, float);
+	void UpdateSVTable(std::vector<float>, std::vector<int>, std::vector<float>, std::vector<float>);
 	void SortStateValueList();
 	void UpdateTPMatrix();
 	float ReturnAction(float, int&);

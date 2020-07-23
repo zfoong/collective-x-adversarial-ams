@@ -31,6 +31,7 @@ public:
 	Environment(float = 1, float = 32, bool=true);
 	std::vector<Matter> prevMatters;
 	std::vector<Matter> matters;
+	float t = 0;
 	std::vector<float> ReturnState();
 	std::vector<float> Step(std::vector<float>, std::vector<float>&, bool&);
 	float Environment::returnActiveWork();

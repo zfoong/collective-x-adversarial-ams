@@ -24,17 +24,12 @@ Agent::Agent(float lr, float ep, float epDecay, float epMin, float df)
 	discountFactor = df;
 }
 
-void Agent::UpdateQTable(float state, int actionID, float reward, float newState) {
+void Agent::UpdateSVTable(float state, int actionID, float reward, float newState) {
 	int stateID = StateToIndex(state);
 	int newStateID = StateToIndex(newState);
 
-	//float lr = learningRate * (1 - ((float)DSTable[stateID] / (float)N));
-	//QTable[stateID][actionID] += lr * (reward + discountFactor * arrmax(QTable[newStateID], sizeof(QTable[newStateID])) - QTable[stateID][actionID]);
-	//QTable[stateID][actionID] += lr * (reward - QTable[stateID][actionID]);
-	SVTable[stateID] += learningRate * (reward - SVTable[stateID]);
+	SVTable[stateID] += learningRate * (reward + discountFactor * SVTable[newStateID] - SVTable[stateID]);
 	DTable[stateID][newStateID][actionID]++;
-	//DSTable[stateID]++;
-	//N++;
 }
 
 void Agent::SortStateValueList() {
@@ -45,9 +40,9 @@ void Agent::SortStateValueList() {
 		sortedSVTable[k] = V[k];
 }
 
-void Agent::UpdateQTable(std::vector<float> stateList, std::vector<int> actionIDList, std::vector<float> rewardList, std::vector<float> newStateList) {
+void Agent::UpdateSVTable(std::vector<float> stateList, std::vector<int> actionIDList, std::vector<float> rewardList, std::vector<float> newStateList) {
 	for (int i = 0; i < stateList.size(); i++) {
-		UpdateQTable(stateList[i], actionIDList[i], rewardList[i], newStateList[i]);
+		UpdateSVTable(stateList[i], actionIDList[i], rewardList[i], newStateList[i]);
 	}
 }
 
@@ -75,8 +70,6 @@ float Agent::ReturnAction(float state, int &actionID) {
 		actionID = rand() % count;
 	} else {
 		//TP-matrix
-		//int optimumStateID = argmax(SVTable, count);
-		//actionID = argmax(TPMatrix[stateID][optimumStateID], count);
 		float thr = 0.1;
 		int index = 0;
 		int SVTableCount = sizeof(sortedSVTable) / sizeof(sortedSVTable[0]);
@@ -90,9 +83,6 @@ float Agent::ReturnAction(float state, int &actionID) {
 				index++;
 			}
 		}
-
-		// Q-learning
-		//actionID = argmax(QTable[stateID], count);
 	}
 	return -(IndexToAction(actionID)); // append negative sign to flip orientation
 }
@@ -268,5 +258,4 @@ void Agent::LoadDTable(const char* path) {
 
 Agent::~Agent()
 {
-
 }
