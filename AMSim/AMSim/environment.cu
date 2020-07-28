@@ -21,7 +21,7 @@ float windowWidth = scaledWindowWidth * SCALE_FACTOR;
 float windowHeight = scaledWindowHeight * SCALE_FACTOR;
 
 //float t = 0; // current time
-float dt = 0.01f; // time step
+float dt = 0.001f; // time step
 int n = 1; // total amt of learner matter
 int n_t = 32; // total amt of teacher matter
 int totalCount = n + n_t;
@@ -73,7 +73,7 @@ Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
 
 	// transient phase
 	if (transientEnabled) {
-		while (t < 10) {
+		while (t < 1) {
 			for (int i = 0; i < matters.size(); i++) {
 				Matter &p = matters[i];
 				Movement(p, 0);
@@ -96,9 +96,9 @@ std::vector<float> Environment::ReturnState()
 		Matter &p = matters[i];
 
 		int inRangeCount = 0;
-		float totalRad = 0;
 		float ortx = 0;
 		float orty = 0;
+		
 		for (int j = 0; j < prevMatters.size(); j++)
 		{
 			Matter &m = prevMatters[j];
@@ -118,6 +118,44 @@ std::vector<float> Environment::ReturnState()
 		float radDiff = 0;
 		if (inRangeCount != 0)
 			radDiff = RadiansDifference(atan2(orty, ortx), atan2(p.ort[1], p.ort[0]));
+
+		state.push_back(radDiff);
+	}
+	return state;
+}
+
+std::vector<float> Environment::ReturnCState()
+{
+	std::vector<float> state;
+	for (int i = n_t; i < matters.size(); i++) {
+		Matter& p = matters[i];
+
+		int inRangeCount = 0;
+		float posx = 0;
+		float posy = 0;
+		
+		for (int j = 0; j < prevMatters.size(); j++)
+		{
+			Matter& m = prevMatters[j];
+			float dx = 0;
+			float dy = 0;
+			float dis = DistancePBC(p, m, dx, dy);
+
+			if (dis == 0)
+				continue;
+
+			if (dis < range) {
+				posx += m.pos[0];
+				posy += m.pos[1];
+				inRangeCount++;
+			}
+		}
+		float radDiff = 0;
+		if (inRangeCount != 0) {
+			posx = (posx - p.pos[0]) / (float)inRangeCount;
+			posy = (posy - p.pos[1]) / (float)inRangeCount;
+			radDiff = RadiansDifference(atan2(posy, posx), atan2(p.ort[1], p.ort[0]));
+		}
 
 		state.push_back(radDiff);
 	}
@@ -176,7 +214,7 @@ std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<
 	}
 	#pragma endregion
 
-	return ReturnState();
+	return ReturnCState();
 }
 
 void Environment::Movement(Matter &p, float action) {

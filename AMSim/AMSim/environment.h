@@ -33,6 +33,7 @@ public:
 	std::vector<Matter> matters;
 	float t = 0;
 	std::vector<float> ReturnState();
+	std::vector<float> ReturnCState();
 	std::vector<float> Step(std::vector<float>, std::vector<float>&, bool&);
 	float Environment::returnActiveWork();
 	float Environment::returnCurrentActiveWork();

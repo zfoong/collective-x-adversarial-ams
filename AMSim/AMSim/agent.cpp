@@ -70,7 +70,7 @@ float Agent::ReturnAction(float state, int &actionID) {
 		actionID = rand() % count;
 	} else {
 		//TP-matrix
-		float thr = 0.1;
+		float thr = 0.01;
 		int index = 0;
 		int SVTableCount = sizeof(sortedSVTable) / sizeof(sortedSVTable[0]);
 		while (index < SVTableCount) {

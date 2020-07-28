@@ -48,12 +48,12 @@ bool displayEnabled = false;
 int WIN;
 int startTime = time(NULL);
 
-Environment env = Environment(50, 50, true);
+Environment env = Environment(100, 0, true);
 Agent agent = Agent(0.1, 1, 10,  0, 0.9);
 
 
 
-int bufferSize = 100;
+int bufferSize = 10000;
 
 void training(std::string dir, int sim_id) {
 	std::string simDir = createSimulationDir(dir, sim_id);
@@ -63,8 +63,8 @@ void training(std::string dir, int sim_id) {
 	int currentEpisode = 1;
 
 	while (currentEpisode <= totalEpisode) {
-		Environment env_ = Environment(50, 50);
-		std::vector<float> currentState = env_.ReturnState();
+		Environment env_ = Environment(100, 0);
+		std::vector<float> currentState = env_.ReturnCState();
 		std::vector<int> actionID(n);
 		std::vector<float> reward(n);
 		std::vector<float> newState(n);
