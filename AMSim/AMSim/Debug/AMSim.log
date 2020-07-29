@@ -1,1 +1,51 @@
-﻿  AMSim.vcxproj -> C:\Users\Jane\Desktop\collective-x-adversarial-ams - Copy - Copy\AMSim\Debug\AMSim.exe
+﻿  Compiling CUDA source file environment.cu...
+  
+  C:\Users\Jane\Desktop\collective-x-adversarial-ams - Copy - Copy\AMSim\AMSim>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0\bin\nvcc.exe" -gencode=arch=compute_52,code=\"sm_52,compute_52\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\bin\HostX86\x86" -x cu   -I"C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include" -I.\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_UNICODE -DUNICODE -Xcompiler "/EHsc /W3 /nologo /Od /FdDebug\vc142.pdb /FS /Zi /RTC1 /MDd " -o Debug\environment.cu.obj "C:\Users\Jane\Desktop\collective-x-adversarial-ams - Copy - Copy\AMSim\AMSim\environment.cu" 
+C:\Users\Jane\Desktop\collective-x-adversarial-ams - Copy - Copy\AMSim\AMSim\display.h(16): warning : missing return statement at end of non-void function "Display::operator="
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/util/Memory.h(73): warning : ignoring return value from routine declared with "nodiscard" attribute
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/MathFunctions.h(1075): warning : calling a constexpr __host__ function("real") from a __host__ __device__ function("abs") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/MathFunctions.h(1075): warning : calling a constexpr __host__ function("imag") from a __host__ __device__ function("abs") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/MathFunctions.h(1075): warning : calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/MathFunctions.h(1075): warning : calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/MathFunctions.h(1080): warning : calling a constexpr __host__ function("real") from a __host__ __device__ function("abs") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/MathFunctions.h(1080): warning : calling a constexpr __host__ function("imag") from a __host__ __device__ function("abs") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/MathFunctions.h(1080): warning : calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/MathFunctions.h(1080): warning : calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/arch/CUDA/Half.h(302): warning : calling a __host__ function from a __host__ __device__ function is not allowed
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/arch/CUDA/Half.h(305): warning : calling a __host__ function from a __host__ __device__ function is not allowed
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/products/Parallelizer.h(20): warning : variable "m_maxThreads" was set but never used
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/ArrayWrapper.h(94): warning : __declspec attributes ignored
+  
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(217): warning : variable "avgOrt" was declared but never referenced
+  
+C:\Users\Jane\Desktop\collective-x-adversarial-ams - Copy - Copy\AMSim\AMSim\display.h(16): warning : missing return statement at end of non-void function "Display::operator="
+  
+C:\Users\Jane\Desktop\thesis\collective-x-adversarial-ams\AMSim\AMSim\include\Eigen\src/Core/ArrayWrapper.h(94): warning : __declspec attributes ignored
+  
+  environment.cu
+  host_defines.h is an internal header file and must not be used directly.  This file will be removed in a future CUDA release.  Please use cuda_runtime_api.h or cuda_runtime.h instead.
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(77): warning C4018: '<': signed/unsigned mismatch
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(84): warning C4018: '<': signed/unsigned mismatch
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(95): warning C4018: '<': signed/unsigned mismatch
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(102): warning C4018: '<': signed/unsigned mismatch
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(140): warning C4018: '<': signed/unsigned mismatch
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(180): warning C4018: '<': signed/unsigned mismatch
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(203): warning C4018: '<': signed/unsigned mismatch
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(224): warning C4018: '<': signed/unsigned mismatch
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(324): warning C4018: '<': signed/unsigned mismatch
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(333): warning C4018: '<': signed/unsigned mismatch
+C:/Users/Jane/Desktop/collective-x-adversarial-ams - Copy - Copy/AMSim/AMSim/environment.cu(345): warning C4018: '<': signed/unsigned mismatch
+  AMSim.vcxproj -> C:\Users\Jane\Desktop\collective-x-adversarial-ams - Copy - Copy\AMSim\Debug\AMSim.exe

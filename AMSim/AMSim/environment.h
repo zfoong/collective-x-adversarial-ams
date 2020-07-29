@@ -6,9 +6,7 @@
 
 enum MatterType {
 	collective,
-	adversarial,
-	learner,
-	teacher
+	adversarial
 };
 
 const float RADIUS = 1;
@@ -23,7 +21,7 @@ struct Matter {
 	int neighbourCount = 0;
 	float acmlActiveWork = 0;
 	float acmlCurrentActiveWork = 0;
-	MatterType type = teacher;
+	MatterType type = adversarial;
 };
 
 class Environment {
@@ -34,6 +32,7 @@ public:
 	float t = 0;
 	std::vector<float> ReturnState();
 	std::vector<float> ReturnCState();
+	std::vector<float> ReturnAllState();
 	std::vector<float> Step(std::vector<float>, std::vector<float>&, bool&);
 	float Environment::returnActiveWork();
 	float Environment::returnCurrentActiveWork();

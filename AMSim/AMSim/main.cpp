@@ -33,8 +33,9 @@ extern float scaledWindowWidth;
 extern float scaledWindowHeight;
 //extern float t;
 extern float dt;
-extern int n;
-extern int n_t;
+extern int n_a;
+extern int n_c;
+int n = n_a + n_c;
 
 int currentSimulation = 1;
 int totalSimulation = 10;
@@ -42,16 +43,19 @@ int currentEpisode_1 = 1;
 int totalEpisode = 120;
 float T = 100; // Total Timestep
 bool terminate_t = false;
-bool isLearning = true;
-bool displayEnabled = false;
+bool isLearning = false;
+bool displayEnabled = true;
 
 int WIN;
 int startTime = time(NULL);
 
-Environment env = Environment(100, 0, true);
+Environment env = Environment(10, 50, true);
 Agent agent = Agent(0.1, 1, 10,  0, 0.9);
+Agent agent_a = Agent(0.1, 1, 10, 0, 0.9);
 
-
+std::vector<float> currentState = env.ReturnAllState();
+std::vector<int> actionID(n);
+std::vector<float> reward(n);
 
 int bufferSize = 10000;
 
@@ -158,12 +162,17 @@ int main(int argc, char **argv)
 		if (isLearning) {
 			trainTimer();
 		} else {
-			agent.LoadQTable("QTable");
 			agent.LoadDTable("DTable");
 			agent.LoadSVTable("SVTable");
 			agent.LoadTPMatrix("TPMatrix");
 			agent.setEpsilon(0);
 			agent.SortStateValueList();
+
+			agent_a.LoadDTable("DTable_a");
+			agent_a.LoadSVTable("SVTable_a");
+			agent_a.LoadTPMatrix("TPMatrix_a");
+			agent_a.setEpsilon(0);
+			agent_a.SortStateValueList();
 			resultTimer();
 		}
 		glutMainLoop();
@@ -200,12 +209,21 @@ void trainTimer(int)
 void resultTimer(int) {
 	display();
 
-	//action = agent.ReturnAction(currentState, actionID);
-	//newState = env.Step(action, reward, terminate_t);
+	std::vector<float> currentState_a(currentState.begin(), currentState.begin() + n_a);
+	std::vector<int> actionID_a(actionID.begin(), actionID.begin() + n_a);
+	std::vector<float> action_a = agent_a.ReturnAction(currentState_a, actionID_a);
+
+	std::vector<float> currentState_c(currentState.begin() + n_a, currentState.end());
+	std::vector<int> actionID_c(actionID.begin() + n_a, actionID.end());
+	std::vector<float> action_c = agent.ReturnAction(currentState_c, actionID_c);
+
+	action_a.insert(action_a.end(), action_c.begin(), action_c.end());
+
+	std::vector<float> newState = env.Step(action_a, reward, terminate_t);
 
 	if (terminate_t) std::cout << "invalid terminate" << std::endl;
 
-	//currentState = newState;
+	currentState = newState;
 
 	glutTimerFunc(1, resultTimer, 0);
 }
@@ -241,10 +259,10 @@ void drawMatter(Matter p, float transformX, float transformY) {
 	glPushMatrix();
 	glScalef(SCALE_FACTOR, SCALE_FACTOR, 1.0);
 	glTranslatef(p.pos[0] + transformX, p.pos[1] + transformY, 0.0f);
-	if (p.type == learner)
+	if (p.type == collective)
 		glColor3f(255, 255, 0);
 	else
-		glColor3f(p.ort[0], p.ort[1], 1);
+		glColor3f(255, 0, 0);
 
 	glBegin(GL_POLYGON);
 	for (float a = 0; a < 2 * M_PI; a += 0.2)
@@ -292,7 +310,6 @@ std::string initSimulationData(int time) {
 	outFile << "density = " << '\n';
 	outFile << "reward func = " << '\n';
 	outFile << "learner count = " << n << '\n';
-	outFile << "teacher count = " << n_t << '\n';
 	outFile << "remark = ''" << '\n';
 	outFile.close();
 

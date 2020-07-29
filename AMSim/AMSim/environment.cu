@@ -21,10 +21,10 @@ float windowWidth = scaledWindowWidth * SCALE_FACTOR;
 float windowHeight = scaledWindowHeight * SCALE_FACTOR;
 
 //float t = 0; // current time
-float dt = 0.001f; // time step
-int n = 1; // total amt of learner matter
-int n_t = 32; // total amt of teacher matter
-int totalCount = n + n_t;
+float dt = 0.01f; // time step
+int n_c = 50; // total amt of learner matter
+int n_a = 50; // total amt of teacher matter
+int totalCount = n_c + n_a;
 
 float pl = 60;
 float rotDif = V / pl;
@@ -48,32 +48,32 @@ void DrawMatter(Matter, float = 0, float = 0);
 Vector2f RandomOrt();
 Vector2f RandomPos();
 
-Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
+Environment::Environment(float Cnum, float Anum, bool transientEnabled)
 {
 	srand(time(NULL));
-	n = Lnum;
-	n_t = Tnum;
-	totalCount = n + n_t;
+	n_c = Cnum;
+	n_a = Anum;
+	totalCount = n_c + n_a;
 	for (int i = 0; i < sqrt(totalCount); i++) {
 		for (int j = 0; j < sqrt(totalCount); j++) {
-			if (Tnum + Lnum == 0)
+			if (Anum + Cnum == 0)
 				break;
 			Vector2f ort = RandomOrt();
 			float x = i - (windowWidth / 2 / SCALE_FACTOR / 2);
 			float y = j - (windowHeight / 2 / SCALE_FACTOR / 2);
-			if (Tnum > 0) {
-				AddMatter(teacher, x, y, ort(0), ort(1));
-				Tnum--;
+			if (Anum > 0) {
+				AddMatter(adversarial, x, y, ort(0), ort(1));
+				Anum--;
 			} else {
-				AddMatter(learner, x, y, ort(0), ort(1));
-				Lnum--;
+				AddMatter(collective, x, y, ort(0), ort(1));
+				Cnum--;
 			}
 		}
 	}
 
 	// transient phase
 	if (transientEnabled) {
-		while (t < 1) {
+		while (t < 10) {
 			for (int i = 0; i < matters.size(); i++) {
 				Matter &p = matters[i];
 				Movement(p, 0);
@@ -92,7 +92,7 @@ Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
 std::vector<float> Environment::ReturnState()
 {
 	std::vector<float> state;
-	for (int i = n_t; i < matters.size(); i++) {
+	for (int i = n_a; i < matters.size(); i++) {
 		Matter &p = matters[i];
 
 		int inRangeCount = 0;
@@ -102,6 +102,9 @@ std::vector<float> Environment::ReturnState()
 		for (int j = 0; j < prevMatters.size(); j++)
 		{
 			Matter &m = prevMatters[j];
+			if (m.type == adversarial)
+				continue;
+
 			float dx = 0;
 			float dy = 0;
 			float dis = DistancePBC(p, m, dx, dy);
@@ -127,7 +130,7 @@ std::vector<float> Environment::ReturnState()
 std::vector<float> Environment::ReturnCState()
 {
 	std::vector<float> state;
-	for (int i = n_t; i < matters.size(); i++) {
+	for (int i = 0; i < n_a; i++) {
 		Matter& p = matters[i];
 
 		int inRangeCount = 0;
@@ -137,6 +140,9 @@ std::vector<float> Environment::ReturnCState()
 		for (int j = 0; j < prevMatters.size(); j++)
 		{
 			Matter& m = prevMatters[j];
+			if (m.type == adversarial)
+				continue;
+
 			float dx = 0;
 			float dy = 0;
 			float dis = DistancePBC(p, m, dx, dy);
@@ -145,15 +151,15 @@ std::vector<float> Environment::ReturnCState()
 				continue;
 
 			if (dis < range) {
-				posx += m.pos[0];
-				posy += m.pos[1];
+				posx -= dx;
+				posy -= dy;
 				inRangeCount++;
 			}
 		}
 		float radDiff = 0;
 		if (inRangeCount != 0) {
-			posx = (posx - p.pos[0]) / (float)inRangeCount;
-			posy = (posy - p.pos[1]) / (float)inRangeCount;
+			posx = (posx) / (float)inRangeCount;
+			posy = (posy) / (float)inRangeCount;
 			radDiff = RadiansDifference(atan2(posy, posx), atan2(p.ort[1], p.ort[0]));
 		}
 
@@ -162,59 +168,45 @@ std::vector<float> Environment::ReturnCState()
 	return state;
 }
 
+std::vector<float> Environment::ReturnAllState() {
+	std::vector<float> jointState = ReturnCState();
+	std::vector<float> state_c = ReturnState();
+	jointState.insert(jointState.end(), state_c.begin(), state_c.end());
+	return jointState;
+}
+
 std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<float> &rewardList, bool &terminate)
 {
 	for (int i = 0; i < matters.size(); i++) {
 		Matter &p = matters[i];
-		float a = 0;
-		if(p.type == learner) a = actionList[i-n_t];
+		float a = actionList[i];
 		Movement(p, a);
 	}
 
 	t += dt;
 	prevMatters = matters;
 
-	//for (int i = n_t; i < matters.size(); i++) {
-	//	Matter &p = matters[i];
-
-	//	#pragma region Compute reward by neighbour lost
-	//	int inRangeCount = 0;
-	//	for (int j = 0; j < prevMatters.size(); j++) {
-	//		Matter &m = prevMatters[j];
-	//		float dx = 0;
-	//		float dy = 0;
-	//		float dis = DistancePBC(p, m, dx, dy);
-
-	//		if (dis == 0)
-	//			continue;
-
-	//		if (dis < range)
-	//			inRangeCount++;
-	//	}
-
-	//	if (inRangeCount < p.neighbourCount)
-	//		rewardList[i-n_t] = (inRangeCount - p.neighbourCount)*c;
-	//	else
-	//		rewardList[i-n_t] = 0;
-	//	p.neighbourCount = inRangeCount;
-	//	#pragma endregion
-
-	//}
-
 	#pragma region Compute active work
 	float normActiveWork =  returnCurrentActiveWork();
 	float scaledActiveWork = normActiveWork / dt;
 	if (normActiveWork > 2 || normActiveWork < -2) terminate = true;
-	float activeWork_s = scaledActiveWork * -s;
 
-	std::fill(rewardList.begin(), rewardList.end(), activeWork_s);
-	for (int i = n_t; i < matters.size(); i++) {
+
+	float activeWork_a = scaledActiveWork * -s;
+	std::fill(rewardList.begin(), rewardList.begin() + n_a, activeWork_a);
+	float activeWork_c = scaledActiveWork * s;
+	std::fill(rewardList.begin() + n_a, rewardList.end(), activeWork_c);
+	for (int i = 0; i < n_a; i++) {
 		Matter &p = matters[i];
-		rewardList[i - n_t] += (p.acmlCurrentActiveWork / dt) * -s;
+		rewardList[i] += (p.acmlCurrentActiveWork / dt) * -s;
+	}
+	for (int i = n_a; i < matters.size(); i++) {
+		Matter& p = matters[i];
+		rewardList[i] += (p.acmlCurrentActiveWork / dt) * s;
 	}
 	#pragma endregion
 
-	return ReturnCState();
+	return ReturnAllState();
 }
 
 void Environment::Movement(Matter &p, float action) {
@@ -223,8 +215,6 @@ void Environment::Movement(Matter &p, float action) {
 	float xi_2 = (float)(distribution(generator));
 
 	float avgOrt = 0;
-	float ortx = 0;
-	float orty = 0;
 
 	Vector2f r(p.pos[0], p.pos[1]);
 	Vector2f rPrev(p.pos[0], p.pos[1]);
@@ -241,29 +231,14 @@ void Environment::Movement(Matter &p, float action) {
 		if (dis == 0)
 			continue;
 
-		if (dis < range && m.type != learner) {
-			ortx += m.ort[0];
-			orty += m.ort[1];
-		}
-
 		float Fr = InteractionForce(dis);
 		float forceAngle = atan2(dy, dx);
 		F(0) += Fr * cos(forceAngle);
 		F(1) += Fr * sin(forceAngle);
 	}
 	float rad = atan2(p.ort[1], p.ort[0]); // convert ort vector to radians
-	float theta = 0;
-	if (p.type == teacher) {
-		float radDiff = RadiansDifference(atan2(orty, ortx), rad);
-		if (ortx == 0 && orty == 0)
-			radDiff = 0;
-		theta = rad + radDiff * dt + sqrt(dt) * (rotDifCoef * eta);
-		//theta = rad + radDiff * dt;
-	}
-	else {
-		theta = rad + action * dt * c + sqrt(dt) * (rotDifCoef * eta);
-		//theta = rad + action * dt * c;
-	}
+	float theta = rad + action * dt * c + sqrt(dt) * (rotDifCoef * eta);
+	//theta = rad + action * dt * c;
 
 	Vector2f u(cos(theta), sin(theta)); // convert theta to ort vector u
 
@@ -350,7 +325,7 @@ float Environment::returnActiveWork() {
 		Matter &p = matters[i];
 		totalActiveWork += p.acmlActiveWork;
 	}
-	return (1 / ((float)(n+n_t)*t)) * totalActiveWork;
+	return (1 / ((float)(n_c+n_a)*t)) * totalActiveWork;
 }
 
 float Environment::returnCurrentActiveWork() {
@@ -359,7 +334,7 @@ float Environment::returnCurrentActiveWork() {
 		Matter &p = matters[i];
 		totalActiveWork += p.acmlCurrentActiveWork;
 	}
-	return (1 / (float)(n + n_t)) * totalActiveWork;
+	return (1 / (float)(n_c + n_a)) * totalActiveWork;
 }
 
 void Environment::Display()
