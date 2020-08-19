@@ -11,16 +11,16 @@
 using namespace Eigen;
 
 extern const float SCALE_FACTOR = 40;
-float scaledWindowWidth = 12;
-float scaledWindowHeight = 12;
+float scaledWindowWidth = 8;
+float scaledWindowHeight = 8;
 float windowWidth = scaledWindowWidth * SCALE_FACTOR;
 float windowHeight = scaledWindowHeight * SCALE_FACTOR;
 
-float t = 0; // current time
+//float t = 0; // current time
 float dt = 0.01f; // time step
-int n = 1; // total amt of learner matter
-int n_t = 32; // total amt of teacher matter
-int totalCount = n + n_t;
+int n_f = 25; // total amt of learner matter
+int n_c = 10; // total amt of teacher matter
+int totalCount = n_f + n_c;
 
 float pl = 60;
 float rotDif = V / pl;
@@ -31,7 +31,7 @@ float alpha = transDif / rotDif * pow(RADIUS, 2);
 float mu = alpha * RADIUS / pl;
 float range = 3;
 float c = 1;
-float s = 3;
+float s = 1;
 
 std::default_random_engine generator;
 std::normal_distribution<double> distribution(0, 1);
@@ -44,25 +44,26 @@ void DrawMatter(Matter, float = 0, float = 0);
 Vector2f RandomOrt();
 Vector2f RandomPos();
 
-Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
+Environment::Environment(float Cnum, float Anum, bool transientEnabled)
 {
 	srand(time(NULL));
-	n = Lnum;
-	n_t = Tnum;
-	totalCount = n + n_t;
+	n_f = Cnum;
+	n_c = Anum;
+	totalCount = n_f + n_c;
+
 	for (int i = 0; i < sqrt(totalCount); i++) {
 		for (int j = 0; j < sqrt(totalCount); j++) {
-			if (Tnum + Lnum == 0)
+			if (Anum + Cnum == 0)
 				break;
 			Vector2f ort = RandomOrt();
 			float x = i - (windowWidth / 2 / SCALE_FACTOR / 2);
 			float y = j - (windowHeight / 2 / SCALE_FACTOR / 2);
-			if (Tnum > 0) {
-				AddMatter(teacher, x, y, ort(0), ort(1));
-				Tnum--;
+			if (Anum > 0) {
+				AddMatter(clustering, x, y, ort(0), ort(1));
+				Anum--;
 			} else {
-				AddMatter(learner, x, y, ort(0), ort(1));
-				Lnum--;
+				AddMatter(flocking, x, y, ort(0), ort(1));
+				Cnum--;
 			}
 		}
 	}
@@ -85,19 +86,23 @@ Environment::Environment(float Lnum, float Tnum, bool transientEnabled)
 	}
 }
 
-std::vector<float> Environment::ReturnState()
+// Return flocking behaviour agent joint state
+std::vector<float> Environment::ReturnFState()
 {
 	std::vector<float> state;
-	for (int i = n_t; i < matters.size(); i++) {
+	for (int i = n_c; i < matters.size(); i++) {
 		Matter &p = matters[i];
 
 		int inRangeCount = 0;
-		float totalRad = 0;
 		float ortx = 0;
 		float orty = 0;
+		
 		for (int j = 0; j < prevMatters.size(); j++)
 		{
 			Matter &m = prevMatters[j];
+			if (m.type == clustering)
+				continue;
+
 			float dx = 0;
 			float dy = 0;
 			float dis = DistancePBC(p, m, dx, dy);
@@ -120,76 +125,106 @@ std::vector<float> Environment::ReturnState()
 	return state;
 }
 
+// Return clustering behaviour agent joint state
+std::vector<float> Environment::ReturnCState()
+{
+	std::vector<float> state;
+	for (int i = 0; i < n_c; i++) {
+		Matter& p = matters[i];
+
+		int inRangeCount = 0;
+		float posx = 0;
+		float posy = 0;
+		
+		for (int j = 0; j < prevMatters.size(); j++)
+		{
+			Matter& m = prevMatters[j];
+			if (m.type == clustering)
+				continue;
+
+			float dx = 0;
+			float dy = 0;
+			float dis = DistancePBC(p, m, dx, dy);
+
+			if (dis == 0)
+				continue;
+
+			if (dis < range) {
+				posx -= dx;
+				posy -= dy;
+				inRangeCount++;
+			}
+		}
+		float radDiff = 0;
+		if (inRangeCount != 0) {
+			posx = (posx) / (float)inRangeCount;
+			posy = (posy) / (float)inRangeCount;
+			radDiff = RadiansDifference(atan2(posy, posx), atan2(p.ort[1], p.ort[0]));
+		}
+
+		state.push_back(radDiff);
+	}
+	return state;
+}
+
+// Joint flocking and clustering behaviour state
+std::vector<float> Environment::ReturnAllState() {
+	std::vector<float> jointState = ReturnCState();
+	std::vector<float> state_c = ReturnFState();
+	jointState.insert(jointState.end(), state_c.begin(), state_c.end());
+	return jointState;
+}
+
+// Each environment step takes agent action and returns reward and next state, simulate agents' movement
 std::vector<float> Environment::Step(std::vector<float> actionList, std::vector<float> &rewardList, bool &terminate)
 {
+	#pragma region Update agents movement
 	for (int i = 0; i < matters.size(); i++) {
 		Matter &p = matters[i];
-		float a = 0;
-		if(p.type == learner) a = actionList[i-n_t];
+		float a = actionList[i];
 		Movement(p, a);
 	}
-
 	t += dt;
 	prevMatters = matters;
-
-	//for (int i = n_t; i < matters.size(); i++) {
-	//	Matter &p = matters[i];
-
-	//	#pragma region Compute reward by neighbour lost
-	//	int inRangeCount = 0;
-	//	for (int j = 0; j < prevMatters.size(); j++) {
-	//		Matter &m = prevMatters[j];
-	//		float dx = 0;
-	//		float dy = 0;
-	//		float dis = DistancePBC(p, m, dx, dy);
-
-	//		if (dis == 0)
-	//			continue;
-
-	//		if (dis < range)
-	//			inRangeCount++;
-	//	}
-
-	//	if (inRangeCount < p.neighbourCount)
-	//		rewardList[i-n_t] = (inRangeCount - p.neighbourCount)*c;
-	//	else
-	//		rewardList[i-n_t] = 0;
-	//	p.neighbourCount = inRangeCount;
-	//	#pragma endregion
-
-	//}
+	#pragma endregion
 
 	#pragma region Compute active work
 	float normActiveWork =  returnCurrentActiveWork();
-	float scaledActiveWork = powf((normActiveWork / dt)*10, 2);
+	float scaledActiveWork = normActiveWork / dt;
 	if (normActiveWork > 2 || normActiveWork < -2) terminate = true;
-	//float G = 1 / dt * std::log(std::exp(-s*dt*totalCount*scaledActiveWork));
-	//float activeWork_s = -(G / totalCount);
 
-	std::fill(rewardList.begin(), rewardList.end(), scaledActiveWork);
-	//for (int i = n_t; i < matters.size(); i++) {
-	//	Matter &p = matters[i];
-	//	rewardList[i - n_t] += powf((p.acmlCurrentActiveWork / dt) * 10, 2);;
-	//}
+
+	float activeWork_c = scaledActiveWork * -s;
+	std::fill(rewardList.begin(), rewardList.begin() + n_c, activeWork_c);
+	float activeWork_f = scaledActiveWork * s;
+	std::fill(rewardList.begin() + n_c, rewardList.end(), activeWork_f);
+	for (int i = 0; i < n_c; i++) {
+		Matter &p = matters[i];
+		rewardList[i] += (p.acmlCurrentActiveWork / dt) * -s; // adding individual current active work as individual reward
+	}
+	for (int i = n_c; i < matters.size(); i++) {
+		Matter& p = matters[i];
+		rewardList[i] += (p.acmlCurrentActiveWork / dt) * s; // adding individual current active work as individual reward
+	}
 	#pragma endregion
 
-	return ReturnState();
+	return ReturnAllState();
 }
 
+// Agents movement update logic
 void Environment::Movement(Matter &p, float action) {
 	float eta = (float)(distribution(generator));
 	float xi_1 = (float)(distribution(generator));
 	float xi_2 = (float)(distribution(generator));
 
 	float avgOrt = 0;
-	float ortx = 0;
-	float orty = 0;
 
 	Vector2f r(p.pos[0], p.pos[1]);
 	Vector2f rPrev(p.pos[0], p.pos[1]);
 	Vector2f tranNoise(xi_1, xi_2);
 	Vector2f F(0, 0);
 
+	#pragma region Compute interaction force
 	for (int i = 0; i < prevMatters.size(); i++) {
 		Matter &m = prevMatters[i];
 
@@ -200,39 +235,21 @@ void Environment::Movement(Matter &p, float action) {
 		if (dis == 0)
 			continue;
 
-		if (dis < range && m.type != learner) {
-			ortx += m.ort[0];
-			orty += m.ort[1];
-		}
-
 		float Fr = InteractionForce(dis);
 		float forceAngle = atan2(dy, dx);
 		F(0) += Fr * cos(forceAngle);
 		F(1) += Fr * sin(forceAngle);
 	}
+	#pragma endregion
+
 	float rad = atan2(p.ort[1], p.ort[0]); // convert ort vector to radians
-	float theta = 0;
-	if (p.type == teacher) {
-		float radDiff = RadiansDifference(atan2(orty, ortx), rad);
-		if (ortx == 0 && orty == 0)
-			radDiff = 0;
-		theta = rad + radDiff * dt + sqrt(dt) * (rotDifCoef * eta);
-		//theta = rad + radDiff * dt;
-	}
-	else {
-		theta = rad + action * dt * c + sqrt(dt) * (rotDifCoef * eta);
-		//theta = rad + action * dt * c;
-	}
-
+	float theta = rad + action * dt * c + sqrt(dt) * (rotDifCoef * eta); // udpate orientation
 	Vector2f u(cos(theta), sin(theta)); // convert theta to ort vector u
-
-	r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise);
-	//r = r + dt * (mu * F) + dt * (p.v * u);
+	r = r + dt * (mu * F) + dt * (p.v * u) + sqrt(dt) * (transDifCoef * tranNoise); // update position
 
 	#pragma region Compute active work
 	Vector2f r_aw(p.pos[0], p.pos[1]);
 	r_aw = (mu * F) + (p.v * u) + (transDifCoef * tranNoise);
-	//r_aw = (mu * F) + (p.v * u);
 	float aw = dt * (r_aw.dot(u));
 	p.acmlActiveWork += aw;
 	p.acmlCurrentActiveWork = aw;
@@ -303,13 +320,31 @@ float RadiansDifference(float radA, float radB) {
 	return -r;
 }
 
-float Environment::returnActiveWork() {
+float Environment::returnAllActiveWork() {
 	float totalActiveWork = 0;
 	for (int i = 0; i < matters.size(); i++) {
 		Matter &p = matters[i];
 		totalActiveWork += p.acmlActiveWork;
 	}
-	return (1 / ((float)(n+n_t)*t)) * totalActiveWork;
+	return (1 / ((float)(n_f+n_c)*t)) * totalActiveWork;
+}
+
+float Environment::returnActiveWork_f() {
+	float totalActiveWork = 0;
+	for (int i = n_c; i < matters.size(); i++) {
+		Matter& p = matters[i];
+		totalActiveWork += p.acmlActiveWork;
+	}
+	return (1 / ((float)(n_f) * t)) * totalActiveWork;
+}
+
+float Environment::returnActiveWork_c() {
+	float totalActiveWork = 0;
+	for (int i = 0; i < n_c; i++) {
+		Matter& p = matters[i];
+		totalActiveWork += p.acmlActiveWork;
+	}
+	return (1 / ((float)(n_c)*t)) * totalActiveWork;
 }
 
 float Environment::returnCurrentActiveWork() {
@@ -318,7 +353,7 @@ float Environment::returnCurrentActiveWork() {
 		Matter &p = matters[i];
 		totalActiveWork += p.acmlCurrentActiveWork;
 	}
-	return (1 / (float)(n + n_t)) * totalActiveWork;
+	return (1 / (float)(n_f + n_c)) * totalActiveWork;
 }
 
 void Environment::Display()

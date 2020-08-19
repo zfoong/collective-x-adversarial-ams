@@ -24,33 +24,31 @@ Agent::Agent(float lr, float ep, float epDecay, float epMin, float df)
 	discountFactor = df;
 }
 
-void Agent::UpdateQTable(float state, int actionID, float reward, float newState) {
-	int stateID = StateToIndex(state);
-	int newStateID = StateToIndex(newState);
-
-	//float lr = learningRate * (1 - ((float)DSTable[stateID] / (float)N));
-	//QTable[stateID][actionID] += lr * (reward + discountFactor * arrmax(QTable[newStateID], sizeof(QTable[newStateID])) - QTable[stateID][actionID]);
-	//QTable[stateID][actionID] += lr * (reward - QTable[stateID][actionID]);
-	SVTable[stateID] += learningRate * (reward - SVTable[stateID]);
-	DTable[stateID][newStateID][actionID]++;
-	//DSTable[stateID]++;
-	//N++;
-}
-
+// sort optimum state
 void Agent::SortStateValueList() {
-	std::vector<int> V(pieces);
+	std::vector<int> V(K);
 	std::iota(V.begin(), V.end(), 0);
 	sort(V.begin(), V.end(), [&](int i, int j) {return SVTable[i]>SVTable[j]; });
 	for (int k = 0; k < V.size(); k++)
 		sortedSVTable[k] = V[k];
 }
 
-void Agent::UpdateQTable(std::vector<float> stateList, std::vector<int> actionIDList, std::vector<float> rewardList, std::vector<float> newStateList) {
+// state value function update via TD-Learning
+void Agent::UpdateSVTable(float state, int actionID, float reward, float newState) {
+	int stateID = StateToIndex(state);
+	int newStateID = StateToIndex(newState);
+	SVTable[stateID] += learningRate * (reward + discountFactor * SVTable[newStateID] - SVTable[stateID]); // TD-Learning
+	DTable[stateID][newStateID][actionID]++; // record state-action occurance in a distribution table
+}
+
+// update state value for MAS
+void Agent::UpdateSVTable(std::vector<float> stateList, std::vector<int> actionIDList, std::vector<float> rewardList, std::vector<float> newStateList) {
 	for (int i = 0; i < stateList.size(); i++) {
-		UpdateQTable(stateList[i], actionIDList[i], rewardList[i], newStateList[i]);
+		UpdateSVTable(stateList[i], actionIDList[i], rewardList[i], newStateList[i]);
 	}
 }
 
+// model update
 void Agent::UpdateTPMatrix() {
 	int n_d1 = sizeof(TPMatrix) / sizeof(*TPMatrix);
 	int n_d2 = sizeof(TPMatrix[n_d1]) / sizeof(*TPMatrix[n_d1]);
@@ -58,9 +56,11 @@ void Agent::UpdateTPMatrix() {
 	for (int i = 0; i < n_d3; i++) {
 		for (int j = 0; j < n_d1; j++) {
 			int actionTotal = 0;
+			// compute total occurance of action row
 			for (int k = 0; k < n_d2; k++) {
-				actionTotal += DTable[j][k][i];
+				actionTotal += DTable[j][k][i]; 
 			}
+			// compute probability of state-action to next state
 			for (int k = 0; k < n_d2; k++) {
 				TPMatrix[j][k][i] = (float)DTable[j][k][i] / (float)actionTotal;
 			}
@@ -68,16 +68,17 @@ void Agent::UpdateTPMatrix() {
 	}
 }
 
+// action selection function
 float Agent::ReturnAction(float state, int &actionID) {
 	int stateID = StateToIndex(state);
-	int count = sizeof(QTable[stateID]) / sizeof(*QTable[stateID]);
+	int count = sizeof(SVTable) / sizeof(SVTable[stateID]);
 	if (epsilon >= ((double)rand() / (RAND_MAX))) {
 		actionID = rand() % count;
 	} else {
-		//TP-matrix
-		//int optimumStateID = argmax(SVTable, count);
-		//actionID = argmax(TPMatrix[stateID][optimumStateID], count);
-		float thr = 0.1;
+		/*TP-Matrix (model) action select. one can search for local available actions with highest value,
+		or just sort all state value accrodingly and look for any action agents can take (our approach).
+		our approach required less computational operation needed, even it is not intuitive.*/
+		float thr = 0.01;
 		int index = 0;
 		int SVTableCount = sizeof(sortedSVTable) / sizeof(sortedSVTable[0]);
 		while (index < SVTableCount) {
@@ -90,13 +91,11 @@ float Agent::ReturnAction(float state, int &actionID) {
 				index++;
 			}
 		}
-
-		// Q-learning
-		//actionID = argmax(QTable[stateID], count);
 	}
 	return -(IndexToAction(actionID)); // append negative sign to flip orientation
 }
 
+// action selection for MAS
 std::vector<float> Agent::ReturnAction(std::vector<float> stateList, std::vector<int> &actionIDList) {
 	std::vector<float> actionList;
 	for (int i = 0; i < stateList.size(); i++) {
@@ -129,10 +128,12 @@ float Agent::returnLearningRate() {
 	return learningRate;
 }
 
+// return max value index within array
 int argmax(float *arr, int size) {
 	return std::distance(arr, std::max_element(arr ,arr + size));
 }
 
+// return max value within array
 float arrmax(float *arr, int size) {
 	float max = arr[0];
 	for(int i = 1; i < size; i++)
@@ -140,29 +141,29 @@ float arrmax(float *arr, int size) {
 	return max;
 }
 
+// from state in [-pi, pi) to state index in [0, K]
 int Agent::StateToIndex(float state) {
-	state += M_PI;
+	/*
+	this help to put external force into the middle of a state piece
+	doing so help to avoid the behaviour where flocking agents will going around in a circle
+	it is not implemented because previous training was not done using it
+	uncomment this to make the simulation look more natural 
+	*/
+	//state += M_PI + (radiansPiece / 2); 
+	
+	state += M_PI; 
 	return floor(state / radiansPiece);
 }
 
+// from action in [-pi, pi) to action index in [0, K]
 int Agent::ActionToIndex(float state) {
 	state += M_PI;
 	return floor(state / radiansPiece);
 }
 
+// from action index in [0, K] to action in [-pi, pi)
 float Agent::IndexToAction(int index) {
 	return (radiansPiece * index) - M_PI;
-}
-
-void Agent::SaveQTable(const char* path) {
-	std::string fileExt = ".csv";
-	std::string filePath = path + fileExt;
-	std::ofstream outFile(filePath);
-	for (auto& row : QTable) {	
-		for (auto col : row)
-			outFile << col << ',';
-		outFile << '\n';
-	}
 }
 
 void Agent::SaveSVTable(const char* path) {
@@ -220,32 +221,12 @@ void Agent::SaveDTable(const char* path) {
 	}
 }
 
-void Agent::LoadQTable(const char* path) {
-	std::string fileExt = ".csv";
-	std::string filePath = path + fileExt;
-	std::cout << "loading Q table from " << filePath << std::endl;
-	std::ifstream file(filePath);
-	for (int row = 0; row < pieces; row++)
-	{
-		std::string line;
-		std::getline(file, line);
-		std::stringstream iss(line);
-		for (int col = 0; col < pieces; col++)
-		{
-			std::string val;
-			std::getline(iss, val, ',');
-			std::stringstream convertor(val);
-			convertor >> QTable[row][col];
-		}
-	}
-}
-
 void Agent::LoadSVTable(const char* path) {
 	std::string fileExt = ".csv";
 	std::string filePath = path + fileExt;
 	std::cout << "loading SV Table from svtable.csv" << std::endl;
 	std::ifstream file(filePath);
-	for (int row = 0; row < pieces; row++)
+	for (int row = 0; row < K; row++)
 	{
 		std::string line;
 		std::getline(file, line);
@@ -268,5 +249,4 @@ void Agent::LoadDTable(const char* path) {
 
 Agent::~Agent()
 {
-
 }

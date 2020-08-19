@@ -1,49 +1,51 @@
 #ifndef AGENT_H
 #define AGENT_H
 
+// redefine M_PI to fix imcompatability with CUDA
+#ifndef M_PI
+	#define M_PI 3.14159265358979323846
+#endif
+
 #include <string>
 #include <vector>
+#include <cmath>
 
-const int pieces = 20;
+static const int K = 20;  // split state space and action space into K pieces of discretized units
 
 class Agent {
 public:
-	const float RADIANS = M_PI * 2;
-	float learningRate = 0.1;
-	float minlr = 0;
-	float maxlr = learningRate;
-	float learningRateDecay = 20;
-	float discountFactor = 0.2;
-	float epsilon = 1;
-	float minEpsilon = 0;
-	float maxEpsilon = epsilon;
-	float epsilonDecay = 10;
-	float radiansPiece = RADIANS / (float)pieces;
 	Agent(float = 0.5, float = 1, float = 10, float = 0 , float = 0.9);
-	float QTable[pieces][pieces] = {{0}};
-	float SVTable[pieces] = {0};
-	int sortedSVTable[pieces] = { 0 };
-	float TPMatrix[pieces][pieces][pieces] = {{{0}}};
-	int DTable[pieces][pieces][pieces] = {{{0}}};
-	int DSTable[pieces] = { 1 };
-	int N = pieces;
-	void UpdateQTable(float, int, float, float);
-	void UpdateQTable(std::vector<float>, std::vector<int>, std::vector<float>, std::vector<float>);
+	const float RADIANS = M_PI * 2;
+	float learningRate = 0.1; // learning rate alpha
+	float minlr = 0; // minimum learning rate
+	float maxlr = learningRate; // maximum learning rate
+	float learningRateDecay = 20; // learning rate decay lambda
+	float discountFactor = 0.2; // discount factor gamma
+	float epsilon = 1; // exploration rate epsilon
+	float minEpsilon = 0; // minimum exploration rate
+	float maxEpsilon = epsilon; // maximum exploration rate
+	float epsilonDecay = 10; // exploration rate decay lambda
+	float radiansPiece = RADIANS / (float)K; // descretized units of state and action in radians
+	float SVTable[K] = {0}; // state value table
+	int sortedSVTable[K] = {0}; // sorted state value table, required during action selection with model
+	float TPMatrix[K][K][K] = {{{0}}}; // model, storing transition probability of state-action to next state
+	int DTable[K][K][K] = {{{0}}}; // distribution table store occurance of state-action
+
+	void UpdateSVTable(float, int, float, float);
+	void UpdateSVTable(std::vector<float>, std::vector<int>, std::vector<float>, std::vector<float>);
 	void SortStateValueList();
 	void UpdateTPMatrix();
 	float ReturnAction(float, int&);
 	std::vector<float> ReturnAction(std::vector<float>, std::vector<int>&);
+	void UpdateEpsilonDecay(float, float);
 	void setEpsilon(float);
 	float returnEpsilon();
-	void UpdateEpsilonDecay(float, float);
 	void UpdateLearningRateDecay(float, float);
 	void setLearningRate(float);
 	float returnLearningRate();
-	void SaveQTable(const char*);
 	void SaveSVTable(const char*);
 	void SaveTPMatrix(const char*);
 	void SaveDTable(const char*);
-	void LoadQTable(const char*);
 	void LoadSVTable(const char*);
 	void LoadTPMatrix(const char*);
 	void LoadDTable(const char*);

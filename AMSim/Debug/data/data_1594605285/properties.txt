@@ -1,0 +1,15 @@
+time step = 0.01
+total time step = 100
+total episode = 1000
+learning rate = 0.1
+learning rate decay = 20
+epsilon = 1
+epsilon decay = 10
+discount factor = 0.9
+noise = 
+range = 
+density = 
+reward func = 
+learner count = 50
+teacher count = 50
+remark = ''
