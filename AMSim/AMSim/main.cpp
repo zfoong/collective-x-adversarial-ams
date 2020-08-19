@@ -21,8 +21,8 @@ void keyboard(unsigned char, int, int);
 void drawMatter(Matter, float = 0, float = 0);
 std::string initSimulationData(int);
 std::string createSimulationDir(std::string, int);
-void saveEpisodeData(std::string, int, Agent);
-void updateSimulationResult(std::string, float);
+void saveEpisodeData(std::string, int, Agent, Agent);
+void updateSimulationResult(std::string, std::string, float);
 void updateEpsilon(std::string, float);
 void readConfig();
 
@@ -35,7 +35,6 @@ extern float scaledWindowHeight;
 extern float dt;
 extern int n_a;
 extern int n_c;
-int n = n_a + n_c;
 
 int currentSimulation = 1;
 int totalSimulation = 10;
@@ -43,17 +42,18 @@ int currentEpisode_1 = 1;
 int totalEpisode = 120;
 float T = 100; // Total Timestep
 bool terminate_t = false;
-bool isLearning = false;
-bool displayEnabled = true;
+bool isLearning = true;
+bool displayEnabled = false;
 
 int WIN;
 int startTime = time(NULL);
 
-Environment env = Environment(10, 50, true);
-Agent agent = Agent(0.1, 1, 10,  0, 0.9);
-Agent agent_a = Agent(0.1, 1, 10, 0, 0.9);
+Environment env = Environment(25, 10, true);
+Agent agent_c = Agent(0.1, 0.2, 10, 0, 0.8);
+Agent agent_a = Agent(0.1, 0.2, 10, 0, 0.8);
 
 std::vector<float> currentState = env.ReturnAllState();
+int n = n_a + n_c;
 std::vector<int> actionID(n);
 std::vector<float> reward(n);
 
@@ -61,33 +61,58 @@ int bufferSize = 10000;
 
 void training(std::string dir, int sim_id) {
 	std::string simDir = createSimulationDir(dir, sim_id);
-	Agent agent = Agent(0.1, 1, 10, 0, 0.8);
+	Agent agent_c = Agent(0.1, 0.2, 10, 0, 0.8);
+	Agent agent_a = Agent(0.1, 0.2, 10, 0, 0.8);
+
+	agent_c.LoadDTable("DTable_c");
+	agent_c.LoadSVTable("SVTable_c");
+	agent_c.LoadTPMatrix("TPMatrix_c");
+	agent_c.SortStateValueList();
+
+	agent_a.LoadDTable("DTable_a");
+	agent_a.LoadSVTable("SVTable_a");
+	agent_a.LoadTPMatrix("TPMatrix_a");
+	agent_a.SortStateValueList();
+
 	std::cout << "------------------------" << std::endl;
 	std::cout << "Simulation started: " << sim_id << std::endl;
 	int currentEpisode = 1;
 
 	while (currentEpisode <= totalEpisode) {
-		Environment env_ = Environment(100, 0);
-		std::vector<float> currentState = env_.ReturnCState();
+		Environment env_ = Environment(25, 10);
+		std::vector<float> currentState = env_.ReturnAllState();
 		std::vector<int> actionID(n);
 		std::vector<float> reward(n);
 		std::vector<float> newState(n);
 		std::vector<float> action(n);
 
-		std::vector<std::vector<float>> currentStateList(n);
-		std::vector<std::vector<int>> actionIDList(n);
-		std::vector<std::vector<float>> rewardList(n);
-		std::vector<std::vector<float>> newStateList(n);
+		std::vector<std::vector<float>> currentStateList_a(n_a);
+		std::vector<std::vector<int>> actionIDList_a(n_a);
+		std::vector<std::vector<float>> rewardList_a(n_a);
+		std::vector<std::vector<float>> newStateList_a(n_a);
+
+		std::vector<std::vector<float>> currentStateList_c(n_c);
+		std::vector<std::vector<int>> actionIDList_c(n_c);
+		std::vector<std::vector<float>> rewardList_c(n_c);
+		std::vector<std::vector<float>> newStateList_c(n_c);
 
 		int currentTime = time(NULL);
 		terminate_t = false;
-		std::cout << "current epsilon is : " << agent.returnEpsilon() << std::endl;
-		std::cout << "current learning rate is : " << agent.returnLearningRate() << std::endl;
+		std::cout << "current epsilon is : " << agent_c.returnEpsilon() << std::endl;
+		std::cout << "current learning rate is : " << agent_c.returnLearningRate() << std::endl;
 		std::cout << "episode started: " << currentEpisode << std::endl;
 
 		while (env_.t < T)
 		{
-			action = agent.ReturnAction(currentState, actionID);
+			std::vector<float> currentState_a(currentState.begin(), currentState.begin() + n_a);
+			std::vector<float> currentState_c(currentState.begin() + n_a, currentState.end());
+			std::vector<int> actionID_a(actionID.begin(), actionID.begin() + n_a);
+			std::vector<float> action_a = agent_a.ReturnAction(currentState_a, actionID_a);
+			std::vector<int> actionID_c(actionID.begin() + n_a, actionID.end());
+			std::vector<float> action_c = agent_c.ReturnAction(currentState_c, actionID_c);
+			
+			action_a.insert(action_a.end(), action_c.begin(), action_c.end());
+			action = action_a;
 			newState = env_.Step(action, reward, terminate_t);
 
 			if (terminate_t) {
@@ -95,51 +120,91 @@ void training(std::string dir, int sim_id) {
 				std::cout << "Episode terminated**" << std::endl;
 			}
 
-			currentStateList.push_back(currentState);
-			actionIDList.push_back(actionID);
-			rewardList.push_back(reward);
-			newStateList.push_back(newState);
+			std::vector<float> reward_a(reward.begin(), reward.begin() + n_a);
+			std::vector<float> newState_a(newState.begin(), newState.begin() + n_a);
+
+			std::vector<float> reward_c(reward.begin() + n_a, reward.end());
+			std::vector<float> newState_c(newState.begin() + n_a, newState.end());
+
+			for (int i = 0; i < n_a; i++) {
+				currentStateList_a[i].push_back(currentState_a[i]);
+				actionIDList_a[i].push_back(actionID_a[i]);
+				rewardList_a[i].push_back(reward_a[i]);
+				newStateList_a[i].push_back(newState_a[i]);
+			}
+
+			for (int i = 0; i < n_c; i++) {
+				currentStateList_c[i].push_back(currentState_c[i]);
+				actionIDList_c[i].push_back(actionID_c[i]);
+				rewardList_c[i].push_back(reward_c[i]);
+				newStateList_c[i].push_back(newState_c[i]);
+			}
 
 			currentState = newState;
 
-			if (currentStateList.size() >= bufferSize) {
-				for (int i = 0; i < currentStateList.size(); i++) {
-					std::vector<float> _currentState = currentStateList[i];
-					std::vector<int> _actionID = actionIDList[i];
-					std::vector<float> _reward = rewardList[i];
-					std::vector<float> _newState = newStateList[i];
-					agent.UpdateSVTable(_currentState, _actionID, _reward, _newState);
-					agent.SortStateValueList();
-					agent.UpdateTPMatrix();
+			if (currentStateList_c[0].size() >= bufferSize) {
+				for (int i = 0; i < currentStateList_c.size(); i++) {
+					std::vector<float> _currentState = currentStateList_c[i];
+					std::vector<int> _actionID = actionIDList_c[i];
+					std::vector<float> _reward = rewardList_c[i];
+					std::vector<float> _newState = newStateList_c[i];
+					agent_c.UpdateSVTable(_currentState, _actionID, _reward, _newState);
 				}
-				currentStateList.clear();
-				actionIDList.clear();
-				rewardList.clear();
-				newStateList.clear();
+				agent_c.SortStateValueList();
+				agent_c.UpdateTPMatrix();
+				for (int i = 0; i < currentStateList_c.size(); i++) {
+					currentStateList_c[i].clear();
+					actionIDList_c[i].clear();
+					rewardList_c[i].clear();
+					newStateList_c[i].clear();
+				}
+			}
+
+			if (currentStateList_a[0].size() >= bufferSize) {
+				for (int i = 0; i < currentStateList_a.size(); i++) {
+					std::vector<float> _currentState = currentStateList_a[i];
+					std::vector<int> _actionID = actionIDList_a[i];
+					std::vector<float> _reward = rewardList_a[i];
+					std::vector<float> _newState = newStateList_a[i];
+					agent_a.UpdateSVTable(_currentState, _actionID, _reward, _newState);
+				}
+				agent_a.SortStateValueList();
+				agent_a.UpdateTPMatrix();
+				for (int i = 0; i < currentStateList_a.size(); i++) {
+					currentStateList_a[i].clear();
+					actionIDList_a[i].clear();
+					rewardList_a[i].clear();
+					newStateList_a[i].clear();
+				}
 			}
 		}
 
 		if (terminate_t) continue;
 
-		float normActiveWork = env_.returnActiveWork();
+		float normActiveWork = env_.returnAllActiveWork();
+		float activeWork_a = env_.returnActiveWork_a();
+		float activeWork_c = env_.returnActiveWork_c();
 		float currentNormActiveWork = env_.returnCurrentActiveWork();
-		agent.UpdateEpsilonDecay(currentEpisode, totalEpisode);
-		agent.UpdateLearningRateDecay(currentEpisode, totalEpisode);
+		agent_c.UpdateEpsilonDecay(currentEpisode, totalEpisode);
+		agent_c.UpdateLearningRateDecay(currentEpisode, totalEpisode);
+		agent_a.UpdateEpsilonDecay(currentEpisode, totalEpisode);
+		agent_a.UpdateLearningRateDecay(currentEpisode, totalEpisode);
 		std::cout << "episode ended: " << currentEpisode << std::endl;
 		std::cout << "seconds used : " << time(NULL) - currentTime << std::endl;
 		std::cout << "active work is : " << normActiveWork << std::endl;
 		std::cout << "current active work is : " << currentNormActiveWork << std::endl;
 		std::cout << "------------------------" << std::endl;
-		saveEpisodeData(simDir, currentEpisode, agent);
-		updateSimulationResult(simDir, normActiveWork);
-		updateEpsilon(simDir, agent.returnEpsilon());
+		saveEpisodeData(simDir, currentEpisode, agent_c, agent_a);
+		updateSimulationResult(simDir, "result_all", normActiveWork);
+		updateSimulationResult(simDir, "result_a", activeWork_a);
+		updateSimulationResult(simDir, "result_c", activeWork_c);
+		updateEpsilon(simDir, agent_c.returnEpsilon());
 		currentEpisode++;
 		env_.t = 0;
 	}
 	std::cout << "Simulation completed: " << sim_id << std::endl;
 	std::cout << "------------------------" << std::endl;
 	currentEpisode = 1;
-
 }
 
 int main(int argc, char **argv)
@@ -162,11 +227,11 @@ int main(int argc, char **argv)
 		if (isLearning) {
 			trainTimer();
 		} else {
-			agent.LoadDTable("DTable");
-			agent.LoadSVTable("SVTable");
-			agent.LoadTPMatrix("TPMatrix");
-			agent.setEpsilon(0);
-			agent.SortStateValueList();
+			agent_c.LoadDTable("DTable");
+			agent_c.LoadSVTable("SVTable");
+			agent_c.LoadTPMatrix("TPMatrix");
+			agent_c.setEpsilon(0);
+			agent_c.SortStateValueList();
 
 			agent_a.LoadDTable("DTable_a");
 			agent_a.LoadSVTable("SVTable_a");
@@ -215,7 +280,7 @@ void resultTimer(int) {
 
 	std::vector<float> currentState_c(currentState.begin() + n_a, currentState.end());
 	std::vector<int> actionID_c(actionID.begin() + n_a, actionID.end());
-	std::vector<float> action_c = agent.ReturnAction(currentState_c, actionID_c);
+	std::vector<float> action_c = agent_c.ReturnAction(currentState_c, actionID_c);
 
 	action_a.insert(action_a.end(), action_c.begin(), action_c.end());
 
@@ -300,11 +365,11 @@ std::string initSimulationData(int time) {
 	outFile << "time step = " << dt << '\n';
 	outFile << "total time step = " << T << '\n';
 	outFile << "total episode = " << totalEpisode << '\n';
-	outFile << "learning rate = " << agent.learningRate << '\n';
-	outFile << "learning rate decay = " << agent.learningRateDecay << '\n';
-	outFile << "epsilon = " << agent.epsilon << '\n';
-	outFile << "epsilon decay = " << agent.epsilonDecay << '\n';
-	outFile << "discount factor = " << agent.discountFactor << '\n';
+	outFile << "learning rate = " << agent_c.learningRate << '\n';
+	outFile << "learning rate decay = " << agent_c.learningRateDecay << '\n';
+	outFile << "epsilon = " << agent_c.epsilon << '\n';
+	outFile << "epsilon decay = " << agent_c.epsilonDecay << '\n';
+	outFile << "discount factor = " << agent_c.discountFactor << '\n';
 	outFile << "noise = " << '\n';
 	outFile << "range = " << '\n';
 	outFile << "density = " << '\n';
@@ -330,7 +395,7 @@ std::string createSimulationDir(std::string dir, int sim) {
 	return dir;
 }
 
-void saveEpisodeData(std::string dir, int episode, Agent ag) {
+void saveEpisodeData(std::string dir, int episode, Agent ag_c, Agent ag_a) {
 	std::string subDir = "ep_";
 	dir = dir + "\\" + subDir + std::to_string(episode);
 	int check = _mkdir(dir.c_str());
@@ -342,15 +407,19 @@ void saveEpisodeData(std::string dir, int episode, Agent ag) {
 		exit(1);
 	}
 
-	ag.SaveQTable((dir + "\\" + "QTable").c_str());
-	ag.SaveSVTable((dir + "\\" + "SVTable").c_str());
-	ag.SaveDTable((dir + "\\" + "DTable").c_str());
-	ag.SaveTPMatrix((dir + "\\" + "TPMatrix").c_str());
+	ag_c.SaveQTable((dir + "\\" + "QTable_c").c_str());
+	ag_c.SaveSVTable((dir + "\\" + "SVTable_c").c_str());
+	ag_c.SaveDTable((dir + "\\" + "DTable_c").c_str());
+	ag_c.SaveTPMatrix((dir + "\\" + "TPMatrix_c").c_str());
+
+	ag_a.SaveQTable((dir + "\\" + "QTable_a").c_str());
+	ag_a.SaveSVTable((dir + "\\" + "SVTable_a").c_str());
+	ag_a.SaveDTable((dir + "\\" + "DTable_a").c_str());
+	ag_a.SaveTPMatrix((dir + "\\" + "TPMatrix_a").c_str());
 }
 
-void updateSimulationResult(std::string dir, float activeWork) {
-	std::string resultFileName = "result.csv";
-	dir = dir + "\\" + resultFileName;
+void updateSimulationResult(std::string dir, std::string name, float activeWork) {
+	dir = dir + "\\" + name + ".csv";
 	std::ofstream outFile(dir, std::ofstream::app);
 	outFile << activeWork << '\n';
 	outFile.close();
@@ -384,12 +453,12 @@ void keyboard(unsigned char key, int x, int y)
 			{
 				for (int j = 0; j < 21; ++j)
 				{
-					std::cout << agent.QTable[i][j] << '\t';
+					std::cout << agent_c.QTable[i][j] << '\t';
 				}
 				std::cout << std::endl << "----------------------------" << std::endl;
 			}
-			agent.SaveQTable("QTable");
-			agent.SaveSVTable("SVTable");
+			agent_c.SaveQTable("QTable");
+			agent_c.SaveSVTable("SVTable");
 			std::cin.get();
 			break;
 		}
@@ -397,8 +466,8 @@ void keyboard(unsigned char key, int x, int y)
 			// "2"
 			std::cout << "Print agent status:" << std::endl;
 			std::cout << "----------------------------" << std::endl;
-			std::cout << "current epsilon: " << agent.returnEpsilon() << std::endl;
-			std::cout << "total active work : " << env.returnActiveWork() << std::endl;
+			std::cout << "current epsilon: " << agent_c.returnEpsilon() << std::endl;
+			std::cout << "total active work : " << env.returnAllActiveWork() << std::endl;
 			std::cout << "current active work : " << env.returnCurrentActiveWork() << std::endl;
 			std::cout << "seconds passed: " << std::to_string(time(NULL) - startTime) << std::endl;
 			std::cout << "----------------------------" << std::endl;
@@ -413,7 +482,7 @@ void keyboard(unsigned char key, int x, int y)
 		case 52: {
 			// "4"
 			std::cout << "Loading Q Table from CSV..." << std::endl;
-			agent.LoadQTable("QTable");
+			agent_c.LoadQTable("QTable");
 			break;
 		}
 	}

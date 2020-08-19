@@ -34,7 +34,9 @@ public:
 	std::vector<float> ReturnCState();
 	std::vector<float> ReturnAllState();
 	std::vector<float> Step(std::vector<float>, std::vector<float>&, bool&);
-	float Environment::returnActiveWork();
+	float Environment::returnAllActiveWork();
+	float Environment::returnActiveWork_c();
+	float Environment::returnActiveWork_a();
 	float Environment::returnCurrentActiveWork();
 	void Movement(Matter&, float);
 	void Display();

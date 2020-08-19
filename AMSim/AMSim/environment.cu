@@ -15,15 +15,15 @@
 using namespace Eigen;
 
 extern const float SCALE_FACTOR = 40;
-float scaledWindowWidth = 12;
-float scaledWindowHeight = 12;
+float scaledWindowWidth = 8;
+float scaledWindowHeight = 8;
 float windowWidth = scaledWindowWidth * SCALE_FACTOR;
 float windowHeight = scaledWindowHeight * SCALE_FACTOR;
 
 //float t = 0; // current time
-float dt = 0.01f; // time step
-int n_c = 50; // total amt of learner matter
-int n_a = 50; // total amt of teacher matter
+float dt = 0.001f; // time step
+int n_c = 25; // total amt of learner matter
+int n_a = 10; // total amt of teacher matter
 int totalCount = n_c + n_a;
 
 float pl = 60;
@@ -54,6 +54,11 @@ Environment::Environment(float Cnum, float Anum, bool transientEnabled)
 	n_c = Cnum;
 	n_a = Anum;
 	totalCount = n_c + n_a;
+
+	std::cout << "n_c: " << n_c << std::endl;
+	std::cout << "n_a: " << n_a << std::endl;
+	std::cout << "all: " << totalCount << std::endl;
+
 	for (int i = 0; i < sqrt(totalCount); i++) {
 		for (int j = 0; j < sqrt(totalCount); j++) {
 			if (Anum + Cnum == 0)
@@ -319,13 +324,31 @@ float RadiansDifference(float radA, float radB) {
 	return -r;
 }
 
-float Environment::returnActiveWork() {
+float Environment::returnAllActiveWork() {
 	float totalActiveWork = 0;
 	for (int i = 0; i < matters.size(); i++) {
 		Matter &p = matters[i];
 		totalActiveWork += p.acmlActiveWork;
 	}
 	return (1 / ((float)(n_c+n_a)*t)) * totalActiveWork;
+}
+
+float Environment::returnActiveWork_c() {
+	float totalActiveWork = 0;
+	for (int i = n_a; i < matters.size(); i++) {
+		Matter& p = matters[i];
+		totalActiveWork += p.acmlActiveWork;
+	}
+	return (1 / ((float)(n_c) * t)) * totalActiveWork;
+}
+
+float Environment::returnActiveWork_a() {
+	float totalActiveWork = 0;
+	for (int i = 0; i < n_a; i++) {
+		Matter& p = matters[i];
+		totalActiveWork += p.acmlActiveWork;
+	}
+	return (1 / ((float)(n_a)*t)) * totalActiveWork;
 }
 
 float Environment::returnCurrentActiveWork() {
