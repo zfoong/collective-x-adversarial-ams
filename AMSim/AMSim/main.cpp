@@ -43,8 +43,8 @@ int startTime = time(NULL);
 int N_f = 2; // amt of flocking agents
 int N_c = 30; // amt of clustering agents
 Environment env = Environment(N_f, N_c, true); // init environment
-Agent agent_f = Agent(0.1, 0.2, 10, 0, 0.8); // init flocking agents
-Agent agent_c = Agent(0.1, 0.2, 10, 0, 0.8); // init clustering agents
+Agent agent_f = Agent(0.1, 0.2, 0.1, 0, 0.8); // init flocking agents
+Agent agent_c = Agent(0.1, 0.2, 0.1, 0, 0.8); // init clustering agents
 
 std::vector<float> currentState = env.ReturnAllState(); // get initial state from environment
 int n = N_c + N_f;
@@ -55,8 +55,8 @@ int bufferSize = 10000; // buffer size threshold beta, when exceed, agent perfor
 
 void training(std::string dir, int sim_id) {
 	std::string simDir = createSimulationDir(dir, sim_id); // create file path that store simulation data
-	Agent agent_f = Agent(0.1, 0.2, 10, 0, 0.8); // init flocking agent
-	Agent agent_c = Agent(0.1, 0.2, 10, 0, 0.8); // init clustering agent
+	Agent agent_f = Agent(0.1, 0.2, 0.1, 0, 0.8); // init flocking agent
+	Agent agent_c = Agent(0.1, 0.2, 0.1, 0, 0.8); // init clustering agent
 
 	// transfer learned model and value function for flocking agent
 	agent_f.LoadDTable("DTable_f");

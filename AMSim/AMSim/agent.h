@@ -19,7 +19,7 @@ public:
 	float learningRate = 0.1; // learning rate alpha
 	float minlr = 0; // minimum learning rate
 	float maxlr = learningRate; // maximum learning rate
-	float learningRateDecay = 20; // learning rate decay lambda
+	float learningRateDecay = 0.2; // learning rate decay lambda
 	float discountFactor = 0.2; // discount factor gamma
 	float epsilon = 1; // exploration rate epsilon
 	float minEpsilon = 0; // minimum exploration rate

@@ -145,13 +145,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="agent.cpp" />
-    <ClCompile Include="display.cpp" />
     <ClCompile Include="environment.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="agent.h" />
-    <ClInclude Include="display.h" />
     <ClInclude Include="environment.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

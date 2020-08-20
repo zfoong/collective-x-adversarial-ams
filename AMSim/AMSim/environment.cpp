@@ -1,6 +1,9 @@
+#ifndef M_PI
+	#define M_PI 3.14159265358979323846
+#endif
+
 #include "environment.h"
 #include <iostream>
-#include "display.h"
 #include <GL/glut.h>
 #include <vector>
 #include <cmath>

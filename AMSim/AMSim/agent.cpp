@@ -105,11 +105,11 @@ std::vector<float> Agent::ReturnAction(std::vector<float> stateList, std::vector
 }
 
 void Agent::UpdateEpsilonDecay(float t, float totalTime) {
-	epsilon = minEpsilon + (maxEpsilon - minEpsilon) * exp(-epsilonDecay * t / totalTime);
+	epsilon = minEpsilon + (maxEpsilon - minEpsilon) * exp(-epsilonDecay * t);
 }
 
 void Agent::UpdateLearningRateDecay(float t, float totalTime) {
-	learningRate = minlr + (maxlr - minlr) * exp(-learningRateDecay * t / totalTime);
+	learningRate = minlr + (maxlr - minlr) * exp(-learningRateDecay * t);
 }
 
 void Agent::setEpsilon(float ep) {
