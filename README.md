@@ -9,7 +9,7 @@ Collective motion including flocking and clustering can often emerge from a syst
 We proposed an approach that combines model-based learning with temporal different learning that allowed us to train particles species that learn to perform flocking and clustering motion, utilizing the external force. We also demonstrated how by placing both species of particles in the same system can form adversarial behaviour against other species, which resemble the prey-predator model.
 
 Some examples of the interaction between agents within the setting of prey-predator model  
-![Interaction of flocking and clustering agents](/Media/ssd.png){:height="50%" width="50%"}
+![Interaction of flocking and clustering agents](/Media/ssd.png)
 
 This project is completed by me during my master degree (Machine Learning in Science) as my master thesis, under the supervision of Dr Tom Oakes. Special thanks to Dr Tom Oakes who has provided tons of feedback and guidance, which is essential for completing this project.
 
