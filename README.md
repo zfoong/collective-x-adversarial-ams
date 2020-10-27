@@ -10,7 +10,7 @@ We proposed an approach that combines model-based learning with temporal differe
 
 ## Simulation Setup Guide
 
-**Required Library:**  	
+**Required Library:**  
 GLUT  
 Eigen
 
