@@ -32,16 +32,16 @@ Responsible for running the simulation and training agents. Two separate agents 
 
 Result of our trained agents is shown in the below videos and images. Note that the videos are speed up.
 
-Flocking and Clustering agents exist in the same system (prey-predator model).  
+Formation of Flocking and Clustering agents where both exist in the same system (prey-predator model).  
 ![Formation of both flocking and clustering agents](/Media/progass-ca.png)  
 https://github.com/zfoong/collective-x-adversarial-ams/blob/master/Media/demo-both.mp4
 
-Clustering agents only  
+Formation of Clustering agents only  
 ![Formation of clustering agents](/Media/progass-a.png)  
 https://github.com/zfoong/collective-x-adversarial-ams/blob/master/Media/demo-clustering.mp4
 
-Flocking agents only  
+Formation of Flocking agents only  
 ![Formation of both flocking agents](/Media/progass-c.png)  
 https://github.com/zfoong/collective-x-adversarial-ams/blob/master/Media/demo-flocking.mp4
 
-Please refers to the thesis report for other details of experience performed and its result.
+Please refers to the [thesis report](https://github.com/zfoong/collective-x-adversarial-ams/blob/master/Master_Thesis_tham_yik_foong.pdf) for other details of experience performed and its result.
