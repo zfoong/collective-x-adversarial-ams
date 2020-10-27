@@ -8,8 +8,8 @@ Collective motion including flocking and clustering can often emerge from a syst
 
 We proposed an approach that combines model-based learning with temporal different learning that allowed us to train particles species that learn to perform flocking and clustering motion, utilizing the external force. We also demonstrated how by placing both species of particles in the same system can form adversarial behaviour against other species, which resemble the prey-predator model.
 
-Some examples of the interaction between agents within the setting of prey-predator model
-![Interaction of flocking and clustering agents](/Media/ssd.PNG)
+Some examples of the interaction between agents within the setting of prey-predator model  
+![Interaction of flocking and clustering agents](Media/ssd.PNG)
 
 This project is completed by me during my master degree (Machine Learning in Science) as my master thesis, under the supervision of Dr Tom Oakes. Special thanks to Dr Tom Oakes who has provided tons of feedback and guidance, which is essential for completing this project.
 
@@ -33,15 +33,15 @@ Responsible for running the simulation and training agents. Two separate agents 
 Result of our trained agents is shown in the below videos. Note that the videos are speed up.
 
 Flocking and Clustering agents exist in the same system (prey-predator model).  
-![Formation of both flocking and clustering agents](/Media/progass-ca.PNG)
+![Formation of both flocking and clustering agents](Media/progass-ca.PNG)  
 https://github.com/zfoong/collective-x-adversarial-ams/blob/master/Media/demo-both.mp4
 
 Clustering agents only  
-![Formation of clustering agents](/Media/progass-a.PNG)
+![Formation of clustering agents](Media/progass-a.PNG)  
 https://github.com/zfoong/collective-x-adversarial-ams/blob/master/Media/demo-clustering.mp4
 
 Flocking agents only  
-![Formation of both flocking agents](/Media/progass-c.PNG)
+![Formation of both flocking agents](Media/progass-c.PNG)  
 https://github.com/zfoong/collective-x-adversarial-ams/blob/master/Media/demo-flocking.mp4
 
 Please refers to the thesis report for other details of experience performed and its result.
